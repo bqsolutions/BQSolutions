@@ -91,15 +91,6 @@
   width: 100%;
 }
 
-.message {
-  margin-top: 1000px;
-  margin-left: 0px;
-  width: 253px;
-  border-radius: 25px;
-  height: 200px;
-  background-color: black;
-  animation: message;
-}
 
 /*animation section*/
 
