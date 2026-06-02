@@ -3,6 +3,12 @@
    bdsolution-scripts.js
    ══════════════════════════════════════════ */
 
+var EMAILJS_PUBLIC_KEY       = "nP1zVzVIFALnWGFAD";
+var EMAILJS_SERVICE_ID       = "service_igi9jtq";
+var EMAILJS_CONTACT_TEMPLATE = "template_g6bcn2f";
+var EMAILJS_QUOTE_TEMPLATE   = "YOUR_QUOTE_TEMPLATE_ID";
+var BQ_EMAIL                 = "bqsolutions06@email.com";
+
 function showPage(id) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.getElementById('page-' + id).classList.add('active');
