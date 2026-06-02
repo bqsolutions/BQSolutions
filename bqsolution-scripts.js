@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════
    BQ Solution — Website Design Agency
-   bdsolution-scripts.js
+   bqsolution-scripts.js
    ══════════════════════════════════════════ */
 
 var EMAILJS_PUBLIC_KEY       = "nP1zVzVIFALnWGFAD";
@@ -25,23 +25,91 @@ function toggleMenu() {
 }
 
 function submitContact() {
-  var name  = document.getElementById('c-name').value.trim();
-  var email = document.getElementById('c-email').value.trim();
-  var msg   = document.getElementById('c-message').value.trim();
-  if (!name || !email || !msg) { alert('Please fill in all required fields.'); return; }
-  document.getElementById('contact-success').style.display = 'block';
-  ['c-name','c-email','c-phone','c-message'].forEach(function(id) { document.getElementById(id).value = ''; });
-  document.getElementById('c-subject').selectedIndex = 0;
+  var name    = document.getElementById('c-name').value.trim();
+  var email   = document.getElementById('c-email').value.trim();
+  var phone   = document.getElementById('c-phone').value.trim();
+  var subject = document.getElementById('c-subject').value;
+  var message = document.getElementById('c-message').value.trim();
+
+  if (!name || !email || !message) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  var btn = document.getElementById('contact-submit');
+  if (btn) { btn.disabled = true; btn.textContent = '// Sending...'; }
+
+  emailjs.send("service_igi9jtq", "template_g6bcn2f", {
+    from_name:  name,
+    from_email: email,
+    phone:      phone || 'Not provided',
+    subject:    subject || 'General Inquiry',
+    message:    message,
+    to_email:   "bqsolutions06@gmail.com",
+    reply_to:   email
+  }).then(function() {
+    document.getElementById('contact-success').style.display = 'block';
+    document.getElementById('contact-success').textContent =
+      '// Message received. We\'ll reply within one business day.';
+    ['c-name','c-email','c-phone','c-message'].forEach(function(id) {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('c-subject').selectedIndex = 0;
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Message'; }
+  }).catch(function(error) {
+    console.error('EmailJS error:', error);
+    alert('Something went wrong. Please try again or email us directly.');
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Message'; }
+  });
 }
 
 function submitRequest() {
-  var name    = document.getElementById('r-name').value.trim();
-  var email   = document.getElementById('r-email').value.trim();
-  var service = document.getElementById('r-service').value;
-  if (!name || !email || !service) { alert('Please fill in the required fields.'); return; }
-  document.getElementById('request-success').style.display = 'block';
-  ['r-name','r-email','r-phone','r-business','r-notes'].forEach(function(id) { document.getElementById(id).value = ''; });
-  ['r-service','r-budget','r-timeline'].forEach(function(id) { document.getElementById(id).selectedIndex = 0; });
+  var name     = document.getElementById('r-name').value.trim();
+  var business = document.getElementById('r-business').value.trim();
+  var email    = document.getElementById('r-email').value.trim();
+  var phone    = document.getElementById('r-phone').value.trim();
+  var service  = document.getElementById('r-service').value;
+  var budget   = document.getElementById('r-budget').value;
+  var timeline = document.getElementById('r-timeline').value;
+  var notes    = document.getElementById('r-notes').value.trim();
+  var date     = document.getElementById('r-date').value;
+
+  if (!name || !email || !service) {
+    alert('Please fill in the required fields.');
+    return;
+  }
+
+  var btn = document.getElementById('request-submit');
+  if (btn) { btn.disabled = true; btn.textContent = '// Sending...'; }
+
+  emailjs.send("service_igi9jtq", "template_g6tu7a8", {
+    from_name:     name,
+    business_name: business  || 'Not provided',
+    from_email:    email,
+    phone:         phone     || 'Not provided',
+    service:       service,
+    budget:        budget    || 'Not specified',
+    timeline:      timeline  || 'Not specified',
+    start_date:    date      || 'Not specified',
+    notes:         notes     || 'No additional details.',
+    to_email:      "bqsolutions06@gmail.com",
+    reply_to:      email
+  }).then(function() {
+    document.getElementById('request-success').style.display = 'block';
+    document.getElementById('request-success').textContent =
+      '// Quote request received. We\'ll send your quote within 24 hours.';
+    ['r-name','r-business','r-email','r-phone','r-notes','r-date'].forEach(function(id) {
+      document.getElementById(id).value = '';
+    });
+    ['r-service','r-budget','r-timeline'].forEach(function(id) {
+      document.getElementById(id).selectedIndex = 0;
+    });
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit Quote Request'; }
+  }).catch(function(error) {
+    console.error('EmailJS error:', error);
+    alert('Something went wrong. Please try again or email us directly.');
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit Quote Request'; }
+  });
 }
 
 // Scroll-triggered animations
@@ -83,9 +151,42 @@ function animateCounters() {
   });
 }
 
+// ── Init EmailJS after SDK loads ──
+
+window.addEventListener('load', function() {
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init("nP1zVzVIFALnWGFAD");
+    console.log('// EmailJS initialised');
+  } else {
+    console.warn('// EmailJS failed to load');
+  }
+});
+console.log('// EmailJS initialised');
+
 document.addEventListener('DOMContentLoaded', function() {
+
+  // ── Wire contact form submit button ──
+  var cBtn = document.querySelector('#page-contact .form-submit');
+  if (cBtn) {
+    cBtn.id = 'contact-submit';
+    cBtn.onclick = submitContact;
+  }
+
+  // ── Wire quote form submit button ──
+  var rBtn = document.querySelector('#page-request .form-submit');
+  if (rBtn) {
+    rBtn.id = 'request-submit';
+    rBtn.onclick = submitRequest;
+  }
+
+  // ── Date picker minimum ──
   var dateInput = document.getElementById('r-date');
-  if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+  if (dateInput) {
+    dateInput.min = new Date().toISOString().split('T')[0];
+  }
+
+  // ── Kick off scroll animations ──
   initScrollAnimations();
   setTimeout(animateCounters, 400);
+
 });
