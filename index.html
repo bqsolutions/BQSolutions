@@ -1,37 +1,693 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="animation.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BQ Solution | Professional Website Design & Development — Elizabeth City, NC</title>
+  <meta name="description" content="BQ Solution builds fast, professional, mobile-ready websites for local businesses in Elizabeth City NC and Pasquotank County. Starting at $797. Delivered in 2–3 days."/>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="bqsolution-styles.css"/>
 </head>
+<body>
 
-<body style="background-color:black; color: white">
-  <div class="banner">
-    <div class="banner-inner-1">
-      <h1 class="banner-text">
-        BQ SOLUTIONS
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="logo-wrap" onclick="showPage('home')">
+    <img src="/mnt/user-data/uploads/logo.png" alt="BQ Solution Logo" onerror="this.style.display='none'"/>
+    <div class="logo-text">
+      <div class="brand">BQ SOLUTION</div>
+      <div class="sub">// Web Design &amp; Development</div>
+    </div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a onclick="showPage('home')"    class="active" data-page="home">Home</a>
+    <a onclick="showPage('about')"   data-page="about">About</a>
+    <a onclick="showPage('contact')" data-page="contact">Contact</a>
+    <a onclick="showPage('request')" class="cta-nav" data-page="request">Get a Quote</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ══════════════════ HOME ══════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">
+        <span class="dot"></span>
+        ELIZABETH CITY, NC &mdash; PASQUOTANK COUNTY &amp; BEYOND
+      </div>
+      <h1>
+        We Build Websites<br>
+        That <span class="accent-green">Get You</span><br>
+        <span class="accent-blue">Found Online</span>
       </h1>
+      <p class="hero-sub">BQ Solution designs and delivers fast, professional, mobile-ready websites for local businesses — starting at $797, live in 2–3 business days. No agencies. No bloat. Just results.</p>
+      <div class="hero-btns">
+        <button class="btn-green"         onclick="showPage('request')">Get a Free Quote</button>
+        <button class="btn-outline-blue"  onclick="showPage('about')">See Our Work</button>
+      </div>
+    </div>
 
-      <p class="banner-inner-text">Website make easy for you</p>
-      
-      <nav class="nav-outer">
-        <a class="nav-content">Home</a>
-        <a class="nav-content">About Us</a>
-        <a class="nav-content">Service Request</a>
-      </nav>
+    <!-- Terminal Widget -->
+    <div class="hero-terminal">
+      <div class="terminal-bar">
+        <div class="t-dot red"></div>
+        <div class="t-dot yellow"></div>
+        <div class="t-dot green"></div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:#4a5568;margin-left:10px;">bq-solution ~ build.sh</span>
+      </div>
+      <div class="terminal-line l1"><span style="color:#4a7a4a">$ </span>init_project <span style="color:#e8b86a">"your-business"</span></div>
+      <div class="terminal-line l2">✓ Template loaded &amp; configured</div>
+      <div class="terminal-line l3"><span style="color:#4a7a4a">$ </span>apply_branding <span style="color:#e8b86a">--colors --logo</span></div>
+      <div class="terminal-line l4">✓ 4 pages built successfully</div>
+      <div class="terminal-line l5"><span style="color:#4a7a4a">$ </span>deploy --mobile --seo --forms</div>
+      <div class="terminal-line l6">🚀 Site live in 2–3 business days <span class="terminal-cursor"></span></div>
+    </div>
+  </section>
 
-
-
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num" data-target="797" data-suffix="">$<span class="count">797</span></div>
+      <div class="stat-label">Starting Price</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="3" data-suffix="">
+        <span class="count">2–3</span><span class="unit"> days</span>
+      </div>
+      <div class="stat-label">Avg Delivery</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span class="count">4</span></div>
+      <div class="stat-label">Pages Included</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span class="count">100</span><span class="unit">%</span></div>
+      <div class="stat-label">Mobile Ready</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span class="count">NC</span></div>
+      <div class="stat-label">Local &amp; Trusted</div>
+    </div>
   </div>
 
-  <div class="container-1">
-    <img src="images/Banner image.jpg">
+  <!-- Services -->
+  <section class="services-section">
+    <div class="section-tag">What We Build</div>
+    <div class="section-title">Everything Your Business<br>Needs Online</div>
+    <p class="section-sub">Every website we deliver is a custom, clean-coded, professional package — built to make your business look credible, rank locally, and convert visitors into customers.</p>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-num">01 /</div>
+        <div class="service-icon">🖥️</div>
+        <h3>Custom Website Design</h3>
+        <p>A fully custom 4-page website built specifically for your business — not a template drag-and-drop. Home, About, Contact, and Request Service pages all included.</p>
+        <div class="service-tags">
+          <span class="stag">HTML5</span><span class="stag">CSS3</span><span class="stag">JavaScript</span><span class="stag">Responsive</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">02 /</div>
+        <div class="service-icon">📱</div>
+        <h3>Mobile-First Development</h3>
+        <p>Every site looks perfect on phones, tablets, and desktops. Over 60% of your customers search on their phone — we make sure they see your best.</p>
+        <div class="service-tags">
+          <span class="stag">Mobile-First</span><span class="stag">Cross-Browser</span><span class="stag">Fast Load</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">03 /</div>
+        <div class="service-icon">📩</div>
+        <h3>Working Contact Forms</h3>
+        <p>Contact and service request forms that actually send you emails — with validation, auto-responders, and real-time confirmation messages for your customers.</p>
+        <div class="service-tags">
+          <span class="stag">EmailJS</span><span class="stag">Validation</span><span class="stag">Auto-Reply</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">04 /</div>
+        <div class="service-icon">🔍</div>
+        <h3>SEO Foundation</h3>
+        <p>Every site ships with title tags, meta descriptions, local schema markup, sitemap, and Google Analytics — so customers searching locally can actually find you.</p>
+        <div class="service-tags">
+          <span class="stag">Local SEO</span><span class="stag">Schema</span><span class="stag">Sitemap</span><span class="stag">Analytics</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">05 /</div>
+        <div class="service-icon">🛠️</div>
+        <h3>Monthly Maintenance</h3>
+        <p>Keep your site fresh and functional with our optional maintenance plan. Content updates, bug fixes, and monthly check-ins — starting at $75/month. First month free.</p>
+        <div class="service-tags">
+          <span class="stag">$75–$100/mo</span><span class="stag">Updates</span><span class="stag">Bug Fixes</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">06 /</div>
+        <div class="service-icon">🌐</div>
+        <h3>Hosting &amp; Deployment</h3>
+        <p>We handle hosting setup and deployment for you. Your site goes live fast — no dealing with cPanel, FTP, or technical setup. We take care of all of it.</p>
+        <div class="service-tags">
+          <span class="stag">Managed Hosting</span><span class="stag">SSL</span><span class="stag">Fast Deploy</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="process-section">
+    <div class="section-tag">How It Works</div>
+    <div class="section-title">From Deposit to Live<br>in 2–3 Days</div>
+    <p class="section-sub">Our streamlined process means no waiting weeks for a website. We move fast, communicate clearly, and deliver quality every time.</p>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="ps-circle">01</div>
+        <h4>Sign &amp; Deposit</h4>
+        <p>Review your proposal, sign the agreement, and submit the $200 deposit. Work begins immediately.</p>
+      </div>
+      <div class="process-step">
+        <div class="ps-circle">02</div>
+        <h4>Send Your Content</h4>
+        <p>Email us your logo, colors, text, and photos. Our intake form makes it simple — 10 minutes of your time.</p>
+      </div>
+      <div class="process-step">
+        <div class="ps-circle">03</div>
+        <h4>We Build</h4>
+        <p>Our team builds your complete, custom website in 2–3 business days. We keep you updated throughout.</p>
+      </div>
+      <div class="process-step">
+        <div class="ps-circle">04</div>
+        <h4>Review &amp; Revise</h4>
+        <p>You get 3 revision rounds included. We refine until you love it — no extra charge.</p>
+      </div>
+      <div class="process-step">
+        <div class="ps-circle">05</div>
+        <h4>Pay &amp; Go Live</h4>
+        <p>Once you approve, pay the $597 balance and your site goes live immediately. Done.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing-section">
+    <div class="section-tag">Pricing</div>
+    <div class="section-title">Simple, Transparent<br>Flat-Rate Pricing</div>
+    <p class="section-sub">No hourly rates. No hidden fees. No surprises. You know exactly what you're paying before we start.</p>
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <div class="price-tier">// starter</div>
+        <div class="price-name">Starter Site</div>
+        <div class="price-amount">$797<span> flat</span></div>
+        <div class="price-note">$200 deposit · $597 on delivery</div>
+        <div class="price-divider"></div>
+        <div class="price-features">
+          <div class="pf"><span class="check">✓</span> 4-page custom website</div>
+          <div class="pf"><span class="check">✓</span> Mobile-responsive design</div>
+          <div class="pf"><span class="check">✓</span> Contact &amp; service forms</div>
+          <div class="pf"><span class="check">✓</span> 3 revision rounds</div>
+          <div class="pf"><span class="check">✓</span> SEO foundation</div>
+          <div class="pf"><span class="check">✓</span> Delivered in 2–3 days</div>
+          <div class="pf"><span class="check">✓</span> Hosting setup included</div>
+        </div>
+        <button class="btn-outline-green" onclick="showPage('request')">Get Started</button>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-tier">// standard</div>
+        <div class="price-name">Standard Site</div>
+        <div class="price-amount">$997<span> flat</span></div>
+        <div class="price-note">$250 deposit · $747 on delivery</div>
+        <div class="price-divider"></div>
+        <div class="price-features">
+          <div class="pf"><span class="check">✓</span> Everything in Starter</div>
+          <div class="pf"><span class="check">✓</span> Google Maps embed</div>
+          <div class="pf"><span class="check">✓</span> Basic SEO setup</div>
+          <div class="pf"><span class="check">✓</span> Google Analytics</div>
+          <div class="pf"><span class="check">✓</span> Priority delivery</div>
+          <div class="pf"><span class="check">✓</span> Hosting setup included</div>
+        </div>
+        <button class="btn-green" onclick="showPage('request')">Get Started</button>
+      </div>
+
+      <!-- Pro Site (hidden for now — re-enable when ready to offer)
+      <div class="price-card">
+        <div class="price-tier">// professional</div>
+        <div class="price-name">Pro Site</div>
+        <div class="price-amount">$1,199<span> flat</span></div>
+        <div class="price-note">$300 deposit · $899 on delivery</div>
+        <div class="price-divider"></div>
+        <div class="price-features">
+          <div class="pf"><span class="check">✓</span> Everything in Standard</div>
+          <div class="pf"><span class="check">✓</span> Up to 6 pages</div>
+          <div class="pf"><span class="check">✓</span> Photo gallery section</div>
+          <div class="pf"><span class="check">✓</span> Blog or news page</div>
+          <div class="pf"><span class="check">✓</span> 1 month free maintenance</div>
+          <div class="pf"><span class="check">✓</span> Priority support line</div>
+        </div>
+        <button class="btn-outline-green" onclick="showPage('request')">Get Started</button>
+      </div>
+      -->
+
+    </div>
+  </section>
+
+  <!-- Why Us -->
+  <section class="why-section">
+    <div class="section-tag">Why BQ Solution</div>
+    <div class="section-title">We're Not an Agency.<br>We're Your Neighbors.</div>
+    <p class="section-sub" style="color:rgba(136,153,170,0.9);margin-bottom:52px;">We're local to Elizabeth City, NC — we know your market, your community, and the businesses that need a digital presence. Here's what sets us apart.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="icon">⚡</div>
+        <h4>Fast Delivery</h4>
+        <p>2–3 business days from deposit to live site. No waiting weeks. No excuses. Speed is a core part of our service.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">💰</div>
+        <h4>Flat-Rate Pricing</h4>
+        <p>You know the price before we start. No hourly billing, no surprise invoices. $797 is $797 — always.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">📍</div>
+        <h4>Locally Owned</h4>
+        <p>We're right here in Pasquotank County. Call us, text us, or meet us. Real people, real accountability, real results.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">🔐</div>
+        <h4>You Own the Code</h4>
+        <p>No lock-in. No subscriptions to us. You get the clean HTML, CSS, and JS files. Your website, forever.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">📱</div>
+        <h4>Mobile-First</h4>
+        <p>Every single site is tested and optimized for phones first — where most of your customers are searching.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">🤝</div>
+        <h4>Personal Service</h4>
+        <p>You deal with us directly — not a support ticket. Questions get answered same day. Issues get fixed fast.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-band">
+    <div>
+      <h2>Ready to Get Your Business<br><em>Online the Right Way?</em></h2>
+      <p>Professional website. Flat rate. Delivered in days. No agency markups.</p>
+    </div>
+    <button class="btn-outline-green" onclick="showPage('request')">Get a Free Quote →</button>
   </div>
 
-  <div class="blank">
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <img src="/mnt/user-data/uploads/logo.png" alt="BQ Solution" style="height:42px;" onerror="this.style.display='none'"/>
+          <div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;color:var(--white);letter-spacing:0.06em;">BQ SOLUTION</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--green);letter-spacing:0.14em;">// Elizabeth City, NC</div>
+          </div>
+        </div>
+        <p>Professional website design &amp; development for local businesses in Elizabeth City, Winterville, and all of Pasquotank County. Fast. Flat-rate. No lock-in.</p>
+      </div>
+      <div>
+        <h5>Navigation</h5>
+        <div class="footer-links">
+          <a onclick="showPage('home')">Home</a>
+          <a onclick="showPage('about')">About</a>
+          <a onclick="showPage('contact')">Contact</a>
+          <a onclick="showPage('request')">Get a Quote</a>
+        </div>
+      </div>
+      <div>
+        <h5>Services</h5>
+        <div class="footer-links">
+          <a>Custom Website Design</a>
+          <a>Mobile Development</a>
+          <a>SEO Foundation</a>
+          <a>Monthly Maintenance</a>
+          <a>Hosting &amp; Deployment</a>
+        </div>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <div class="footer-contact-item">📞 <a href="tel:">Call or Text Us</a></div>
+        <div class="footer-contact-item">✉️ <a href="mailto:">Email Us</a></div>
+        <div class="footer-contact-item">📍 Elizabeth City, NC 27909</div>
+        <div class="footer-contact-item">⏰ Mon–Fri · 9am–6pm</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 BQ Solution. All rights reserved.</span>
+      <span class="green">// built different · elizabeth-city-nc</span>
+    </div>
+  </footer>
+</div><!-- /home -->
 
+<!-- ══════════════════ ABOUT ══════════════════ -->
+<div class="page" id="page-about">
+
+  <div class="page-hero">
+    <div class="section-tag" style="position:relative;">About BQ Solution</div>
+    <h1>We Build Websites.<br>We Build <em>Businesses.</em></h1>
+    <p>BQ Solution is a web design and development company based in Elizabeth City, NC. We specialize in building fast, clean, professional websites for local businesses that need to be found online — without agency price tags or wait times.</p>
   </div>
-  
+
+  <div class="about-section">
+    <!-- Code block visual -->
+    <div class="about-code-block">
+      <div class="code-bar">
+        <div class="code-dot r"></div>
+        <div class="code-dot y"></div>
+        <div class="code-dot g"></div>
+        <span class="code-filename">bq-solution/config.js</span>
+      </div>
+      <div class="code-body">
+        <div><span class="code-key">const</span> <span class="code-val">bqSolution</span> <span class="code-punct">= {</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">name</span><span class="code-punct">:</span> <span class="code-str">"BQ Solution"</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">location</span><span class="code-punct">:</span> <span class="code-str">"Elizabeth City, NC"</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">founded</span><span class="code-punct">:</span> <span class="code-num">2024</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">specialty</span><span class="code-punct">:</span> <span class="code-str">"Local Business Websites"</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">startingPrice</span><span class="code-punct">:</span> <span class="code-num">797</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">deliveryDays</span><span class="code-punct">:</span> <span class="code-str">"2–3 business days"</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">mobileFirst</span><span class="code-punct">:</span> <span class="code-val">true</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">clientOwnsCode</span><span class="code-punct">:</span> <span class="code-val">true</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">maintenancePlans</span><span class="code-punct">:</span> <span class="code-str">"$75–$150/mo"</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">firstMonthFree</span><span class="code-punct">:</span> <span class="code-val">true</span><span class="code-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-comment">// No lock-in. No bloat. No excuses.</span></div>
+        <div><span class="code-punct">};</span></div>
+      </div>
+    </div>
+
+    <div class="about-text">
+      <div class="section-tag">Our Story</div>
+      <div class="section-title" style="font-size:2rem;">Local Builders.<br>Real Results.</div>
+      <p class="section-sub">We started BQ Solution because we saw too many great local businesses in Pasquotank County going unnoticed online — not because their service was bad, but because they had no digital presence. We fix that. Fast, affordable, and without the agency runaround.</p>
+      <div class="about-values">
+        <div class="av-row">
+          <div class="icon">🎯</div>
+          <div>
+            <strong>Our Mission</strong>
+            <span>Put every local business in Pasquotank County on the internet with a site they're proud of — at a price that makes sense.</span>
+          </div>
+        </div>
+        <div class="av-row">
+          <div class="icon">⚡</div>
+          <div>
+            <strong>Speed First</strong>
+            <span>We deliver in 2–3 days because your business can't afford to wait weeks for a website. Time is money.</span>
+          </div>
+        </div>
+        <div class="av-row">
+          <div class="icon">🔐</div>
+          <div>
+            <strong>No Lock-In Ever</strong>
+            <span>You own every file we build. No monthly platform fees, no hostage code. Just clean, yours-forever websites.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech Stack -->
+  <section class="tech-stack">
+    <div class="section-tag">Our Stack</div>
+    <div class="section-title">Built With the Best.<br>Optimized for the Real World.</div>
+    <p class="section-sub">We don't use bloated page builders or slow CMS platforms. We write clean, fast, hand-crafted code that loads instantly and ranks well.</p>
+    <div class="tech-grid">
+      <div class="tech-item"><div class="tech-icon">⚡</div><h5>HTML5</h5><p>// Semantic markup</p></div>
+      <div class="tech-item"><div class="tech-icon">🎨</div><h5>CSS3</h5><p>// Custom styling</p></div>
+      <div class="tech-item"><div class="tech-icon">⚙️</div><h5>JavaScript</h5><p>// Interactivity</p></div>
+      <div class="tech-item"><div class="tech-icon">📧</div><h5>EmailJS</h5><p>// Live forms</p></div>
+      <div class="tech-item"><div class="tech-icon">📍</div><h5>Schema.org</h5><p>// Local SEO</p></div>
+      <div class="tech-item"><div class="tech-icon">📊</div><h5>Analytics</h5><p>// Google GA4</p></div>
+      <div class="tech-item"><div class="tech-icon">🔒</div><h5>SSL/HTTPS</h5><p>// Secure hosting</p></div>
+      <div class="tech-item"><div class="tech-icon">🗺️</div><h5>Google Maps</h5><p>// Location embed</p></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-band">
+    <div>
+      <h2>See What We Can Build<br><em>For Your Business</em></h2>
+      <p>Free quote. No pressure. Just tell us what you need.</p>
+    </div>
+    <button class="btn-outline-green" onclick="showPage('request')">Get a Free Quote →</button>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <img src="/mnt/user-data/uploads/logo.png" alt="BQ" style="height:42px;" onerror="this.style.display='none'"/>
+          <div><div style="font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;color:var(--white);letter-spacing:0.06em;">BQ SOLUTION</div><div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--green);letter-spacing:0.14em;">// Elizabeth City, NC</div></div>
+        </div>
+        <p>Professional website design &amp; development for local businesses in Elizabeth City, Winterville, and Pasquotank County.</p>
+      </div>
+      <div><h5>Navigation</h5><div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('about')">About</a><a onclick="showPage('contact')">Contact</a><a onclick="showPage('request')">Get a Quote</a></div></div>
+      <div><h5>Services</h5><div class="footer-links"><a>Custom Website Design</a><a>Mobile Development</a><a>SEO Foundation</a><a>Monthly Maintenance</a><a>Hosting &amp; Deployment</a></div></div>
+      <div><h5>Contact</h5><div class="footer-contact-item">📞 <a href="tel:">Call or Text Us</a></div><div class="footer-contact-item">✉️ <a href="mailto:">Email Us</a></div><div class="footer-contact-item">📍 Elizabeth City, NC 27909</div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 BQ Solution. All rights reserved.</span><span class="green">// built different · elizabeth-city-nc</span></div>
+  </footer>
+</div><!-- /about -->
+
+<!-- ══════════════════ CONTACT ══════════════════ -->
+<div class="page" id="page-contact">
+
+  <div class="page-hero">
+    <div class="section-tag" style="position:relative;">Get in Touch</div>
+    <h1>Let's Talk About<br>Your <em>Next Project</em></h1>
+    <p>Have a question, need a quote, or just want to see what we can build for your business? Reach out — we respond same day.</p>
+  </div>
+
+  <div class="contact-section">
+    <div class="contact-info">
+      <h3>Contact BQ Solution</h3>
+      <div class="contact-item">
+        <div class="c-icon-box">📞</div>
+        <div><strong>Phone / Text</strong><span>Call or text us directly<br>— we respond fast</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon-box">✉️</div>
+        <div><strong>Email</strong><span>Drop us a line anytime</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon-box">📍</div>
+        <div><strong>Location</strong><span>Elizabeth City, NC 27909</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon-box">⏰</div>
+        <div><strong>Hours</strong><span>Monday – Friday · 9am – 6pm</span></div>
+      </div>
+      <div class="service-area-box">
+        <h4>// service_areas</h4>
+        <div class="area-tags">
+          <span class="area-tag">Elizabeth City</span>
+          <span class="area-tag">Winterville</span>
+          <span class="area-tag">Pasquotank County</span>
+          <span class="area-tag">Ayden</span>
+          <span class="area-tag">Farmville</span>
+          <span class="area-tag">Eastern NC</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h3>Send a Message</h3>
+      <p class="form-sub">// We'll reply within one business day</p>
+      <div class="form-group">
+        <label for="c-name">Your Name *</label>
+        <input type="text" id="c-name" placeholder="Jane Smith"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="c-email">Email *</label>
+          <input type="email" id="c-email" placeholder="jane@example.com"/>
+        </div>
+        <div class="form-group">
+          <label for="c-phone">Phone</label>
+          <input type="tel" id="c-phone" placeholder="(252) 555-0000"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="c-subject">Topic</label>
+        <select id="c-subject">
+          <option value="">Select topic...</option>
+          <option>Website Design Quote</option>
+          <option>Existing Website Redesign</option>
+          <option>Monthly Maintenance</option>
+          <option>SEO Services</option>
+          <option>General Question</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="c-message">Message *</label>
+        <textarea id="c-message" placeholder="Tell us about your business and what you need..."></textarea>
+      </div>
+      <button class="form-submit" onclick="submitContact()">Send Message</button>
+      <div class="success-msg" id="contact-success">// Message received. We'll be in touch shortly.</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><img src="/mnt/user-data/uploads/logo.png" alt="BQ" style="height:42px;" onerror="this.style.display='none'"/><div><div style="font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;color:var(--white);letter-spacing:0.06em;">BQ SOLUTION</div><div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--green);letter-spacing:0.14em;">// Elizabeth City, NC</div></div></div><p>Professional website design &amp; development for local businesses.</p></div>
+      <div><h5>Navigation</h5><div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('about')">About</a><a onclick="showPage('contact')">Contact</a><a onclick="showPage('request')">Get a Quote</a></div></div>
+      <div><h5>Services</h5><div class="footer-links"><a>Custom Website Design</a><a>Mobile Development</a><a>SEO Foundation</a><a>Monthly Maintenance</a></div></div>
+      <div><h5>Contact</h5><div class="footer-contact-item">📞 <a href="tel:">Call or Text</a></div><div class="footer-contact-item">✉️ <a href="mailto:">Email Us</a></div><div class="footer-contact-item">📍 Elizabeth City, NC</div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 BQ Solution. All rights reserved.</span><span class="green">// built different</span></div>
+  </footer>
+</div><!-- /contact -->
+
+<!-- ══════════════════ REQUEST QUOTE ══════════════════ -->
+<div class="page" id="page-request">
+
+  <div class="page-hero">
+    <div class="section-tag" style="position:relative;">Free Quote</div>
+    <h1>Tell Us About<br>Your <em>Business</em></h1>
+    <p>Fill out the form and we'll put together a custom quote for your website — free, fast, and no obligation.</p>
+  </div>
+
+  <div class="request-section">
+    <div class="form-card">
+      <h3>Request a Free Quote</h3>
+      <p class="form-sub">// Takes less than 2 minutes to complete</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="r-name">Your Name *</label>
+          <input type="text" id="r-name" placeholder="John Doe"/>
+        </div>
+        <div class="form-group">
+          <label for="r-business">Business Name</label>
+          <input type="text" id="r-business" placeholder="Your Business LLC"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="r-email">Email *</label>
+          <input type="email" id="r-email" placeholder="john@example.com"/>
+        </div>
+        <div class="form-group">
+          <label for="r-phone">Phone</label>
+          <input type="tel" id="r-phone" placeholder="(252) 555-0000"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="r-service">Service Needed *</label>
+          <select id="r-service">
+            <option value="">Select service...</option>
+            <option>Starter Website — $797</option>
+            <option>Standard Website — $997</option>
+            <!-- <option>Pro Website — $1,199</option> -->
+            <option>Website Redesign</option>
+            <option>Monthly Maintenance Only</option>
+            <option>Not Sure — Need Advice</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="r-budget">Budget Range</label>
+          <select id="r-budget">
+            <option value="">Select range...</option>
+            <option>$797 — Starter</option>
+            <option>$997 — Standard</option>
+            <!-- <option>$1,199 — Professional</option> -->
+            <option>$1,500+ — Custom</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="r-timeline">Timeline</label>
+          <select id="r-timeline">
+            <option value="">Select timeline...</option>
+            <option>ASAP — This Week</option>
+            <option>Within 2 Weeks</option>
+            <option>This Month</option>
+            <option>No Rush</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="r-date">Preferred Start</label>
+          <input type="date" id="r-date"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="r-notes">About Your Business &amp; What You Need</label>
+        <textarea id="r-notes" placeholder="Tell us what your business does, who your customers are, and what you want your website to accomplish. The more detail, the better our quote."></textarea>
+      </div>
+      <button class="form-submit" onclick="submitRequest()">Submit Quote Request</button>
+      <div class="success-msg" id="request-success">// Request received. We'll send your custom quote within 24 hours.</div>
+    </div>
+
+    <div class="request-aside">
+      <h3>What Happens Next</h3>
+      <div class="steps-list">
+        <div class="step-row">
+          <div class="step-dot">01</div>
+          <div><strong>We Review Your Request</strong><span>We look at your business, your goals, and what you've told us — usually within a few hours.</span></div>
+        </div>
+        <div class="step-row">
+          <div class="step-dot">02</div>
+          <div><strong>Custom Quote Sent</strong><span>You get a clear, flat-rate quote — no hidden fees, no hourly billing. Within 24 hours guaranteed.</span></div>
+        </div>
+        <div class="step-row">
+          <div class="step-dot">03</div>
+          <div><strong>Sign &amp; Deposit</strong><span>Approve the quote, sign the agreement, and send the deposit. We start immediately.</span></div>
+        </div>
+        <div class="step-row">
+          <div class="step-dot">04</div>
+          <div><strong>Live in 2–3 Days</strong><span>Your professional website is built, reviewed, and live — faster than anyone else.</span></div>
+        </div>
+      </div>
+
+      <div class="guarantees-list">
+        <h3 style="font-family:'Rajdhani',sans-serif;font-size:1.3rem;color:var(--white);margin-bottom:12px;font-weight:700;letter-spacing:0.04em;">Our Guarantees</h3>
+        <div class="guarantee-row"><span class="chk">✓</span> Free quote — no obligation</div>
+        <div class="guarantee-row"><span class="chk">✓</span> Flat-rate pricing — no surprises</div>
+        <div class="guarantee-row"><span class="chk">✓</span> 3 revision rounds included</div>
+        <div class="guarantee-row"><span class="chk">✓</span> You own the code — no lock-in</div>
+        <div class="guarantee-row"><span class="chk">✓</span> Mobile-ready out of the box</div>
+        <div class="guarantee-row"><span class="chk">✓</span> 2–3 day delivery promise</div>
+        <div class="guarantee-row"><span class="chk">✓</span> First maintenance month free</div>
+      </div>
+
+      <div class="call-cta">
+        <div class="lbl">// prefer_to_call</div>
+        <a href="tel:">Call or Text Us</a>
+        <p>Mon–Fri · 9:00AM – 6:00PM EST</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><img src="/mnt/user-data/uploads/logo.png" alt="BQ" style="height:42px;" onerror="this.style.display='none'"/><div><div style="font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;color:var(--white);letter-spacing:0.06em;">BQ SOLUTION</div><div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--green);letter-spacing:0.14em;">// Elizabeth City, NC</div></div></div><p>Professional website design &amp; development for local businesses.</p></div>
+      <div><h5>Navigation</h5><div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('about')">About</a><a onclick="showPage('contact')">Contact</a><a onclick="showPage('request')">Get a Quote</a></div></div>
+      <div><h5>Services</h5><div class="footer-links"><a>Custom Website Design</a><a>Mobile Development</a><a>SEO Foundation</a><a>Monthly Maintenance</a></div></div>
+      <div><h5>Contact</h5><div class="footer-contact-item">📞 <a href="tel:">Call or Text</a></div><div class="footer-contact-item">✉️ <a href="mailto:">Email Us</a></div><div class="footer-contact-item">📍 Elizabeth City, NC</div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 BQ Solution. All rights reserved.</span><span class="green">// built different</span></div>
+  </footer>
+</div><!-- /request -->
+
+<script src="bqsolution-scripts.js"></script>
 </body>
-
 </html>
