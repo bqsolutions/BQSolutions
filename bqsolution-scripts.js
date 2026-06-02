@@ -82,7 +82,7 @@ function submitRequest() {
   var btn = document.getElementById('request-submit');
   if (btn) { btn.disabled = true; btn.textContent = '// Sending...'; }
 
-  emailjs.send("service_igi9jtq", "template_g6tu7a8", {
+  emailjs.send("service_igi9jtq", "template_q6tu7a8", {
     from_name:     name,
     business_name: business  || 'Not provided',
     from_email:    email,
