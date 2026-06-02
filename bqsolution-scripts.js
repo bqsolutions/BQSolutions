@@ -6,7 +6,7 @@
 var EMAILJS_PUBLIC_KEY       = "nP1zVzVIFALnWGFAD";
 var EMAILJS_SERVICE_ID       = "service_igi9jtq";
 var EMAILJS_CONTACT_TEMPLATE = "template_g6bcn2f";
-var EMAILJS_QUOTE_TEMPLATE   = "YOUR_QUOTE_TEMPLATE_ID";
+var EMAILJS_QUOTE_TEMPLATE   = "template_q6tu7a8";
 var BQ_EMAIL                 = "bqsolutions06@email.com";
 
 function showPage(id) {
