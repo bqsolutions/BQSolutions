@@ -32,7 +32,7 @@ function submitContact() {
     phone:      phone   || 'Not provided',
     subject:    subject || 'General Inquiry',
     message:    message,
-    to_email:   "bqsolutions06@gmail.com",
+    to_email:   "info@bqwebsolutions.com",
     reply_to:   email
   }).then(function() {
     document.getElementById('contact-success').style.display = 'block';
