@@ -140,14 +140,30 @@ function initFullPageScroll() {
 
   // ── MOBILE: free native scrolling + interstitial via IntersectionObserver ──
   if (isMobile) {
-    var lastSeen  = null;
-    var triggered = false;
+    var lastSeen      = sections[0]; // hero is always the starting section
+    var triggered     = false;
+    var statsTriggered = false;
 
     // Track which section the user most recently scrolled through
     var tracker = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) { if (e.isIntersecting) lastSeen = e.target; });
     }, { threshold: 0.4 });
     sections.forEach(function(s) { tracker.observe(s); });
+
+    // When services enters view after hero, fire stats zoom interstitial
+    var servicesWatcher = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && lastSeen === sections[0] && !statsTriggered) {
+          statsTriggered = true;
+          document.documentElement.style.overflow = 'hidden';
+          showStatsInterstitial(function() {
+            document.documentElement.style.overflow = '';
+            setTimeout(function() { statsTriggered = false; }, 3000);
+          });
+        }
+      });
+    }, { threshold: 0.15 });
+    servicesWatcher.observe(sections[1]);
 
     // When contact enters view after why-section, fire interstitial
     var contactWatcher = new IntersectionObserver(function(entries) {
