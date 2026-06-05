@@ -897,6 +897,10 @@ footer h5 { font-family: 'IBM Plex Mono', monospace; color: var(--green); font-s
 /* ── Active nav link (projects page) ── */
 .nav-links a.active { color: var(--green); background: rgba(0,192,80,0.08); }
 
+/* Disable all scroll-snap on the projects page */
+body.projects-page,
+body.projects-page * { scroll-snap-type: none !important; scroll-snap-align: none !important; }
+
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .nav-links { display: none; flex-direction: column; gap: 4px; position: fixed; top: 70px; left: 0; right: 0; background: rgba(8,13,20,0.98); padding: 16px 5% 20px; border-top: 1px solid var(--border); z-index: 99; }
@@ -919,6 +923,12 @@ footer h5 { font-family: 'IBM Plex Mono', monospace; color: var(--green); font-s
   .process-grid { gap: 28px; }
   .projects-grid { grid-template-columns: 1fr; }
   .projects-hero { padding-top: 120px; }
+  /* Ensure no CSS scroll-snap fires on mobile */
+  html, body { scroll-snap-type: none !important; }
+  .hero, .services-section, .process-section,
+  .pricing-section, .why-section, .contact-home, footer {
+    scroll-snap-align: none;
+  }
 }
 
 /* ── SCROLL SNAP (alignment hints; snap-type controlled by JS) ── */
