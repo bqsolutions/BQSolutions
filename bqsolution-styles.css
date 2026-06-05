@@ -261,6 +261,17 @@ section { padding: 90px 8%; }
 }
 .service-card:hover { background: rgba(15,26,39,0.98); border-color: rgba(0,192,80,0.35); box-shadow: 0 0 40px rgba(0,192,80,0.08), inset 0 0 40px rgba(0,192,80,0.03); }
 .service-card:hover::before { transform: scaleX(1); }
+.service-img {
+  display: block;
+  width: calc(100% + 60px);
+  margin: -36px -30px 22px;
+  height: 180px;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.88) saturate(0.85);
+  transition: filter 0.3s;
+}
+.service-card:hover .service-img { filter: brightness(0.95) saturate(1); }
 .service-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--green); opacity: 0.5; margin-bottom: 16px; }
 .service-icon { font-size: 2.4rem; margin-bottom: 18px; }
 .service-card h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.35rem; font-weight: 700; color: var(--white); margin-bottom: 10px; letter-spacing: 0.04em; }
