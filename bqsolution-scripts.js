@@ -140,26 +140,8 @@ function initFullPageScroll() {
 
   // ── MOBILE: free native scrolling + interstitial via IntersectionObserver ──
   if (isMobile) {
-    var lastSeen       = sections[0];
-    var triggered      = false;
-    var statsTriggered = false;
-
-    // iOS-safe scroll lock: position:fixed preserves scroll position
-    var _lockY = 0;
-    function lockScroll() {
-      _lockY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top      = '-' + _lockY + 'px';
-      document.body.style.left     = '0';
-      document.body.style.right    = '0';
-    }
-    function unlockScroll() {
-      document.body.style.position = '';
-      document.body.style.top      = '';
-      document.body.style.left     = '';
-      document.body.style.right    = '';
-      window.scrollTo(0, _lockY);
-    }
+    var lastSeen  = sections[0];
+    var triggered = false;
 
     // Track which section the user most recently scrolled through
     var tracker = new IntersectionObserver(function(entries) {
@@ -167,33 +149,14 @@ function initFullPageScroll() {
     }, { threshold: 0.4 });
     sections.forEach(function(s) { tracker.observe(s); });
 
-    // Fire stats interstitial when the stats bar itself reaches the centre of the viewport
-    var statsBar = document.querySelector('.stats-bar');
-    var statsBarWatcher = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting && !statsTriggered) {
-          statsTriggered = true;
-          lockScroll();
-          showStatsInterstitial(function() {
-            unlockScroll();
-            setTimeout(function() { statsTriggered = false; }, STATS_INTER_DUR);
-          });
-        }
-      });
-    }, {
-      threshold: 0.5,
-      rootMargin: '-35% 0px -35% 0px'  // centre 30% band of viewport
-    });
-    if (statsBar) statsBarWatcher.observe(statsBar);
-
     // When contact enters view after why-section, fire CTA interstitial
     var contactWatcher = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting && lastSeen === sections[whyIdx] && !triggered) {
           triggered = true;
-          lockScroll();
+          document.documentElement.style.overflow = 'hidden';
           showInterstitial(function() {
-            unlockScroll();
+            document.documentElement.style.overflow = '';
             sections[contactIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
             setTimeout(function() { triggered = false; }, 3000);
           });
