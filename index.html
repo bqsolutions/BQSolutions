@@ -1,460 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BQ Solution | Professional Website Design & Development — Greenville, NC</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="bqsolution-styles.css"/>
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BQ Solutions — Custom web development. No templates. No page builders. Built to convert.">
+<meta property="og:title" content="BQ Solutions — Custom Web Development">
+<meta property="og:description" content="Flat rate. Fast delivery. You own the code.">
+<title>BQ Solutions — Custom Web Development</title>
+<link rel="icon" href="images/BQ_Solution_Icon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="bqsolution-styles.css">
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
+
 <nav>
-  <div class="logo-wrap">
-    <img src="/mnt/user-data/uploads/logo.png" alt="BQ Solution Logo" onerror="this.style.display='none'"/>
-    <div class="logo-text">
-      <div class="brand">BQ SOLUTION</div>
-      <div class="sub">// Web Design &amp; Development</div>
-    </div>
-  </div>
-  <div class="nav-links" id="navLinks">
-    <a href="#services">Services</a>
-    <a href="#process">Process</a>
-    <a href="#pricing">Pricing</a>
-    <a href="projects.html">Projects</a>
-    <a href="#why">Why Us</a>
-    <a href="#contact" class="cta-nav">Get a Quote</a>
-  </div>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+  <a href="index.html" class="nav-logo"><span class="nav-dot"></span><img src="images/BQ_Solution_Icon.png" alt="" style="height:18px;vertical-align:middle;margin-right:.3rem;opacity:.9">BQ Solutions</a>
+  <div class="nav-links">
+    <a href="#s-services">Services</a>
+    <a href="#s-process">Process</a>
+    <a href="#s-pricing">Pricing</a>
+    <a href="projects.html">Work</a>
+    <a href="#s-contact" class="nav-cta">Start a Project</a>
   </div>
 </nav>
 
-<!-- ══ HERO ══ -->
-<section id="home" class="hero">
-  <div class="hero-content">
-    <div class="hero-tag">
-      <span class="dot"></span>
-      GREENVILLE, NC &mdash; PITT COUNTY &amp; BEYOND
-    </div>
-    <h1>
-      We Build Websites<br>
-      That <span class="accent-green">Get You</span><br>
-      <span class="accent-blue">Found Online</span>
-    </h1>
-    <p class="hero-sub">BQ Solution designs and delivers fast, professional, mobile-ready websites for local businesses — starting at $497, live in days. No agencies. No bloat. Just results.</p>
-    <div class="hero-btns">
-      <a href="#contact" class="btn-green">Get a Free Quote</a>
-      <a href="#services" class="btn-outline-blue">See Our Services</a>
-    </div>
+<div class="page-layout">
+
+  <!-- ═══ LEFT CONTENT ═══ -->
+  <div class="content-col">
+
+    <section class="section" id="s-hero">
+      <div class="s-ghost">01</div>
+      <div class="s-label">Custom Web Development · Greenville, NC</div>
+      <h2>We Build<br>Websites<br><em>That Close.</em></h2>
+      <p class="s-body">No templates. No page builders. Pure custom code built to make your phone ring. Watch a website come to life as you scroll — built by hand, just like yours will be.</p>
+      <div class="stat-row">
+        <div class="stat-item"><span class="stat-n">2–5<em>d</em></span><span class="stat-l">Avg. delivery</span></div>
+        <div class="stat-item"><span class="stat-n">0<em>%</em></span><span class="stat-l">Templates</span></div>
+        <div class="stat-item"><span class="stat-n">∞</span><span class="stat-l">You own it</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="s-about">
+      <div class="s-ghost">02</div>
+      <div class="s-label">About</div>
+      <h2>Built<br>Different.<br><em>By Design.</em></h2>
+      <p class="s-body">Most agencies hand you a Wix template and call it custom. We write every line of code from scratch — because your business deserves a website as unique as it is.</p>
+      <p class="s-body" style="margin-top:-1rem">Every scroll animation, every 3D effect, every pixel — built by hand, for you, in days not months.</p>
+    </section>
+
+    <section class="section" id="s-work">
+      <div class="s-ghost">03</div>
+      <div class="s-label">Selected Work</div>
+      <h2>The Work<br><em>Speaks.</em></h2>
+      <p class="s-body">Our latest — a personal injury law firm website with full scroll animations, 3D effects, editorial typography, and a cinematic newsletter widget. Built from scratch in 5 days.</p>
+      <div class="stat-row">
+        <div class="stat-item"><span class="stat-n">8.7<em>/10</em></span><span class="stat-l">Design score</span></div>
+        <div class="stat-item"><span class="stat-n">73</span><span class="stat-l">GSAP calls</span></div>
+        <div class="stat-item"><span class="stat-n">5<em>d</em></span><span class="stat-l">Build time</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="s-services">
+      <div class="s-ghost">04</div>
+      <div class="s-label">Services</div>
+      <h2>Every Line.<br><em>From Scratch.</em></h2>
+      <div class="svc-list">
+        <div class="svc-item"><div class="svc-num">01</div><div class="svc-body"><h3>Custom Website Design</h3><p>Hand-coded, zero templates, built to convert</p></div><div class="svc-price">From $497<span>Flat rate</span></div></div>
+        <div class="svc-item"><div class="svc-num">02</div><div class="svc-body"><h3>Premium Animated Builds</h3><p>GSAP, Three.js, 3D — like this page</p></div><div class="svc-price">From $2,500<span>Custom quote</span></div></div>
+        <div class="svc-item"><div class="svc-num">03</div><div class="svc-body"><h3>Mobile-First Development</h3><p>Every project — no exceptions</p></div><div class="svc-price">Included<span>Always</span></div></div>
+        <div class="svc-item"><div class="svc-num">04</div><div class="svc-body"><h3>Hosting & SSL Setup</h3><p>We handle everything — you just go live</p></div><div class="svc-price">Included<span>Always</span></div></div>
+        <div class="svc-item"><div class="svc-num">05</div><div class="svc-body"><h3>Monthly Maintenance</h3><p>Updates, fixes, reporting — hands-off</p></div><div class="svc-price">$150/mo<span>Optional</span></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="s-process">
+      <div class="s-ghost">05</div>
+      <div class="s-label">Process</div>
+      <h2>Simple.<br>Fast.<br><em>Yours.</em></h2>
+      <div class="process-list">
+        <div class="process-item"><div class="p-num">I</div><div class="p-body"><h3>Sign & Deposit</h3><p>Proposal, agreement, deposit. Work starts same day.</p></div></div>
+        <div class="process-item"><div class="p-num">II</div><div class="p-body"><h3>Send Your Content</h3><p>Logo, colors, copy. 10 minutes of your time — max.</p></div></div>
+        <div class="process-item"><div class="p-num">III</div><div class="p-body"><h3>We Build</h3><p>2–5 days. Updates throughout. No radio silence.</p></div></div>
+        <div class="process-item"><div class="p-num">IV</div><div class="p-body"><h3>Review & Refine</h3><p>Revisions included. We get it right — no extra charge.</p></div></div>
+        <div class="process-item"><div class="p-num">V</div><div class="p-body"><h3>Pay & Go Live</h3><p>Pay the balance. Go live immediately. Own it forever.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="s-pricing">
+      <div class="s-ghost">06</div>
+      <div class="s-label">Pricing</div>
+      <h2>Flat Rates.<br><em>No Surprises.</em></h2>
+      <div class="price-grid">
+        <div class="price-card"><div><div class="price-tier">Starter</div><div class="price-name">1-Page Site</div><div class="price-note">$200 deposit · $297 on delivery</div></div><div class="price-amount">$497<em> flat</em></div></div>
+        <div class="price-card featured"><div><div class="price-tier">Standard · Most Popular</div><div class="price-name">4-Page Site</div><div class="price-note">$200 deposit · $597 on delivery</div></div><div class="price-amount">$797<em> flat</em></div></div>
+        <div class="price-card"><div><div class="price-tier">Premium</div><div class="price-name">Custom / Animated Build</div><div class="price-note">Scope-based — animations, 3D, 6+ pages</div></div><div class="price-amount contact">Contact<em style="display:block;font-size:.65rem;color:rgba(255,255,255,.25);font-family:var(--ff-mono);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem">for pricing</em></div></div>
+      </div>
+      <a href="#s-contact" class="btn-lime">
+        Start a Project
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </section>
+
+    <!-- CONTACT SECTION — scrolling into view triggers laptop zoom -->
+    <section class="section" id="s-contact">
+      <div class="s-ghost">07</div>
+      <div id="contact-intro">
+        <div class="s-label">Let's Work Together</div>
+        <h2>Ready to<br>Build<br><em>Something Real?</em></h2>
+        <p class="s-body">Scroll here and the laptop takes over — fill out the form right inside it.</p>
+        <div class="stat-row" style="margin-top:2rem">
+          <div class="stat-item"><span class="stat-n" style="font-size:1.6rem">Same<em>Day</em></span><span class="stat-l">Response</span></div>
+          <div class="stat-item"><span class="stat-n" style="font-size:1.6rem">Flat<em>Rate</em></span><span class="stat-l">No surprises</span></div>
+          <div class="stat-item"><span class="stat-n">∞</span><span class="stat-l">You own it</span></div>
+        </div>
+      </div>
+    </section>
+
   </div>
 
-  <!-- 3D Earth Model -->
-  <div class="hero-3d">
-    <model-viewer
-      src="3d%20model/earth.glb"
-      auto-rotate
-      rotation-per-second="18deg"
-      camera-orbit="0deg 80deg 105%"
-      shadow-intensity="0"
-      exposure="1.4"
-      loading="eager"
-      disable-zoom
-      style="width:100%;height:100%;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-bar-color:transparent;filter:sepia(1) hue-rotate(80deg) saturate(4) brightness(0.95);"
-    ></model-viewer>
-  </div>
-</section>
+  <!-- ═══ RIGHT: STICKY LAPTOP SCENE ═══ -->
+  <div class="laptop-col">
+    <div class="laptop-scene" id="laptopScene">
 
-<!-- ══ STATS ══ -->
-<div class="stats-bar">
-  <div class="stat-item">
-    <div class="stat-num">$<span class="count">497</span></div>
-    <div class="stat-label">Starting Price</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num"><span class="count">2–5</span><span class="unit"> days</span></div>
-    <div class="stat-label">Avg Delivery</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num"><span class="count">3</span></div>
-    <div class="stat-label">Tiers Available</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num"><span class="count">100</span><span class="unit">%</span></div>
-    <div class="stat-label">Mobile Ready</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num"><span class="count">NC</span></div>
-    <div class="stat-label">Local &amp; Trusted</div>
+      <!-- Desk surface -->
+      <div class="desk"></div>
+
+      <!-- Laptop base -->
+      <div class="laptop-base">
+        <div class="laptop-base-top"></div>
+      </div>
+
+      <!-- Keyboard area -->
+      <div class="keyboard-area" id="keyboardArea">
+        <!-- Row 1 -->
+        <div class="keys-grid" id="keysRow1">
+          <!-- 13 keys per row -->
+          <div class="key" data-key="q"></div><div class="key" data-key="w"></div><div class="key" data-key="e"></div><div class="key" data-key="r"></div><div class="key" data-key="t"></div><div class="key" data-key="y"></div><div class="key" data-key="u"></div><div class="key" data-key="i"></div><div class="key" data-key="o"></div><div class="key" data-key="p"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+        </div>
+        <!-- Row 2 -->
+        <div class="keys-row2">
+          <div class="key" data-key="a"></div><div class="key" data-key="s"></div><div class="key" data-key="d"></div><div class="key" data-key="f"></div><div class="key" data-key="g"></div><div class="key" data-key="h"></div><div class="key" data-key="j"></div><div class="key" data-key="k"></div><div class="key" data-key="l"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+        </div>
+        <!-- Row 3 -->
+        <div class="keys-row3">
+          <div class="key" data-key="z"></div><div class="key" data-key="x"></div><div class="key" data-key="c"></div><div class="key" data-key="v"></div><div class="key" data-key="b"></div><div class="key" data-key="n"></div><div class="key" data-key="m"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+        </div>
+        <!-- Row 4: space bar -->
+        <div class="keys-row4">
+          <div class="key"></div>
+          <div class="key" data-key="space" style="border-radius:3px"></div>
+          <div class="key"></div>
+        </div>
+        <!-- Trackpad -->
+        <div class="trackpad"></div>
+      </div>
+
+      <!-- LID (rotates open on scroll) -->
+      <div class="lid-wrapper" id="lid">
+        <div class="lid" id="lidInner">
+          <!-- Screen bezel -->
+          <div class="screen-bezel">
+            <!-- Screen glow overlay -->
+            <div class="screen-glow" id="screenGlow"></div>
+
+            <!-- BOOT STATE -->
+            <div class="screen-state state-boot active" id="stateBoot">
+              <div class="boot-spinner"></div>
+              <div class="boot-text">Initializing...</div>
+            </div>
+
+            <!-- CODE TYPING STATE -->
+            <div class="screen-state state-code" id="stateCode">
+              <div style="background:#252526;height:16px;display:flex;align-items:center;padding:0 6px;gap:4px;font-size:8px;color:rgba(255,255,255,.4);font-family:monospace">
+                <span style="color:#C8F135">●</span> index.html
+              </div>
+              <div style="padding:6px;flex:1;overflow:hidden">
+                <div class="code-line" id="codeLine1" style="color:#569CD6"></div>
+                <div class="code-line" id="codeLine2" style="color:#CE9178"></div>
+                <div class="code-line" id="codeLine3" style="color:#6A9955"></div>
+                <div class="code-line" id="codeLine4" style="color:#9CDCFE"></div>
+                <div class="code-line" id="codeLine5" style="color:#CE9178"></div>
+                <div class="code-line" id="codeLine6" style="color:#C8F135"></div>
+                <div class="code-line" id="codeLine7" style="color:rgba(255,255,255,.6)"></div>
+                <span class="code-cursor" id="codeCursor"></span>
+              </div>
+            </div>
+
+            <!-- WEBSITE PREVIEW STATE -->
+            <div class="screen-state state-site" id="stateSite">
+              <div class="site-nav-bar">
+                <div class="site-dot" style="background:#ff5f57"></div>
+                <div class="site-dot" style="background:#ffbd2e"></div>
+                <div class="site-dot" style="background:#28c840"></div>
+                <div style="flex:1;text-align:center;font-size:7px;color:rgba(255,255,255,.3);font-family:monospace">harrington-law.netlify.app</div>
+              </div>
+              <div class="site-content">
+                <div style="font-size:7px;color:rgba(212,146,74,.8);font-family:monospace;margin-bottom:4px;letter-spacing:.1em">PERSONAL INJURY · HOUSTON TX</div>
+                <div class="site-headline">We Don't<br>Settle<br><em>Until You Do.</em></div>
+                <div class="site-rule"></div>
+                <div class="site-stats">
+                  <div><div class="site-stat-n">$12.<em>4M</em></div><div class="site-stat-l">Verdict</div></div>
+                  <div><div class="site-stat-n">98<em>%</em></div><div class="site-stat-l">Success</div></div>
+                  <div><div class="site-stat-n">5<em>d</em></div><div class="site-stat-l">Built</div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- DASHBOARD STATE -->
+            <div class="screen-state state-dashboard" id="stateDash">
+              <div class="dash-header">
+                <div class="dash-dot" style="background:#C8F135"></div>
+                <div style="font-size:7px;color:rgba(255,255,255,.3);font-family:monospace;margin-left:4px;letter-spacing:.08em">BQ SOLUTIONS · ANALYTICS</div>
+              </div>
+              <div class="dash-content">
+                <div style="font-family:monospace;font-size:9px;color:rgba(255,255,255,.5);margin-bottom:4px">Performance</div>
+                <div class="dash-bar-row"><div class="dash-bar-label">Performance</div><div class="dash-bar-track"><div class="dash-bar-fill" style="background:#C8F135;width:98%"></div></div><div class="dash-num">98</div></div>
+                <div class="dash-bar-row"><div class="dash-bar-label">Accessibility</div><div class="dash-bar-track"><div class="dash-bar-fill" style="background:#60a5fa;width:96%"></div></div><div class="dash-num">96</div></div>
+                <div class="dash-bar-row"><div class="dash-bar-label">Best Practices</div><div class="dash-bar-track"><div class="dash-bar-fill" style="background:#4ade80;width:100%"></div></div><div class="dash-num">100</div></div>
+                <div class="dash-bar-row"><div class="dash-bar-label">SEO</div><div class="dash-bar-track"><div class="dash-bar-fill" style="background:#f472b6;width:94%"></div></div><div class="dash-num">94</div></div>
+                <div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.06)">
+                  <div class="dash-big-num">47<em>+</em></div>
+                  <div style="font-size:7px;color:rgba(255,255,255,.3);font-family:monospace;letter-spacing:.08em;text-transform:uppercase">Projects Delivered</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- LIVE STATE -->
+            <div class="screen-state state-live" id="stateLive">
+              <div class="live-check">✓</div>
+              <div class="live-text">Site is Live.</div>
+              <div class="live-sub">bqwebsolutions.com</div>
+            </div>
+
+            <!-- CONTACT FORM STATE — shown when laptop takes over screen ──-->
+            <div class="screen-state state-contact" id="stateContact">
+              <!-- macOS-style window chrome -->
+              <div class="sc-chrome">
+                <span class="sc-dot" style="background:#ff5f57"></span>
+                <span class="sc-dot" style="background:#ffbd2e"></span>
+                <span class="sc-dot" style="background:#28c840"></span>
+                <span class="sc-title">New Project Inquiry — BQ Solutions</span>
+              </div>
+              <!-- Form content -->
+              <div class="sc-body">
+                <div class="sc-header">
+                  <div class="sc-eyebrow">Let's Work Together</div>
+                  <div class="sc-headline">Start Your Project.</div>
+                  <div class="sc-sub">Same-day response · Flat rate · You own the code</div>
+                </div>
+                <div class="sc-form" id="laptopForm">
+                  <div class="sc-row">
+                    <div class="sc-field" id="scf-fname">
+                      <label class="sc-label">First Name</label>
+                      <input class="sc-input" type="text" id="sc-fname" placeholder="John" autocomplete="given-name">
+                    </div>
+                    <div class="sc-field" id="scf-lname">
+                      <label class="sc-label">Last Name</label>
+                      <input class="sc-input" type="text" id="sc-lname" placeholder="Smith" autocomplete="family-name">
+                    </div>
+                  </div>
+                  <div class="sc-row">
+                    <div class="sc-field" id="scf-phone">
+                      <label class="sc-label">Phone / Text</label>
+                      <input class="sc-input" type="tel" id="sc-phone" placeholder="(252) 000-0000" autocomplete="tel">
+                    </div>
+                    <div class="sc-field" id="scf-email">
+                      <label class="sc-label">Email</label>
+                      <input class="sc-input" type="email" id="sc-email" placeholder="john@email.com" autocomplete="email">
+                    </div>
+                  </div>
+                  <div class="sc-field" id="scf-type">
+                    <label class="sc-label">Business Type</label>
+                    <select class="sc-input sc-select" id="sc-btype">
+                      <option value="">Select your industry...</option>
+                      <option>Law Firm / Attorney</option>
+                      <option>Medical / Healthcare</option>
+                      <option>Restaurant / Food</option>
+                      <option>Real Estate</option>
+                      <option>Contractor / Trades</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="sc-field" id="scf-budget">
+                    <label class="sc-label">Budget Range</label>
+                    <select class="sc-input sc-select" id="sc-budget">
+                      <option value="">Select a range...</option>
+                      <option>$497 — Starter (1 page)</option>
+                      <option>$797 — Standard (4 pages)</option>
+                      <option>Premium — Custom quote</option>
+                      <option>Not sure yet</option>
+                    </select>
+                  </div>
+                  <div class="sc-field" id="scf-msg">
+                    <label class="sc-label">Tell Us About Your Project</label>
+                    <textarea class="sc-input sc-textarea" id="sc-msg" placeholder="What does your business do and what do you need?"></textarea>
+                  </div>
+                  <button type="button" class="sc-submit" id="scSubmit">
+                    <span class="sc-submit-text">Send Message</span>
+                    <span class="sc-submit-arrow">→</span>
+                  </button>
+                  <div class="sc-disclaimer">We respond same day · Mon–Fri · No spam, ever</div>
+                </div>
+                <!-- Success state inside form -->
+                <div class="sc-success" id="scSuccess">
+                  <div class="sc-success-check">✓</div>
+                  <div class="sc-success-title">Message Received.</div>
+                  <div class="sc-success-sub">We will be in touch today.</div>
+                  <div class="sc-success-meta">BQ Solutions · bqwebsolutions.com</div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- end screen-bezel -->
+        </div><!-- end lid -->
+      </div><!-- end lid-wrapper -->
+
+      <!-- HANDS SVG -->
+      <div class="hands-container" id="handsContainer">
+
+        <!-- LEFT HAND — clean line art -->
+        <svg class="hand-left" id="handLeft" viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Wrist/Palm -->
+          <path d="M30 180 C30 160 25 145 28 130 C31 115 35 105 40 95 C45 85 50 80 58 75 C64 71 70 70 75 72 C80 74 82 78 80 85 C78 90 74 95 72 100 C80 88 88 80 94 78 C100 76 105 78 106 84 C107 90 103 96 98 102 C106 92 112 86 117 85 C122 84 126 87 126 93 C126 99 122 106 116 112 C122 104 127 99 131 99 C135 99 137 103 136 109 C134 116 128 124 120 130 C128 122 133 116 133 111" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Fingers hovering over keys -->
+          <path d="M40 95 C38 85 36 75 37 65 C38 58 41 53 46 52 C51 51 55 55 55 62 C55 69 53 78 52 88" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M60 88 C58 78 57 68 58 58 C59 51 62 46 67 46 C72 46 75 51 75 58 C74 65 72 75 72 85" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M80 88 C79 78 79 68 80 58 C81 51 84 47 89 47 C94 47 96 52 95 59 C94 66 92 76 92 86" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M98 92 C98 82 99 72 100 62 C101 56 104 52 108 52 C112 52 114 57 113 64 C112 71 110 81 110 92" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Fingertips glow dots -->
+          <circle cx="46" cy="51" r="2.5" fill="rgba(200,241,53,0)" id="tip-l1"/>
+          <circle cx="67" cy="45" r="2.5" fill="rgba(200,241,53,0)" id="tip-l2"/>
+          <circle cx="89" cy="46" r="2.5" fill="rgba(200,241,53,0)" id="tip-l3"/>
+          <circle cx="108" cy="51" r="2.5" fill="rgba(200,241,53,0)" id="tip-l4"/>
+        </svg>
+
+        <!-- RIGHT HAND — clean line art (mirrored) -->
+        <svg class="hand-right" id="handRight" viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1)">
+          <path d="M30 180 C30 160 25 145 28 130 C31 115 35 105 40 95 C45 85 50 80 58 75 C64 71 70 70 75 72 C80 74 82 78 80 85 C78 90 74 95 72 100 C80 88 88 80 94 78 C100 76 105 78 106 84 C107 90 103 96 98 102 C106 92 112 86 117 85 C122 84 126 87 126 93 C126 99 122 106 116 112 C122 104 127 99 131 99 C135 99 137 103 136 109 C134 116 128 124 120 130 C128 122 133 116 133 111" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M40 95 C38 85 36 75 37 65 C38 58 41 53 46 52 C51 51 55 55 55 62 C55 69 53 78 52 88" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M60 88 C58 78 57 68 58 58 C59 51 62 46 67 46 C72 46 75 51 75 58 C74 65 72 75 72 85" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M80 88 C79 78 79 68 80 58 C81 51 84 47 89 47 C94 47 96 52 95 59 C94 66 92 76 92 86" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M98 92 C98 82 99 72 100 62 C101 56 104 52 108 52 C112 52 114 57 113 64 C112 71 110 81 110 92" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="46" cy="51" r="2.5" fill="rgba(200,241,53,0)" id="tip-r1"/>
+          <circle cx="67" cy="45" r="2.5" fill="rgba(200,241,53,0)" id="tip-r2"/>
+          <circle cx="89" cy="46" r="2.5" fill="rgba(200,241,53,0)" id="tip-r3"/>
+          <circle cx="108" cy="51" r="2.5" fill="rgba(200,241,53,0)" id="tip-r4"/>
+        </svg>
+
+      </div><!-- end hands -->
+
+    </div><!-- end laptop-scene -->
+
+    <!-- Screen label -->
+    <div class="screen-label">
+      <span class="screen-dot"></span>
+      <span id="screenLabelText">Laptop closed</span>
+    </div>
+
+  </div><!-- end laptop-col -->
+
+</div><!-- end page-layout -->
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-inner">
+    <span>Custom Code</span><span>No Templates</span><span>Mobile First</span>
+    <span>GSAP Animations</span><span>You Own It</span><span>Greenville NC</span>
+    <span>Live in Days</span><span>Flat Rate</span><span>Personal Service</span>
+    <span>Custom Code</span><span>No Templates</span><span>Mobile First</span>
+    <span>GSAP Animations</span><span>You Own It</span><span>Greenville NC</span>
+    <span>Live in Days</span><span>Flat Rate</span><span>Personal Service</span>
   </div>
 </div>
 
-<!-- ══ SERVICES ══ -->
-<section id="services" class="services-section">
-  <div class="section-tag">What We Build</div>
-  <div class="section-title">Everything Your Business<br>Needs Online</div>
-  <p class="section-sub">Every website we deliver is a custom, clean-coded, professional package — built to make your business look credible and convert visitors into customers.</p>
-  <div class="services-grid">
-
-    <div class="service-card">
-      <img src="images/website design stock image.jpg" alt="Custom Website Design" class="service-img"/>
-      <div class="service-num">01 /</div>
-      <h3>Custom Website Design</h3>
-      <p>A fully custom website built specifically for your business — not a drag-and-drop template. Home, About, Contact, and Service pages all tailored to your brand.</p>
-      <div class="service-tags">
-        <span class="stag">HTML5</span><span class="stag">CSS3</span><span class="stag">JavaScript</span><span class="stag">Responsive</span>
-      </div>
-    </div>
-
-    <div class="service-card">
-      <img src="images/mobile phone stock image.jpg" alt="Mobile-First Development" class="service-img"/>
-      <div class="service-num">02 /</div>
-      <h3>Mobile-First Development</h3>
-      <p>Every site looks perfect on phones, tablets, and desktops. Over 60% of your customers search on their phone — we make sure they see your best.</p>
-      <div class="service-tags">
-        <span class="stag">Mobile-First</span><span class="stag">Cross-Browser</span><span class="stag">Fast Load</span>
-      </div>
-    </div>
-
-    <div class="service-card">
-      <img src="images/website maintenance stock image.jpg" alt="Monthly Maintenance" class="service-img"/>
-      <div class="service-num">03 /</div>
-      <h3>Monthly Maintenance</h3>
-      <p>Keep your site fresh and functional with our optional maintenance plan. Content updates, bug fixes, and monthly check-ins — starting at $75/month. First month free.</p>
-      <div class="service-tags">
-        <span class="stag">$75–$100/mo</span><span class="stag">Updates</span><span class="stag">Bug Fixes</span>
-      </div>
-    </div>
-
-    <div class="service-card">
-      <img src="images/website hosting stock image.webp" alt="Hosting &amp; Deployment" class="service-img"/>
-      <div class="service-num">04 /</div>
-      <h3>Hosting &amp; Deployment</h3>
-      <p>We handle hosting setup and deployment for you. Your site goes live fast — no dealing with cPanel, FTP, or technical setup. We take care of all of it.</p>
-      <div class="service-tags">
-        <span class="stag">Managed Hosting</span><span class="stag">SSL</span><span class="stag">Fast Deploy</span>
-      </div>
-    </div>
-
+<!-- FOOTER -->
+<footer class="footer-full">
+  <div class="footer-inner">
+    <div><div class="footer-logo"><span class="footer-logo-dot"></span>BQ Solutions</div><p class="footer-desc">Custom web development for businesses that want to stand out. No templates. No lock-in. Built in Greenville, NC.</p></div>
+    <div><div class="footer-col-title">Services</div><ul class="footer-links"><li><a href="#s-services">Custom Website Design</a></li><li><a href="#s-services">Animated Builds</a></li><li><a href="#s-services">Mobile Development</a></li><li><a href="#s-services">Monthly Maintenance</a></li></ul></div>
+    <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a href="tel:2524936342">(252) 493-6342</a></li><li><a href="mailto:info@bqwebsolutions.com">info@bqwebsolutions.com</a></li><li><a href="#">Greenville, NC 27858</a></li></ul></div>
   </div>
-</section>
-
-<!-- ══ PROCESS ══ -->
-<section id="process" class="process-section">
-  <div class="section-tag">How It Works</div>
-  <div class="section-title">From Deposit to Live<br>in Days — Not Weeks</div>
-  <p class="section-sub">Our streamlined process means no waiting weeks for a website. We move fast, communicate clearly, and deliver quality every time.</p>
-  <div class="process-grid">
-    <div class="process-step">
-      <div class="ps-circle">01</div>
-      <h4>Sign &amp; Deposit</h4>
-      <p>Review your proposal, sign the agreement, and submit the $200 deposit. Work begins immediately.</p>
-    </div>
-    <div class="process-step">
-      <div class="ps-circle">02</div>
-      <h4>Send Your Content</h4>
-      <p>Email us your logo, colors, text, and photos. Our intake form makes it simple — 10 minutes of your time.</p>
-    </div>
-    <div class="process-step">
-      <div class="ps-circle">03</div>
-      <h4>We Build</h4>
-      <p>Our team builds your complete, custom website in 2–5 business days. We keep you updated throughout.</p>
-    </div>
-    <div class="process-step">
-      <div class="ps-circle">04</div>
-      <h4>Review &amp; Revise</h4>
-      <p>You get revision rounds included. We refine until you love it — no extra charge.</p>
-    </div>
-    <div class="process-step">
-      <div class="ps-circle">05</div>
-      <h4>Pay &amp; Go Live</h4>
-      <p>Once you approve, pay the remaining balance and your site goes live immediately. Done.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ══ PRICING ══ -->
-<section id="pricing" class="pricing-section">
-  <div class="section-tag">Pricing</div>
-  <div class="section-title">Simple, Transparent<br>Flat-Rate Pricing</div>
-  <p class="section-sub">No hourly rates. No hidden fees. No surprises. You know exactly what you're paying before we start.</p>
-  <div class="pricing-grid">
-
-    <div class="price-card">
-      <div class="price-tier">// starter</div>
-      <div class="price-name">Starter Site</div>
-      <div class="price-amount">$497<span> flat</span></div>
-      <div class="price-note">$200 deposit · $297 on delivery</div>
-      <div class="price-divider"></div>
-      <div class="price-features">
-        <div class="pf"><span class="check">✓</span> 1-page custom website</div>
-        <div class="pf"><span class="check">✓</span> Mobile-responsive design</div>
-        <div class="pf"><span class="check">✓</span> Basic contact section</div>
-        <div class="pf"><span class="check">✓</span> 2 revision rounds</div>
-        <div class="pf"><span class="check">✓</span> Hosting setup included</div>
-        <div class="pf"><span class="check">✓</span> Delivered in 3–5 days</div>
-      </div>
-      <a href="#contact" class="btn-outline-green" style="display:block;text-align:center;">Get Started</a>
-    </div>
-
-    <div class="glow-ring">
-      <div class="price-card featured">
-        <div class="price-tier">// standard</div>
-        <div class="price-name">Standard Site</div>
-        <div class="price-amount">$797<span> flat</span></div>
-        <div class="price-note">$200 deposit · $597 on delivery</div>
-        <div class="price-divider"></div>
-        <div class="price-features">
-          <div class="pf"><span class="check">✓</span> 4-page custom website</div>
-          <div class="pf"><span class="check">✓</span> Everything in Starter</div>
-          <div class="pf"><span class="check">✓</span> Working contact form</div>
-          <div class="pf"><span class="check">✓</span> Google Maps embed</div>
-          <div class="pf"><span class="check">✓</span> 3 revision rounds</div>
-          <div class="pf"><span class="check">✓</span> Delivered in 2–3 days</div>
-          <div class="pf"><span class="check">✓</span> Hosting setup included</div>
-        </div>
-        <a href="#contact" class="btn-green" style="display:block;text-align:center;">Get Started</a>
-      </div>
-    </div>
-
-    <div class="price-card">
-      <div class="price-tier">// premium</div>
-      <div class="price-name">Premium Site</div>
-      <div class="price-amount">$997<span> flat</span></div>
-      <div class="price-note">$250 deposit · $747 on delivery</div>
-      <div class="price-divider"></div>
-      <div class="price-features">
-        <div class="pf"><span class="check">✓</span> Up to 6 pages</div>
-        <div class="pf"><span class="check">✓</span> Everything in Standard</div>
-        <div class="pf"><span class="check">✓</span> Photo gallery section</div>
-        <div class="pf"><span class="check">✓</span> 1 month free maintenance</div>
-        <div class="pf"><span class="check">✓</span> Priority delivery (1–2 days)</div>
-        <div class="pf"><span class="check">✓</span> Priority support line</div>
-        <div class="pf"><span class="check">✓</span> Hosting setup included</div>
-      </div>
-      <a href="#contact" class="btn-outline-green" style="display:block;text-align:center;">Get Started</a>
-    </div>
-
-  </div>
-</section>
-
-<!-- ══ WHY US ══ -->
-<section id="why" class="why-section">
-  <div class="section-tag">Why BQ Solution</div>
-  <div class="section-title">We're Not an Agency.<br>We're Your Neighbors.</div>
-  <p class="section-sub" style="color:rgba(136,153,170,0.9);margin-bottom:52px;">We're local to Greenville, NC — we know your market, your community, and the businesses that need a digital presence. Here's what sets us apart.
-  </p>
-  <div class="why-grid">
-    <div class="why-card">
-      <div class="icon">⚡</div>
-      <h4>Fast Delivery</h4>
-      <p>Days from deposit to live site — not weeks. No excuses. Speed is a core part of our service.</p>
-    </div>
-    <div class="why-card">
-      <div class="icon">💰</div>
-      <h4>Flat-Rate Pricing</h4>
-      <p>You know the price before we start. No hourly billing, no surprise invoices. $497 is $497 — always.</p>
-    </div>
-    <div class="why-card">
-      <div class="icon">📍</div>
-      <h4>Locally Owned</h4>
-      <p>We're right here in Greenville, NC. Call us, text us, or meet us. Real people, real accountability, real results.</p>
-    </div>
-    <div class="why-card">
-      <div class="icon">🔐</div>
-      <h4>You Own the Code</h4>
-      <p>No lock-in. No subscriptions to us. You get the clean HTML, CSS, and JS files. Your website, forever.</p>
-    </div>
-    <div class="why-card">
-      <div class="icon">📱</div>
-      <h4>Mobile-First</h4>
-      <p>Every single site is tested and optimized for phones first — where most of your customers are searching.</p>
-    </div>
-    <div class="why-card">
-      <div class="icon">🤝</div>
-      <h4>Personal Service</h4>
-      <p>You deal with us directly — not a support ticket. Questions get answered same day. Issues get fixed fast.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ══ CTA BAND ══ -->
-<div class="cta-band">
-  <div>
-    <h2>Ready to Get Your Business<br><em>Online the Right Way?</em></h2>
-    <p>Professional website. Flat rate. Delivered in days. No agency markups.</p>
-  </div>
-  <a href="#contact" class="btn-outline-green">Get a Free Quote →</a>
-</div>
-
-<!-- ══ CONTACT ══ -->
-<section id="contact" class="contact-home">
-  <div class="contact-inner">
-    <div class="contact-info">
-      <div class="section-tag">Get in Touch</div>
-      <div class="section-title">Let's Talk About<br>Your Next Project</div>
-      <p class="section-sub" style="margin-bottom:32px;">Have a question, need a quote, or just want to see what we can build? Reach out — we respond same day.</p>
-      <h3>Contact BQ Solution</h3>
-      <div class="contact-item">
-        <div class="c-icon-box">📞</div>
-        <div><strong>Phone / Text</strong><span><a href="tel:2524936342" style="color:inherit;text-decoration:none;">(252) 493-6342</a></span></div>
-      </div>
-      <div class="contact-item">
-        <div class="c-icon-box">✉️</div>
-        <div><strong>Email</strong><span>info@bqwebsolutions.com</span></div>
-      </div>
-      <div class="contact-item">
-        <div class="c-icon-box">📍</div>
-        <div><strong>Location</strong><span>2120 E Fire Tower Rd, Ste 107 #2121<br>Greenville, NC 27858</span></div>
-      </div>
-      <div class="contact-item">
-        <div class="c-icon-box">⏰</div>
-        <div><strong>Hours</strong><span>Monday – Friday · 9am – 6pm</span></div>
-      </div>
-      <div class="service-area-box">
-        <h4>// service_areas</h4>
-        <div class="area-tags">
-          <span class="area-tag">Greenville</span>
-          <span class="area-tag">Winterville</span>
-          <span class="area-tag">Pitt County</span>
-          <span class="area-tag">Ayden</span>
-          <span class="area-tag">Farmville</span>
-          <span class="area-tag">Eastern NC</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-card">
-      <h3>Send a Message</h3>
-      <p class="form-sub">// We'll reply within one business day</p>
-      <div class="form-group">
-        <label for="c-name">Your Name *</label>
-        <input type="text" id="c-name" placeholder="Jane Smith"/>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="c-email">Email *</label>
-          <input type="email" id="c-email" placeholder="jane@example.com"/>
-        </div>
-        <div class="form-group">
-          <label for="c-phone">Phone</label>
-          <input type="tel" id="c-phone" placeholder="(252) 555-0000"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="c-subject">Topic</label>
-        <select id="c-subject">
-          <option value="">Select topic...</option>
-          <option>Website Design Quote</option>
-          <option>Existing Website Redesign</option>
-          <option>Monthly Maintenance</option>
-          <option>General Question</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="c-message">Message *</label>
-        <textarea id="c-message" placeholder="Tell us about your business and what you need..."></textarea>
-      </div>
-      <button class="form-submit" id="contact-submit" onclick="submitContact()">Send Message</button>
-      <div class="success-msg" id="contact-success">// Message received. We'll be in touch shortly.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-        <img src="/mnt/user-data/uploads/logo.png" alt="BQ Solution" style="height:42px;" onerror="this.style.display='none'"/>
-        <div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;color:var(--white);letter-spacing:0.06em;">BQ SOLUTION</div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--green);letter-spacing:0.14em;">// Greenville, NC</div>
-        </div>
-      </div>
-      <p>Professional website design &amp; development for local businesses in Greenville and all of Pitt County. Fast. Flat-rate. No lock-in.</p>
-    </div>
-    <div>
-      <h5>Navigation</h5>
-      <div class="footer-links">
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#pricing">Pricing</a>
-        <a href="projects.html">Projects</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </div>
-    <div>
-      <h5>Services</h5>
-      <div class="footer-links">
-        <a>Custom Website Design</a>
-        <a>Mobile Development</a>
-        <a>Monthly Maintenance</a>
-        <a>Hosting &amp; Deployment</a>
-      </div>
-    </div>
-    <div>
-      <h5>Contact</h5>
-      <div class="footer-contact-item">📞 <a href="tel:2524936342">(252) 493-6342</a></div>
-      <div class="footer-contact-item">✉️ <a href="mailto:info@bqwebsolutions.com">info@bqwebsolutions.com</a></div>
-      <div class="footer-contact-item">📍 2120 E Fire Tower Rd, Ste 107 #2121, Greenville, NC 27858</div>
-      <div class="footer-contact-item">⏰ Mon–Fri · 9am–6pm</div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2025 BQ Solution. All rights reserved.</span>
-    <span class="green">// built different · greenville-nc</span>
-  </div>
-  <p style="font-size:0.7rem;color:rgba(255,255,255,0.3);text-align:center;margin-top:16px;">
-    Earth Globe Hologram 3D model by <a href="https://sketchfab.com/IZ.MdVerz" target="_blank" style="color:inherit;text-decoration:none;">IZ.MdVerz</a> via Sketchfab — CC BY
-  </p>
+  <div class="footer-bottom"><span>© 2025 BQ Solutions. All rights reserved.</span><span>bqwebsolutions.com</span></div>
 </footer>
 
-<!-- ══ STATS INTERSTITIAL ══ -->
-<div id="stats-interstitial" aria-hidden="true">
-  <div class="stats-inter-grid">
-    <div class="stat-inter-item">
-      <div class="stat-inter-num">$<span>497</span></div>
-      <div class="stat-inter-label">Starting Price</div>
-    </div>
-    <div class="stat-inter-item">
-      <div class="stat-inter-num"><span>2–5</span><span class="stat-inter-unit"> days</span></div>
-      <div class="stat-inter-label">Avg Delivery</div>
-    </div>
-    <div class="stat-inter-item">
-      <div class="stat-inter-num"><span>3</span></div>
-      <div class="stat-inter-label">Tiers Available</div>
-    </div>
-    <div class="stat-inter-item">
-      <div class="stat-inter-num"><span>100</span><span class="stat-inter-unit">%</span></div>
-      <div class="stat-inter-label">Mobile Ready</div>
-    </div>
-    <div class="stat-inter-item">
-      <div class="stat-inter-num"><span>NC</span></div>
-      <div class="stat-inter-label">Local &amp; Trusted</div>
-    </div>
-  </div>
-</div>
+<!-- Back to top button -->
+<button id="back-to-top" aria-label="Back to top">↑</button>
 
-<!-- ══ CTA INTERSTITIAL ══ -->
-<div id="cta-interstitial" aria-hidden="true">
-  <div class="cta-inter-content">
-    <div class="cta-inter-tag">// ready_to_launch</div>
-    <h2>Ready to Get Your Business<br><em>Online the Right Way?</em></h2>
-    <p>Professional website. Flat rate. Delivered in days.</p>
-  </div>
-</div>
-
-<!-- ══ MOBILE STICKY CALL BUTTON ══ -->
-<a href="tel:2524936342" class="sticky-call" aria-label="Call BQ Solution">
-  <img src="images/BQ_Solution_Icon.png" alt="BQ Solution"/>
-  <span>Call Us</span>
-</a>
-
+<!-- CDN Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@11.11.17/dist/motion.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- Local Scripts -->
 <script src="bqsolution-scripts.js"></script>
+
 </body>
 </html>

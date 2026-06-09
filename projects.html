@@ -1,171 +1,603 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Projects | BQ Solution — Web Design Portfolio — Greenville, NC</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="bqsolution-styles.css"/>
-</head>
-<body class="projects-page">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BQ Solutions Project Portfolio — Custom websites built from scratch.">
+<title>Projects — BQ Solutions</title>
+<link rel="icon" href="images/BQ_Solution_Icon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display.swap" rel="stylesheet">
+<link rel="stylesheet" href="bqsolution-styles.css">
+<style>
+/* ── PROJECTS PAGE SPECIFIC ── */
+.projects-hero {
+  min-height: 40vh;
+  background: var(--black);
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 8rem 3rem 4rem;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  position: relative; overflow: hidden;
+}
+.projects-hero-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,241,53,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,241,53,.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridDrift 20s linear infinite;
+}
+@keyframes gridDrift { from{transform:translateY(0)} to{transform:translateY(60px)} }
+.projects-hero-inner { position: relative; z-index: 1; max-width: 1380px; margin: 0 auto; width: 100%; }
+.projects-hero-label {
+  font-family: var(--ff-mono);
+  font-size: .65rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+.projects-hero-label::before { content: ''; width: 24px; height: 1px; background: var(--lime); }
+.projects-hero h1 {
+  font-family: var(--ff-head);
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 900; line-height: .88;
+  letter-spacing: -.03em; color: var(--white);
+  margin-bottom: 1.5rem;
+}
+.projects-hero h1 em { font-style: italic; font-weight: 400; color: var(--lime); display: block; }
+.projects-hero-meta {
+  display: flex; align-items: center; gap: 3rem;
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding-top: 1.5rem; margin-top: 1.5rem;
+}
+.projects-hero-stat { display: flex; flex-direction: column; }
+.projects-hero-stat strong {
+  font-family: var(--ff-head);
+  font-size: 2rem; font-weight: 700; color: var(--white); line-height: 1;
+}
+.projects-hero-stat strong em { color: var(--lime); font-style: normal; }
+.projects-hero-stat span {
+  font-family: var(--ff-mono);
+  font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.3); margin-top: .3rem;
+}
+.projects-hero-div { width: 1px; height: 36px; background: rgba(255,255,255,.1); }
 
-<!-- ══ NAV ══ -->
-<nav>
-  <div class="logo-wrap" onclick="window.location='index.html'" style="cursor:pointer;">
-    <img src="/mnt/user-data/uploads/logo.png" alt="BQ Solution Logo" onerror="this.style.display='none'"/>
-    <div class="logo-text">
-      <div class="brand">BQ SOLUTION</div>
-      <div class="sub">// Web Design &amp; Development</div>
-    </div>
-  </div>
-  <div class="nav-links" id="navLinks">
-    <a href="index.html#services">Services</a>
-    <a href="index.html#process">Process</a>
-    <a href="index.html#pricing">Pricing</a>
-    <a href="projects.html" class="active">Projects</a>
-    <a href="index.html#why">Why Us</a>
-    <a href="index.html#contact" class="cta-nav">Get a Quote</a>
-  </div>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+/* Filter bar */
+.filter-bar {
+  background: var(--black);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  padding: 1.25rem 3rem;
+  display: flex; align-items: center; gap: 1rem;
+  position: sticky; top: 72px; z-index: 100;
+  backdrop-filter: blur(12px);
+}
+.filter-label {
+  font-family: var(--ff-mono);
+  font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(255,255,255,.3); margin-right: .5rem;
+}
+.filter-btn {
+  font-family: var(--ff-mono);
+  font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  background: none; border: 1px solid rgba(255,255,255,.1);
+  padding: .4rem 1rem; cursor: none;
+  transition: all .2s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--lime); color: var(--black);
+  border-color: var(--lime);
+}
+
+/* Projects grid */
+.projects-grid {
+  max-width: 1380px; margin: 0 auto;
+  padding: 4rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.project-card {
+  border: 1px solid rgba(255,255,255,.07);
+  overflow: hidden;
+  transition: border-color .3s, transform .3s;
+  opacity: 0; transform: translateY(30px);
+}
+.project-card:hover {
+  border-color: rgba(200,241,53,.4);
+  transform: translateY(-4px);
+}
+.project-card.featured {
+  grid-column: span 2;
+}
+.project-card-img {
+  height: 280px; overflow: hidden;
+  position: relative; background: #0d1117;
+  display: flex; align-items: center; justify-content: center;
+}
+.project-card.featured .project-card-img { height: 360px; }
+
+/* Law firm preview */
+.preview-law {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #141210 0%, #1a1815 100%);
+  padding: 1.5rem; display: flex; flex-direction: column;
+}
+.preview-law-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem; padding-bottom: .75rem;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.preview-law-logo {
+  font-family: var(--ff-head); font-size: .7rem; font-weight: 700;
+  color: rgba(255,255,255,.6); letter-spacing: .06em; text-transform: uppercase;
+}
+.preview-law-dot { width: 6px; height: 6px; background: #B87333; border-radius: 50%; }
+.preview-law-headline {
+  font-family: var(--ff-head); font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 900; color: #fff; line-height: .9;
+  letter-spacing: -.02em; flex: 1; display: flex;
+  flex-direction: column; justify-content: center;
+}
+.preview-law-headline em { font-style: italic; font-weight: 400; color: #B87333; }
+.preview-law-rule { width: 100%; height: 2px; background: #B87333; margin: .75rem 0; }
+.preview-law-stats { display: flex; gap: 1.5rem; }
+.preview-stat-n {
+  font-family: var(--ff-head); font-size: 1.1rem; font-weight: 700;
+  color: #fff; line-height: 1;
+}
+.preview-stat-n em { color: #B87333; font-style: normal; }
+.preview-stat-l {
+  font-family: var(--ff-mono); font-size: .55rem; letter-spacing: .08em;
+  text-transform: uppercase; color: rgba(255,255,255,.3); margin-top: .2rem;
+}
+
+/* Generic coming soon preview */
+.preview-coming {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: .75rem;
+}
+.preview-coming-num {
+  font-family: var(--ff-head); font-size: 5rem; font-weight: 900;
+  color: rgba(255,255,255,.04); -webkit-text-stroke: 1px rgba(255,255,255,.08);
+  line-height: 1;
+}
+.preview-coming-label {
+  font-family: var(--ff-mono); font-size: .62rem; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,255,255,.2);
+}
+
+/* Card hover overlay */
+.project-card-overlay {
+  position: absolute; inset: 0;
+  background: rgba(10,10,10,.85);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .3s;
+}
+.project-card:hover .project-card-overlay { opacity: 1; }
+.overlay-link {
+  font-family: var(--ff-mono); font-size: .72rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--black); background: var(--lime);
+  padding: .75rem 1.75rem; text-decoration: none;
+  transition: background .2s;
+}
+.overlay-link:hover { background: var(--lime-dk); }
+
+/* Card info */
+.project-card-info {
+  padding: 1.5rem; background: var(--black);
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.project-card-cat {
+  font-family: var(--ff-mono); font-size: .6rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: .5rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.project-card-cat::before { content: ''; width: 14px; height: 1px; background: var(--lime); }
+.project-card-name {
+  font-family: var(--ff-head); font-size: 1.2rem; font-weight: 700;
+  color: var(--white); margin-bottom: .3rem;
+}
+.project-card-tech {
+  font-family: var(--ff-mono); font-size: .6rem;
+  letter-spacing: .06em; color: rgba(255,255,255,.3);
+}
+.project-card-tags {
+  display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .75rem;
+}
+.project-tag {
+  font-family: var(--ff-mono); font-size: .58rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  border: 1px solid rgba(255,255,255,.1);
+  padding: .2rem .6rem;
+}
+
+/* Back button */
+.back-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--ff-mono); font-size: .68rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.4); text-decoration: none;
+  transition: color .2s;
+  margin-bottom: 2rem;
+}
+.back-btn:hover { color: var(--lime); }
+.back-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* CTA section */
+.projects-cta {
+  background: var(--lime);
+  padding: 5rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 3rem;
+}
+.projects-cta h2 {
+  font-family: var(--ff-head);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 900; line-height: .9;
+  letter-spacing: -.03em; color: var(--black);
+}
+.projects-cta h2 em { font-style: italic; font-weight: 400; display: block; }
+.btn-black {
+  font-family: var(--ff-mono); font-size: .72rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--white); background: var(--black);
+  padding: 1rem 2.5rem; text-decoration: none;
+  display: inline-flex; align-items: center; gap: .75rem;
+  flex-shrink: 0; transition: background .2s;
+}
+.btn-black:hover { background: #222; }
+
+@media(max-width:1024px) {
+  .projects-grid { grid-template-columns: 1fr 1fr; padding: 3rem 2rem; }
+  .project-card.featured { grid-column: span 2; }
+  .projects-hero { padding: 7rem 2rem 3rem; }
+  .filter-bar { padding: 1rem 2rem; flex-wrap: wrap; }
+  .projects-cta { flex-direction: column; padding: 4rem 2rem; }
+}
+@media(max-width:640px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: span 1; }
+  .projects-hero-meta { gap: 1.5rem; flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<div id="cursor" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav aria-label="Main navigation">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-dot" aria-hidden="true"></span>
+    <span class="nav-logo-text">BQ Solutions</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html#s-services">Services</a>
+    <a href="index.html#s-process">Process</a>
+    <a href="index.html#s-pricing">Pricing</a>
+    <a href="projects.html" style="color:var(--lime)">Work</a>
+    <a href="index.html#s-contact" class="nav-cta">Start a Project</a>
   </div>
 </nav>
 
-<!-- ══ PAGE HERO ══ -->
-<div class="page-hero projects-hero">
-  <div class="section-tag">Our Work</div>
-  <h1>Work That <em>Speaks</em><br>For Itself</h1>
-  <p>Every site in our portfolio is a real project, delivered to a real local business, built from scratch. No Wix. No templates. No shortcuts — just clean, fast, hand-coded websites that convert visitors into paying customers. This is what BQ Solution does.</p>
+<!-- HERO -->
+<div class="projects-hero">
+  <div class="projects-hero-bg" aria-hidden="true"></div>
+  <div class="projects-hero-inner">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to Home
+    </a>
+    <div class="projects-hero-label">Portfolio</div>
+    <h1 class="projects-hero-title">Selected<br><em>Work.</em></h1>
+    <div class="projects-hero-meta">
+      <div class="projects-hero-stat">
+        <strong>1</strong>
+        <span>Projects Delivered</span>
+      </div>
+      <div class="projects-hero-div" aria-hidden="true"></div>
+      <div class="projects-hero-stat">
+        <strong>3.2<em>d</em></strong>
+        <span>Avg. Delivery</span>
+      </div>
+      <div class="projects-hero-div" aria-hidden="true"></div>
+      <div class="projects-hero-stat">
+        <strong>0<em>%</em></strong>
+        <span>Templates Used</span>
+      </div>
+      <div class="projects-hero-div" aria-hidden="true"></div>
+      <div class="projects-hero-stat">
+        <strong>100<em>%</em></strong>
+        <span>Custom Code</span>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- ══ PROJECTS ══ -->
-<section class="projects-section">
-  <div class="projects-grid">
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="law">Law & Legal</button>
+  <button class="filter-btn" data-filter="medical">Medical</button>
+  <button class="filter-btn" data-filter="restaurant">Restaurant</button>
+  <button class="filter-btn" data-filter="business">Business</button>
+</div>
 
-    <!-- ── Elizabeth City Cleaning ── -->
-    <div class="project-card">
-      <div class="project-browser">
-        <div class="project-browser-bar">
-          <span class="browser-dot r"></span>
-          <span class="browser-dot y"></span>
-          <span class="browser-dot g"></span>
-          <div class="browser-url">🔒 elizabethcitycleaning.com</div>
+<!-- PROJECTS GRID -->
+<div class="projects-grid" id="projects-grid">
+
+  <!-- FEATURED: Law Firm -->
+  <article class="project-card featured" data-category="law">
+    <div class="project-card-img">
+      <div class="preview-law">
+        <div class="preview-law-nav">
+          <span class="preview-law-logo">Harrington & Associates</span>
+          <span class="preview-law-dot"></span>
         </div>
-        <div class="project-preview ecc-preview">
-          <div class="preview-overlay">
-            <div class="preview-site-name">Elizabeth City Cleaning</div>
-            <div class="preview-site-tag">// Professional Cleaning Services · Elizabeth City, NC</div>
-          </div>
+        <div class="preview-law-headline">
+          We Don't<br>Settle
+          <div class="preview-law-rule"></div>
+          <em>Until You Do.</em>
+        </div>
+        <div class="preview-law-stats">
+          <div><div class="preview-stat-n">$12.<em>4M</em></div><div class="preview-stat-l">Verdict</div></div>
+          <div><div class="preview-stat-n">$7.<em>8M</em></div><div class="preview-stat-l">Settlement</div></div>
+          <div><div class="preview-stat-n">98<em>%</em></div><div class="preview-stat-l">Success</div></div>
         </div>
       </div>
-      <div class="project-info">
-        <div class="project-type">// local_service · cleaning · elizabeth_city_nc</div>
-        <div class="project-name">Elizabeth City Cleaning</div>
-        <p class="project-desc">A professional cleaning company serving Elizabeth City and the surrounding area needed a digital presence that matched the quality of their work. We built them a fast, mobile-first website designed to rank for local searches and turn visitors into booked appointments — complete with a working contact form, full service breakdown, and Google Maps integration.</p>
-        <div class="project-stats">
-          <div class="pstat">
-            <span class="pstat-val">4</span>
-            <span class="pstat-label">Pages</span>
-          </div>
-          <div class="pstat">
-            <span class="pstat-val">3</span>
-            <span class="pstat-label">Days Delivered</span>
-          </div>
-          <div class="pstat">
-            <span class="pstat-val">✓</span>
-            <span class="pstat-label">Live &amp; Active</span>
-          </div>
-        </div>
-        <div class="project-tags">
-          <span class="stag">HTML5</span>
-          <span class="stag">CSS3</span>
-          <span class="stag">JavaScript</span>
-          <span class="stag">Mobile-First</span>
-          <span class="stag">Contact Form</span>
-          <span class="stag">Google Maps</span>
-          <span class="stag">Local SEO</span>
-        </div>
-        <a href="https://elizabethcitycleaning.com" target="_blank" rel="noopener" class="btn-outline-green project-btn">View Live Site →</a>
+      <div class="project-card-overlay">
+        <a href="https://premium-web-template.netlify.app/" class="overlay-link" target="_blank">View Live Demo →</a>
       </div>
     </div>
-
-    <!-- ── Placeholder: next project ── -->
-    <div class="project-card project-placeholder">
-      <div class="placeholder-inner">
-        <div class="placeholder-icon">+</div>
-        <div class="placeholder-label">// next_project</div>
-        <p class="placeholder-text">Your business could be featured here. We're actively taking on new clients across Eastern NC.</p>
-        <a href="index.html#contact" class="btn-outline-green" style="display:inline-block;margin-top:22px;">Start a Project →</a>
+    <div class="project-card-info">
+      <div class="project-card-cat">Personal Injury Law Firm</div>
+      <div class="project-card-name">Harrington & Associates</div>
+      <div class="project-card-tech">HTML · CSS · GSAP · Three.js · 3D Newsletter · Mobile</div>
+      <div class="project-card-tags">
+        <span class="project-tag">Scroll Animations</span>
+        <span class="project-tag">3D Effects</span>
+        <span class="project-tag">Editorial Design</span>
+        <span class="project-tag">5 Days</span>
+        <span class="project-tag">8.7/10 Score</span>
       </div>
     </div>
+  </article>
 
-    <!-- ── Placeholder: coming soon ── -->
-    <div class="project-card project-placeholder">
-      <div class="placeholder-inner">
-        <div class="placeholder-icon">⌛</div>
-        <div class="placeholder-label">// coming_soon</div>
-        <p class="placeholder-text">More projects launching soon. Check back to see our growing portfolio of local business sites.</p>
+  <!-- Placeholder 2 -->
+  <article class="project-card" data-category="restaurant">
+    <div class="project-card-img">
+      <div class="preview-coming">
+        <div class="preview-coming-num">02</div>
+        <div class="preview-coming-label">Your Project Here</div>
+      </div>
+      <div class="project-card-overlay">
+        <a href="index.html#s-contact" class="overlay-link">Start Your Project →</a>
       </div>
     </div>
+    <div class="project-card-info">
+      <div class="project-card-cat">Restaurant / Food</div>
+      <div class="project-card-name">Coming Soon</div>
+      <div class="project-card-tech">Custom built to your brief</div>
+      <div class="project-card-tags">
+        <span class="project-tag">Available</span>
+      </div>
+    </div>
+  </article>
 
-  </div>
-</section>
+  <!-- Placeholder 3 -->
+  <article class="project-card" data-category="medical">
+    <div class="project-card-img">
+      <div class="preview-coming">
+        <div class="preview-coming-num">03</div>
+        <div class="preview-coming-label">Your Project Here</div>
+      </div>
+      <div class="project-card-overlay">
+        <a href="index.html#s-contact" class="overlay-link">Start Your Project →</a>
+      </div>
+    </div>
+    <div class="project-card-info">
+      <div class="project-card-cat">Medical / Healthcare</div>
+      <div class="project-card-name">Coming Soon</div>
+      <div class="project-card-tech">Custom built to your brief</div>
+      <div class="project-card-tags">
+        <span class="project-tag">Available</span>
+      </div>
+    </div>
+  </article>
 
-<!-- ══ CTA BAND ══ -->
-<div class="cta-band">
+  <!-- Placeholder 4 -->
+  <article class="project-card" data-category="business">
+    <div class="project-card-img">
+      <div class="preview-coming">
+        <div class="preview-coming-num">04</div>
+        <div class="preview-coming-label">Your Project Here</div>
+      </div>
+      <div class="project-card-overlay">
+        <a href="index.html#s-contact" class="overlay-link">Start Your Project →</a>
+      </div>
+    </div>
+    <div class="project-card-info">
+      <div class="project-card-cat">Business / Professional</div>
+      <div class="project-card-name">Coming Soon</div>
+      <div class="project-card-tech">Custom built to your brief</div>
+      <div class="project-card-tags">
+        <span class="project-tag">Available</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- Placeholder 5 -->
+  <article class="project-card" data-category="law">
+    <div class="project-card-img">
+      <div class="preview-coming">
+        <div class="preview-coming-num">05</div>
+        <div class="preview-coming-label">Your Project Here</div>
+      </div>
+      <div class="project-card-overlay">
+        <a href="index.html#s-contact" class="overlay-link">Start Your Project →</a>
+      </div>
+    </div>
+    <div class="project-card-info">
+      <div class="project-card-cat">Law & Legal</div>
+      <div class="project-card-name">Coming Soon</div>
+      <div class="project-card-tech">Custom built to your brief</div>
+      <div class="project-card-tags">
+        <span class="project-tag">Available</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- Placeholder 6 -->
+  <article class="project-card" data-category="business">
+    <div class="project-card-img">
+      <div class="preview-coming">
+        <div class="preview-coming-num">06</div>
+        <div class="preview-coming-label">Your Project Here</div>
+      </div>
+      <div class="project-card-overlay">
+        <a href="index.html#s-contact" class="overlay-link">Start Your Project →</a>
+      </div>
+    </div>
+    <div class="project-card-info">
+      <div class="project-card-cat">Business / Professional</div>
+      <div class="project-card-name">Coming Soon</div>
+      <div class="project-card-tech">Custom built to your brief</div>
+      <div class="project-card-tags">
+        <span class="project-tag">Available</span>
+      </div>
+    </div>
+  </article>
+
+</div>
+
+<!-- CTA -->
+<div class="projects-cta">
+  <h2>Your Business<br><em>Could Be Next.</em></h2>
   <div>
-    <h2>Ready to Be Our<br><em>Next Success Story?</em></h2>
-    <p>Flat-rate pricing. Delivered in days. You own the code.</p>
+    <p style="font-size:1rem;font-weight:300;color:rgba(0,0,0,.65);line-height:1.8;max-width:40ch;margin-bottom:1.5rem">
+      Flat rate, fast delivery, you own the code. Get a free quote today — no obligation, same-day response.
+    </p>
+    <a href="index.html#s-contact" class="btn-black">
+      Start a Project
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
   </div>
-  <a href="index.html#contact" class="btn-outline-green">Get a Free Quote →</a>
 </div>
 
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-        <img src="/mnt/user-data/uploads/logo.png" alt="BQ Solution" style="height:42px;" onerror="this.style.display='none'"/>
-        <div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;color:var(--white);letter-spacing:0.06em;">BQ SOLUTION</div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--green);letter-spacing:0.14em;">// Greenville, NC</div>
-        </div>
+<!-- FOOTER -->
+<footer class="footer-full" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">
+        <span class="footer-logo-dot"></span>
+        <img src="images/BQ_Solution_Icon.png" alt="BQ Solutions" style="height:20px;vertical-align:middle;margin-right:.4rem">
+        BQ Solutions
       </div>
-      <p>Professional website design &amp; development for local businesses in Greenville and all of Pitt County. Fast. Flat-rate. No lock-in.</p>
+      <p class="footer-desc">Custom web development for businesses that want to stand out. No templates. No lock-in. Built in Greenville, NC.</p>
     </div>
     <div>
-      <h5>Navigation</h5>
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="index.html#services">Services</a>
-        <a href="index.html#pricing">Pricing</a>
-        <a href="projects.html">Projects</a>
-        <a href="index.html#contact">Contact</a>
-      </div>
+      <div class="footer-col-title">Pages</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="index.html#s-services">Services</a></li>
+        <li><a href="index.html#s-contact">Contact</a></li>
+      </ul>
     </div>
     <div>
-      <h5>Services</h5>
-      <div class="footer-links">
-        <a>Custom Website Design</a>
-        <a>Mobile Development</a>
-        <a>Monthly Maintenance</a>
-        <a>Hosting &amp; Deployment</a>
-      </div>
-    </div>
-    <div>
-      <h5>Contact</h5>
-      <div class="footer-contact-item">📞 <a href="tel:2524936342">(252) 493-6342</a></div>
-      <div class="footer-contact-item">✉️ <a href="mailto:info@bqwebsolutions.com">info@bqwebsolutions.com</a></div>
-      <div class="footer-contact-item">📍 2120 E Fire Tower Rd, Ste 107 #2121, Greenville, NC 27858</div>
-      <div class="footer-contact-item">⏰ Mon–Fri · 9am–6pm</div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="tel:2524936342">(252) 493-6342</a></li>
+        <li><a href="mailto:info@bqwebsolutions.com">info@bqwebsolutions.com</a></li>
+        <li><a href="#">Greenville, NC 27858</a></li>
+      </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2025 BQ Solution. All rights reserved.</span>
-    <span class="green">// built different · greenville-nc</span>
+    <span>© 2025 BQ Solutions. All rights reserved.</span>
+    <span>Privacy Policy · Terms · bqwebsolutions.com</span>
   </div>
 </footer>
 
-<script src="bqsolution-scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  gsap.to(cursor, { left: e.clientX, top: e.clientY, duration: .12, ease: 'power2.out' });
+});
+document.querySelectorAll('a, button, .project-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+});
+
+// Hero text reveal
+const heroTitle = document.querySelector('.projects-hero-title');
+if(heroTitle) {
+  gsap.from(heroTitle, { opacity: 0, y: 40, duration: 1, ease: 'power3.out', delay: .3 });
+  gsap.from('.projects-hero-label', { opacity: 0, y: 20, duration: .7, delay: .2 });
+  gsap.from('.projects-hero-meta', { opacity: 0, y: 20, duration: .7, delay: .6 });
+  gsap.from('.back-btn', { opacity: 0, x: -20, duration: .6, delay: .1 });
+}
+
+// Project cards stagger in
+gsap.to('.project-card', {
+  opacity: 1, y: 0, duration: .7, stagger: .1, ease: 'power3.out',
+  scrollTrigger: { trigger: '#projects-grid', start: 'top 75%' }
+});
+
+// Filter functionality
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.project-card');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    cards.forEach(card => {
+      const match = filter === 'all' || card.dataset.category === filter;
+      gsap.to(card, {
+        opacity: match ? 1 : 0.2,
+        scale: match ? 1 : 0.97,
+        duration: .3, ease: 'power2.out'
+      });
+    });
+  });
+});
+
+// Hero stat counters
+document.querySelectorAll('.projects-hero-stat strong').forEach(el => {
+  const text = el.innerHTML;
+  const match = text.match(/([\d.]+)/);
+  if(!match) return;
+  const target = parseFloat(match[1]);
+  const suffix = el.innerHTML.replace(match[1], '');
+  const obj = { val: 0 };
+  gsap.to(obj, {
+    val: target, duration: 1.8, ease: 'power2.out', delay: .5,
+    onUpdate: () => {
+      el.innerHTML = (target < 10 ? obj.val.toFixed(1) : Math.round(obj.val)) + suffix;
+    }
+  });
+});
+
+// Neon glow on dots
+document.querySelectorAll('.nav-dot, .footer-logo-dot').forEach(el => {
+  el.classList.add('glow-pulse');
+});
+</script>
 </body>
 </html>

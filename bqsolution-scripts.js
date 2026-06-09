@@ -1,360 +1,968 @@
-/* ══════════════════════════════════════════
-   BQ Solution — Website Design Agency
-   bqsolution-scripts.js
-   ══════════════════════════════════════════ */
+// BQ Solutions — Main Scripts
+// Includes: GSAP ScrollTrigger + Motion (Framer) spring animations
+// Laptop animation: CSS/SVG scroll-driven (no GLB dependency)
 
-// Prevent browser scroll restoration from firing spurious scroll events on refresh
-if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+gsap.registerPlugin(ScrollTrigger);
 
-var EMAILJS_PUBLIC_KEY       = "nP1zVzVIFALnWGFAD";
-var EMAILJS_SERVICE_ID       = "service_igi9jtq";
-var EMAILJS_CONTACT_TEMPLATE = "template_g6bcn2f";
+// ── CURSOR ──
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  gsap.to(cursor, { left: e.clientX, top: e.clientY, duration: .12, ease: 'power2.out' });
+});
+document.querySelectorAll('a, button, .svc-item, .process-item, .price-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+});
 
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('open');
-}
+// ── ELEMENTS ──
+const lid          = document.getElementById('lid');
+const lidInner     = document.getElementById('lidInner');
+const screenGlow   = document.getElementById('screenGlow');
+const handLeft     = document.getElementById('handLeft');
+const handRight    = document.getElementById('handRight');
+const handsContainer = document.getElementById('handsContainer');
+const labelText    = document.getElementById('screenLabelText');
+const keys         = document.querySelectorAll('.key');
+const scene        = document.getElementById('laptopScene');
 
-function submitContact() {
-  var name    = document.getElementById('c-name').value.trim();
-  var email   = document.getElementById('c-email').value.trim();
-  var phone   = document.getElementById('c-phone').value.trim();
-  var subject = document.getElementById('c-subject').value;
-  var message = document.getElementById('c-message').value.trim();
+// Screen states
+const states = {
+  boot:  document.getElementById('stateBoot'),
+  code:  document.getElementById('stateCode'),
+  site:  document.getElementById('stateSite'),
+  dash:  document.getElementById('stateDash'),
+  live:    document.getElementById('stateLive'),
+  contact: document.getElementById('stateContact'),
+};
 
-  if (!name || !email || !message) {
-    alert('Please fill in all required fields.');
-    return;
-  }
+let activeState = 'boot';
+let typingInterval = null;
+let typingActive = false;
 
-  var btn = document.getElementById('contact-submit');
-  if (btn) { btn.disabled = true; btn.textContent = '// Sending...'; }
-
-  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONTACT_TEMPLATE, {
-    from_name:  name,
-    from_email: email,
-    phone:      phone   || 'Not provided',
-    subject:    subject || 'General Inquiry',
-    message:    message,
-    to_email:   "info@bqwebsolutions.com",
-    reply_to:   email
-  }).then(function() {
-    document.getElementById('contact-success').style.display = 'block';
-    document.getElementById('contact-success').textContent =
-      '// Message received. We\'ll reply within one business day.';
-    ['c-name','c-email','c-phone','c-message'].forEach(function(id) {
-      document.getElementById(id).value = '';
-    });
-    document.getElementById('c-subject').selectedIndex = 0;
-    if (btn) { btn.disabled = false; btn.textContent = 'Send Message'; }
-  }).catch(function(error) {
-    console.error('EmailJS error:', error);
-    alert('Something went wrong. Please try again or email us directly.');
-    if (btn) { btn.disabled = false; btn.textContent = 'Send Message'; }
+function showState(name) {
+  if(activeState === name) return;
+  activeState = name;
+  Object.entries(states).forEach(([k, el]) => {
+    el.classList.toggle('active', k === name);
   });
+  labelText.textContent = {
+    boot: 'Laptop closed',
+    code: 'Writing code...',
+    site: 'Website preview',
+    dash: 'Analytics dashboard',
+    live: 'Site is live ✓',
+    contact: 'Start your project',
+  }[name] || '';
 }
 
-// ── Init EmailJS after SDK loads ──
+// ── TYPING ANIMATION ──
+const codeLines = [
+  { el: 'codeLine1', text: 'const website = {', color: '#569CD6' },
+  { el: 'codeLine2', text: '  name: "Your Business",', color: '#CE9178' },
+  { el: 'codeLine3', text: '  // No templates. Ever.', color: '#6A9955' },
+  { el: 'codeLine4', text: '  animations: true,', color: '#9CDCFE' },
+  { el: 'codeLine5', text: '  mobile: "first",', color: '#CE9178' },
+  { el: 'codeLine6', text: '  owner: YOU,', color: '#C8F135' },
+  { el: 'codeLine7', text: '};', color: 'rgba(255,255,255,.6)' },
+];
+
+function startTyping() {
+  if(typingActive) return;
+  typingActive = true;
+  let lineIdx = 0;
+  let charIdx = 0;
+  // Reset all lines
+  codeLines.forEach(l => {
+    const el = document.getElementById(l.el);
+    if(el) { el.style.width = '0'; el.textContent = ''; }
+  });
+
+  function typeNext() {
+    if(lineIdx >= codeLines.length) {
+      typingActive = false;
+      return;
+    }
+    const lineData = codeLines[lineIdx];
+    const el = document.getElementById(lineData.el);
+    if(!el) { lineIdx++; typeNext(); return; }
+    if(charIdx === 0) {
+      el.style.width = 'auto';
+      el.textContent = '';
+    }
+    if(charIdx < lineData.text.length) {
+      el.textContent += lineData.text[charIdx];
+      charIdx++;
+      // Random typing speed — feels human
+      const delay = lineData.text[charIdx-1] === ' ' ? 40 : Math.random() * 60 + 30;
+      typingInterval = setTimeout(typeNext, delay);
+    } else {
+      charIdx = 0;
+      lineIdx++;
+      typingInterval = setTimeout(typeNext, 120);
+    }
+  }
+  typeNext();
+}
+
+function stopTyping() {
+  typingActive = false;
+  if(typingInterval) clearTimeout(typingInterval);
+}
+
+// ── KEY PRESS ANIMATION ──
+let keyPressInterval = null;
+function startKeyPresses() {
+  if(keyPressInterval) return;
+  const keyList = [...keys];
+  keyPressInterval = setInterval(() => {
+    const randomKey = keyList[Math.floor(Math.random() * keyList.length)];
+    randomKey.classList.add('pressed');
+    setTimeout(() => randomKey.classList.remove('pressed'), 80);
+  }, 120);
+}
+function stopKeyPresses() {
+  if(keyPressInterval) { clearInterval(keyPressInterval); keyPressInterval = null; }
+  keys.forEach(k => k.classList.remove('pressed'));
+}
+
+// ── MOUSE PARALLAX on laptop ──
+document.addEventListener('mousemove', e => {
+  if(document.body.classList.contains('laptop-takeover')) return; // disabled during zoom
+  const mx = (e.clientX / window.innerWidth - .5) * 2;
+  const my = (e.clientY / window.innerHeight - .5) * 2;
+  gsap.to(scene, {
+    rotationY: mx * 5,
+    rotationX: 4 + my * -2,
+    duration: .8,
+    ease: 'power2.out',
+    transformPerspective: 1200,
+  });
+});
+
+// ══════════════════════════════════════════
+// MASTER SCROLL TIMELINE
+// Pin the laptop section and scrub through
+// the full animation as content scrolls
+// ══════════════════════════════════════════
+
+const masterTL = gsap.timeline({ paused: true });
+
+// ── ACT 1 (0–15%): HANDS APPROACH ──
+// Hands slide up from below, hovering over keyboard
+masterTL
+  .to([handLeft, handRight], {
+    opacity: 1, y: 0, duration: 1, stagger: .1, ease: 'power3.out'
+  }, 0)
+  // Subtle hover — hands float above keys
+  .to(handLeft, { y: -8, duration: .5, ease: 'power2.inOut' }, .6)
+  .to(handRight, { y: -6, duration: .5, ease: 'power2.inOut' }, .65);
+
+// ── ACT 2 (15–35%): LID OPENS ──
+// Lid rotates from closed (-102°) to open (-10°)
+masterTL
+  .to(lid, {
+    rotationX: -10,
+    duration: 2,
+    ease: 'power2.inOut',
+    onStart: () => {
+      showState('boot');
+      labelText.textContent = 'Opening laptop...';
+    },
+    onComplete: () => {
+      lidInner.classList.add('lit');
+      gsap.to(screenGlow, { boxShadow: 'inset 0 0 40px rgba(200,241,53,.1)', duration: .5 });
+    }
+  }, .8)
+  // Screen glow increases as lid opens
+  .to({}, { duration: 1,
+    onUpdate: function() {
+      const p = this.progress();
+      screenGlow.style.boxShadow = `inset 0 0 ${p * 40}px rgba(200,241,53,${p * 0.1})`;
+    }
+  }, .8);
+
+// ── ACT 3 (35–55%): TYPING ──
+// Hands bounce, keys press, code appears on screen
+masterTL
+  .call(() => {
+    showState('code');
+    startTyping();
+    startKeyPresses();
+    handLeft.classList.add('typing');
+    handRight.classList.add('typing');
+    labelText.textContent = 'Writing code...';
+  }, null, 2.2)
+  .to({}, { duration: 2.5 }, 2.2); // hold for typing duration
+
+// ── ACT 4 (55–70%): WEBSITE PREVIEW ──
+masterTL
+  .call(() => {
+    showState('site');
+    stopKeyPresses();
+    stopTyping();
+    handLeft.classList.remove('typing');
+    handRight.classList.remove('typing');
+    // Hands move slightly back — leaning back to review
+    gsap.to([handLeft, handRight], { y: 15, duration: .6, ease: 'power2.out' });
+    labelText.textContent = 'Reviewing website...';
+    // Animate dashboard bars
+    document.querySelectorAll('.dash-bar-fill').forEach(b => b.classList.add('animated'));
+  }, null, 4.7);
+
+// ── ACT 5 (70–85%): DASHBOARD ──
+masterTL
+  .call(() => {
+    showState('dash');
+    labelText.textContent = 'Analytics dashboard';
+  }, null, 5.5)
+  // Right hand moves to trackpad area
+  .to(handRight, { x: -20, y: 20, duration: .5, ease: 'power2.out' }, 5.5);
+
+// ── ACT 6 (85–100%): GO LIVE ──
+masterTL
+  .call(() => {
+    showState('live');
+    labelText.textContent = 'Site is live ✓';
+    // Fingertip glow — lime highlight on fingertips
+    gsap.to(['#tip-l1','#tip-l2','#tip-l3','#tip-l4','#tip-r1','#tip-r2','#tip-r3','#tip-r4'], {
+      attr: { fill: 'rgba(200,241,53,0.8)' },
+      duration: .4, stagger: .05,
+    });
+    // Lime glow on screen
+    gsap.to(screenGlow, {
+      boxShadow: 'inset 0 0 60px rgba(200,241,53,.2), 0 0 80px rgba(200,241,53,.15)',
+      duration: .6
+    });
+    // Hands lift slightly — done!
+    gsap.to([handLeft, handRight], { y: -15, opacity: .6, duration: .8, ease: 'power2.out' });
+  }, null, 6.8);
+
+// ── SCRUB MASTER TIMELINE TO SCROLL ──
+ScrollTrigger.create({
+  trigger: '.content-col',
+  start: 'top top',
+  end: 'bottom bottom',
+  scrub: 2,
+  onUpdate: self => {
+    masterTL.progress(self.progress);
+  }
+});
+
+// ── CONTENT SECTION ANIMATIONS ──
+function animSection(id) {
+  const el = document.querySelector(id);
+  if(!el) return;
+  const tl = gsap.timeline({ scrollTrigger: { trigger: id, start: 'top 72%' } });
+  const label = el.querySelector('.s-label');
+  const h = el.querySelector('h2');
+  const bodies = el.querySelectorAll('.s-body');
+  const stats = el.querySelector('.stat-row');
+  const svc = el.querySelector('.svc-list');
+  const proc = el.querySelector('.process-list');
+  const price = el.querySelector('.price-grid');
+  const fields = el.querySelectorAll('.form-field');
+
+  if(label) tl.to(label, { opacity: 1, duration: .5 });
+  if(h) tl.to(h, { opacity: 1, y: 0, duration: .8, ease: 'power3.out' }, '-=.2');
+  if(bodies.length) tl.to(bodies, { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: .8, stagger: .1, ease: 'power3.out' }, '-=.4');
+  if(stats) tl.to(stats, { opacity: 1, duration: .5 }, '-=.3');
+  if(svc) tl.to(svc, { opacity: 1, duration: .4 }, '-=.3');
+  if(proc) tl.to(proc, { opacity: 1, duration: .4 }, '-=.3');
+  if(price) tl.to(price, { opacity: 1, duration: .4 }, '-=.3');
+  if(fields.length) tl.to(fields, { opacity: 1, y: 0, duration: .35, stagger: .06 }, '-=.2');
+}
+
+['#s-hero','#s-about','#s-work','#s-services','#s-process','#s-pricing','#s-contact']
+  .forEach(animSection);
+
+// ── STAT COUNTERS ──
+document.querySelectorAll('.stat-n').forEach(el => {
+  const text = el.innerHTML;
+  const match = text.match(/([\d.]+)/);
+  if(!match) return;
+  const target = parseFloat(match[1]);
+  const suffix = el.innerHTML.replace(match[1], '');
+  const obj = { val: 0 };
+  ScrollTrigger.create({
+    trigger: el, start: 'top 85%', once: true,
+    onEnter: () => gsap.to(obj, {
+      val: target, duration: 1.6, ease: 'power2.out',
+      onUpdate: () => {
+        el.innerHTML = (target >= 100 ? Math.round(obj.val).toString()
+          : target < 10 ? obj.val.toFixed(1)
+          : Math.round(obj.val).toString()) + suffix;
+      }
+    })
+  });
+});
+
+// ── EMAILJS CONFIG ──
+var EMAILJS_PUBLIC_KEY       = 'nP1zVzVIFALnWGFAD';
+var EMAILJS_SERVICE_ID       = 'service_igi9jtq';
+var EMAILJS_CONTACT_TEMPLATE = 'template_g6bcn2f';
+
 window.addEventListener('load', function() {
   if (typeof emailjs !== 'undefined') {
     emailjs.init(EMAILJS_PUBLIC_KEY);
-    console.log('// EmailJS initialised');
   } else {
     console.warn('// EmailJS failed to load');
   }
 });
 
-// Close hamburger menu when any nav link is clicked
-document.addEventListener('DOMContentLoaded', function() {
-  window.scrollTo(0, 0); // ensure page always starts at top so current=0 is correct
+// ── MARQUEE SPEED ON SCROLL (GSAP) ──
+let lastY = 0;
+const mInner = document.querySelector('.marquee-inner');
+window.addEventListener('scroll', () => {
+  const speed = Math.abs(window.scrollY - lastY);
+  if(mInner) mInner.style.animationDuration = Math.max(8, 22 - speed * .4) + 's';
+  lastY = window.scrollY;
+}, { passive: true });
 
-  document.querySelectorAll('.nav-links a').forEach(function(link) {
-    link.addEventListener('click', function() {
-      document.getElementById('navLinks').classList.remove('open');
+// ══════════════════════════════════════════
+// MOTION (Framer Motion) VANILLA JS
+// Spring physics + gesture micro-interactions
+// Applied on top of GSAP scroll animations
+// ══════════════════════════════════════════
+
+// Wait for Motion to load
+window.addEventListener('load', () => {
+  if(typeof Motion === 'undefined') {
+    console.warn('Motion not loaded — falling back to CSS transitions');
+    return;
+  }
+
+  const { animate, spring, stagger, inView } = Motion;
+
+  // ── SPRING CURSOR ──
+  // Dot follows mouse instantly, ring follows with spring lag
+  const cursorDot = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursor-ring');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    // Dot: instant
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top  = mouseY + 'px';
+  });
+
+  // Ring follows with spring inertia using requestAnimationFrame
+  let ringVX = 0, ringVY = 0;
+  const SPRING_STIFFNESS = 0.12;
+  const SPRING_DAMPING    = 0.78;
+
+  function updateRing() {
+    const dx = mouseX - ringX;
+    const dy = mouseY - ringY;
+    ringVX = ringVX * SPRING_DAMPING + dx * SPRING_STIFFNESS;
+    ringVY = ringVY * SPRING_DAMPING + dy * SPRING_STIFFNESS;
+    ringX += ringVX;
+    ringY += ringVY;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top  = ringY + 'px';
+    requestAnimationFrame(updateRing);
+  }
+  updateRing();
+
+  // Cursor states
+  document.querySelectorAll('a, button, .svc-item, .process-item, .price-card, .key').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      animate(cursorDot, { scale: 4, opacity: 0.4 },
+        { type: spring, stiffness: 400, damping: 25 });
+      animate(cursorRing, { scale: 0.4, opacity: 0 },
+        { type: spring, stiffness: 300, damping: 20 });
+    });
+    el.addEventListener('mouseleave', () => {
+      animate(cursorDot, { scale: 1, opacity: 1 },
+        { type: spring, stiffness: 300, damping: 22 });
+      animate(cursorRing, { scale: 1, opacity: 1 },
+        { type: spring, stiffness: 300, damping: 22 });
+    });
+    el.addEventListener('mousedown', () => {
+      animate(cursorDot, { scale: 0.7 },
+        { type: spring, stiffness: 600, damping: 30 });
+    });
+    el.addEventListener('mouseup', () => {
+      animate(cursorDot, { scale: 1 },
+        { type: spring, stiffness: 400, damping: 20 });
     });
   });
 
-  // Fade in earth model only after it has fully loaded and started rotating
-  var earthContainer = document.querySelector('.hero-3d');
-  var earthViewer    = document.querySelector('.hero-3d model-viewer');
-  if (earthViewer && earthContainer) {
-    earthViewer.addEventListener('load', function() {
-      // Wait ~800ms so the earth has rotated ~14° and is clearly spinning before fade-in
-      setTimeout(function() {
-        earthContainer.classList.add('loaded');
-      }, 800);
+  // ── SPRING NAV ──
+  // Nav links spring on hover
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      animate(link, { y: -2, color: '#FAFAFA' },
+        { type: spring, stiffness: 500, damping: 28 });
+    });
+    link.addEventListener('mouseleave', () => {
+      animate(link, { y: 0, color: 'rgba(255,255,255,0.4)' },
+        { type: spring, stiffness: 400, damping: 30 });
+    });
+  });
+
+  // CTA button — spring scale + glow
+  const navCta = document.querySelector('.nav-cta');
+  if(navCta) {
+    navCta.addEventListener('mouseenter', () => {
+      animate(navCta, { scale: 1.04, y: -1 },
+        { type: spring, stiffness: 500, damping: 25 });
+    });
+    navCta.addEventListener('mouseleave', () => {
+      animate(navCta, { scale: 1, y: 0 },
+        { type: spring, stiffness: 400, damping: 28 });
+    });
+    navCta.addEventListener('mousedown', () => {
+      animate(navCta, { scale: 0.96 },
+        { type: spring, stiffness: 600, damping: 30 });
+    });
+    navCta.addEventListener('mouseup', () => {
+      animate(navCta, { scale: 1.04 },
+        { type: spring, stiffness: 400, damping: 20 });
     });
   }
 
-  if (document.getElementById('home')) {
-    initFullPageScroll();
-    initProcessAnimation();
-    initSnapAnimations();
-    initScrollAnimations();
-    setTimeout(animateCounters, 400);
+  // ── MAGNETIC BUTTONS ──
+  // Buttons magnetically attract cursor
+  document.querySelectorAll('.btn-lime, .form-submit, .nav-cta').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width  / 2;
+      const cy = rect.top  + rect.height / 2;
+      const dx = (e.clientX - cx) * 0.28;
+      const dy = (e.clientY - cy) * 0.28;
+      animate(btn, { x: dx, y: dy },
+        { type: spring, stiffness: 350, damping: 22 });
+    });
+    btn.addEventListener('mouseleave', () => {
+      animate(btn, { x: 0, y: 0 },
+        { type: spring, stiffness: 300, damping: 18, bounce: 0.35 });
+    });
+  });
+
+  // ── SPRING CARD TILT ──
+  // Service items and price cards tilt toward cursor
+  document.querySelectorAll('.svc-item, .price-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width  - 0.5;
+      const y = (e.clientY - rect.top)  / rect.height - 0.5;
+      animate(card, {
+        rotateX: -y * 6,
+        rotateY:  x * 8,
+        scale: 1.015,
+        transformPerspective: 800
+      }, { type: spring, stiffness: 300, damping: 28 });
+    });
+    card.addEventListener('mouseleave', () => {
+      animate(card, { rotateX: 0, rotateY: 0, scale: 1 },
+        { type: spring, stiffness: 250, damping: 24, bounce: 0.2 });
+    });
+  });
+
+  // ── PROCESS ITEM SPRING REVEAL ──
+  document.querySelectorAll('.process-item').forEach((item, i) => {
+    item.addEventListener('mouseenter', () => {
+      const num = item.querySelector('.p-num');
+      if(num) animate(num, { scale: 1.1, rotate: 3 },
+        { type: spring, stiffness: 500, damping: 25 });
+    });
+    item.addEventListener('mouseleave', () => {
+      const num = item.querySelector('.p-num');
+      if(num) animate(num, { scale: 1, rotate: 0 },
+        { type: spring, stiffness: 400, damping: 28 });
+    });
+  });
+
+  // ── SMOOTH SECTION LABEL REVEAL ──
+  // Replace GSAP opacity-only with Motion spring slide
+  document.querySelectorAll('.s-label').forEach(label => {
+    inView(label, () => {
+      animate(label,
+        { opacity: [0, 1], x: [-20, 0] },
+        { type: spring, stiffness: 200, damping: 24, delay: 0.1 }
+      );
+    }, { amount: 0.8 });
+  });
+
+  // ── HERO ENTRANCE — Motion orchestrated sequence ──
+  // Runs once on page load — smooth spring cascade
+  const heroSection = document.querySelector('#s-hero');
+  if(heroSection) {
+    const label  = heroSection.querySelector('.s-label');
+    const h2     = heroSection.querySelector('h2');
+    const body   = heroSection.querySelector('.s-body');
+    const stats  = heroSection.querySelector('.stat-row');
+
+    // Stagger in with springs
+    if(label) animate(label, { opacity:[0,1], y:[16,0] },
+      { type:spring, stiffness:200, damping:24, delay:0.3 });
+    if(h2) animate(h2, { opacity:[0,1], y:[32,0] },
+      { type:spring, stiffness:180, damping:22, delay:0.45 });
+    if(body) animate(body, { opacity:[0,1] },
+      { duration:0.7, delay:0.7 });
+    if(stats) animate(stats, { opacity:[0,1], y:[12,0] },
+      { type:spring, stiffness:200, damping:26, delay:0.85 });
   }
+
+  // ── SPRING SCROLL REVEAL for remaining sections ──
+  // Applied on top of GSAP — adds spring physics to the reveal
+  document.querySelectorAll('.svc-item').forEach((item, i) => {
+    inView(item, () => {
+      animate(item,
+        { opacity:[0,1], x:[-28,0] },
+        { type:spring, stiffness:220, damping:26, delay: i * 0.07 }
+      );
+    }, { amount: 0.5, once: true });
+  });
+
+  document.querySelectorAll('.process-item').forEach((item, i) => {
+    inView(item, () => {
+      animate(item,
+        { opacity:[0,1], x:[30,0] },
+        { type:spring, stiffness:200, damping:24, delay: i * 0.09 }
+      );
+    }, { amount: 0.5, once: true });
+  });
+
+  document.querySelectorAll('.price-card').forEach((card, i) => {
+    inView(card, () => {
+      animate(card,
+        { opacity:[0,1], y:[24,0], scale:[0.97,1] },
+        { type:spring, stiffness:220, damping:26, delay: i * 0.1 }
+      );
+    }, { amount: 0.4, once: true });
+  });
+
+  document.querySelectorAll('.form-field').forEach((field, i) => {
+    inView(field, () => {
+      animate(field,
+        { opacity:[0,1], y:[12,0] },
+        { type:spring, stiffness:280, damping:28, delay: i * 0.06 }
+      );
+    }, { amount: 0.8, once: true });
+  });
+
+  // ── FORM INPUT SPRING FOCUS ──
+  document.querySelectorAll('.form-input').forEach(input => {
+    input.addEventListener('focus', () => {
+      animate(input.parentElement, { scale: 1.01 },
+        { type:spring, stiffness:400, damping:28 });
+    });
+    input.addEventListener('blur', () => {
+      animate(input.parentElement, { scale: 1 },
+        { type:spring, stiffness:300, damping:24 });
+    });
+  });
+
+  // ── FORM SUBMIT SPRING ──
+  const submitBtn = document.getElementById('scSubmit') /* fixed */;
+  if(submitBtn) {
+    submitBtn.addEventListener('mousedown', () => {
+      animate(submitBtn, { scale:0.97, y:1 },
+        { type:spring, stiffness:600, damping:30 });
+    });
+    submitBtn.addEventListener('mouseup', () => {
+      animate(submitBtn, { scale:1, y:0 },
+        { type:spring, stiffness:400, damping:20, bounce:0.4 });
+    });
+  }
+
+  // ── STATS SPRING ENTRANCE ──
+  document.querySelectorAll('.stat-item').forEach((item, i) => {
+    inView(item, () => {
+      animate(item,
+        { opacity:[0,1], y:[20,0] },
+        { type:spring, stiffness:250, damping:24, delay: i * 0.12 }
+      );
+    }, { amount: 0.6, once: true });
+  });
+
+  // ── LAPTOP SCENE ENTRANCE ──
+  // Spring float in when page loads
+  const laptopScene = document.getElementById('laptopScene');
+  if(laptopScene) {
+    animate(laptopScene,
+      { opacity:[0,1], y:[40,0] },
+      { type:spring, stiffness:120, damping:20, delay:0.5 }
+    );
+  }
+
+  // ── SCREEN LABEL SPRING ──
+  const screenLabel = document.querySelector('.screen-label');
+  if(screenLabel) {
+    animate(screenLabel,
+      { opacity:[0,1] },
+      { duration:0.6, delay:1.2 }
+    );
+  }
+
+  // ── FOOTER STAGGER ──
+  document.querySelectorAll('.footer-links a').forEach((link, i) => {
+    inView(link, () => {
+      animate(link,
+        { opacity:[0,1], x:[-10,0] },
+        { type:spring, stiffness:300, damping:28, delay: i * 0.04 }
+      );
+    }, { amount: 0.8, once: true });
+    link.addEventListener('mouseenter', () => {
+      animate(link, { x: 4, color:'#C8F135' },
+        { type:spring, stiffness:500, damping:28 });
+    });
+    link.addEventListener('mouseleave', () => {
+      animate(link, { x: 0, color:'rgba(255,255,255,0.38)' },
+        { type:spring, stiffness:400, damping:30 });
+    });
+  });
+
+  // ── MARQUEE SPRING HOVER ──
+  const marqueeWrap = document.querySelector('.marquee-wrap');
+  if(marqueeWrap) {
+    marqueeWrap.addEventListener('mouseenter', () => {
+      animate(marqueeWrap, { scaleY: 1.04 },
+        { type:spring, stiffness:400, damping:28 });
+    });
+    marqueeWrap.addEventListener('mouseleave', () => {
+      animate(marqueeWrap, { scaleY: 1 },
+        { type:spring, stiffness:300, damping:22 });
+    });
+  }
+
+  // ── NAV DOT PULSE ──
+  // Replace CSS animation with Motion spring pulse
+  const navDot = document.querySelector('.nav-dot');
+  if(navDot) {
+    function pulseDot() {
+      animate(navDot,
+        { scale:[1, 1.5, 1], opacity:[1, 0.6, 1] },
+        { duration:2.5, ease:'ease-in-out',
+          onComplete: pulseDot }
+      );
+    }
+    pulseDot();
+  }
+
+  // ── SMOOTH NAV SCROLL HIDE ──
+  // Nav shrinks and becomes more opaque on scroll
+  let lastScrollY = 0;
+  const navEl = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+    const goingDown = currentY > lastScrollY && currentY > 80;
+    animate(navEl,
+      { y: goingDown ? -4 : 0, opacity: goingDown ? 0.85 : 1 },
+      { type:spring, stiffness:200, damping:28 }
+    );
+    lastScrollY = currentY;
+  }, { passive:true });
+
+  console.log('Motion animations loaded — spring physics active');
 });
 
-// Full-page locked scroll — one section at a time with cooldown
-function initFullPageScroll() {
-  var sections   = Array.from(document.querySelectorAll(
-    '#home, .services-section, .process-section, .pricing-section, .why-section, .contact-home, footer'
-  ));
-  var current    = 0;
-  var locked     = false;
-  var DELAY            = 1100;   // extra buffer for Mac trackpad momentum to drain
-  var ANIM_DUR         = 2800;
-  var STATS_INTER_DUR  = 3200;   // zoom-in 0.7s + hold 1.5s + zoom-out 0.7s + fades
-  var isMobile   = window.matchMedia('(max-width: 768px)').matches;
+// ══════════════════════════════════════════
+// LAPTOP TAKEOVER — Cinematic zoom-through
+// Laptop scales past full screen, flashes,
+// then a full-page contact form fades in.
+// No zoom-out needed — clean one-way transition.
+// ══════════════════════════════════════════
 
-  var whyIdx     = sections.findIndex(function(s) { return s.classList.contains('why-section'); });
-  var contactIdx = sections.findIndex(function(s) { return s.classList.contains('contact-home'); });
+(function() {
 
-  function scrollTo(idx) {
-    var section = sections[idx];
-    var top = section.getBoundingClientRect().top + window.pageYOffset - 78;
-    if (section.classList.contains('pricing-section')) top += 60;
-    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  const laptopColEl   = document.querySelector('.laptop-col');
+  const laptopSceneEl = document.getElementById('laptopScene');
+  const contentColEl  = document.querySelector('.content-col');
+  const contactSection = document.getElementById('s-contact');
+
+  if(!laptopColEl || !contactSection) {
+    console.warn('Laptop takeover: elements missing');
+    return;
   }
 
-  function showInterstitial(onDone) {
-    var overlay = document.getElementById('cta-interstitial');
-    overlay.setAttribute('aria-hidden', 'false');
-    overlay.classList.add('playing');
-    setTimeout(function() {
-      overlay.classList.remove('playing');
-      overlay.setAttribute('aria-hidden', 'true');
-      onDone();
-    }, ANIM_DUR);
+  let triggered = false;
+
+  // ── BUILD FULL-PAGE CONTACT OVERLAY ──
+  const overlay = document.createElement('div');
+  overlay.id = 'contact-overlay';
+  overlay.innerHTML = `
+    <div class="co-inner">
+      <div class="co-left">
+        <div class="co-eyebrow">Let's Work Together</div>
+        <h2 class="co-headline">Start Your<br><em>Project.</em></h2>
+        <p class="co-sub">Tell us about your business. We respond same day with a flat-rate proposal — no fluff, no obligation.</p>
+        <div class="co-details">
+          <div class="co-detail-item">
+            <span class="co-detail-label">Phone / Text</span>
+            <span class="co-detail-value">(252) 493-6342</span>
+          </div>
+          <div class="co-detail-item">
+            <span class="co-detail-label">Email</span>
+            <span class="co-detail-value">info@bqwebsolutions.com</span>
+          </div>
+          <div class="co-detail-item">
+            <span class="co-detail-label">Hours</span>
+            <span class="co-detail-value">Mon–Fri · 9am–6pm EST</span>
+          </div>
+        </div>
+        <button class="co-back" id="coBack">← Back to site</button>
+      </div>
+      <div class="co-right">
+        <div class="co-form" id="coForm">
+          <div class="co-form-row">
+            <div class="co-field">
+              <label class="co-label" for="co-fname">First Name</label>
+              <input class="co-input" type="text" id="co-fname" placeholder="John" autocomplete="given-name">
+            </div>
+            <div class="co-field">
+              <label class="co-label" for="co-lname">Last Name</label>
+              <input class="co-input" type="text" id="co-lname" placeholder="Smith" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="co-form-row">
+            <div class="co-field">
+              <label class="co-label" for="co-phone">Phone</label>
+              <input class="co-input" type="tel" id="co-phone" placeholder="(252) 000-0000" autocomplete="tel">
+            </div>
+            <div class="co-field">
+              <label class="co-label" for="co-email">Email</label>
+              <input class="co-input" type="email" id="co-email" placeholder="john@email.com" autocomplete="email">
+            </div>
+          </div>
+          <div class="co-field">
+            <label class="co-label" for="co-btype">Business Type</label>
+            <select class="co-input" id="co-btype">
+              <option value="">Select your industry...</option>
+              <option>Law Firm / Attorney</option>
+              <option>Medical / Healthcare</option>
+              <option>Restaurant / Food</option>
+              <option>Real Estate</option>
+              <option>Contractor / Trades</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="co-field">
+            <label class="co-label" for="co-budget">Budget Range</label>
+            <select class="co-input" id="co-budget">
+              <option value="">Select a range...</option>
+              <option>$497 — Starter (1 page)</option>
+              <option>$797 — Standard (4 pages)</option>
+              <option>Premium — Custom quote</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="co-field">
+            <label class="co-label" for="co-msg">Tell Us About Your Project</label>
+            <textarea class="co-input co-textarea" id="co-msg" placeholder="What does your business do and what do you need?"></textarea>
+          </div>
+          <button type="button" class="co-submit" id="coSubmit">Send Message →</button>
+          <p class="co-disclaimer">We respond same day · Mon–Fri · No spam, ever</p>
+        </div>
+        <div class="co-success" id="coSuccess">
+          <div class="co-success-icon">✓</div>
+          <div class="co-success-title">Message Received.</div>
+          <div class="co-success-sub">We will be in touch today.</div>
+          <button class="co-back co-back-success" id="coBackSuccess">← Back to site</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // ── ZOOM-THROUGH ANIMATION ──
+  function zoomThrough() {
+    if(triggered) return;
+    triggered = true;
+
+    // Lock scroll
+    document.body.style.overflow = 'hidden';
+
+    // Snapshot laptop position and go fixed
+    const r = laptopColEl.getBoundingClientRect();
+    gsap.set(laptopColEl, {
+      position: 'fixed',
+      top: r.top, left: r.left,
+      width: r.width, height: r.height,
+      zIndex: 300,
+    });
+
+    const tl = gsap.timeline();
+
+    // Phase 1 — content fades out fast
+    tl.to(contentColEl, { opacity: 0, duration: 0.3, ease: 'power2.in' }, 0);
+    tl.to('nav', { opacity: 0, duration: 0.25 }, 0);
+
+    // Phase 2 — laptop zooms toward camera (scale up fast)
+    tl.to(laptopColEl, {
+      top: 0, left: 0, width: '100vw', height: '100vh',
+      duration: 0.55, ease: 'power3.in',
+    }, 0.1);
+    tl.to(laptopSceneEl, {
+      scale: 4,
+      duration: 0.6, ease: 'power3.in',
+    }, 0.1);
+
+    // Screen glow explodes bright
+    tl.to('#screenGlow', {
+      boxShadow: 'inset 0 0 200px rgba(200,241,53,1), 0 0 400px rgba(200,241,53,1)',
+      duration: 0.3,
+    }, 0.35);
+
+    // Phase 3 — white flash
+    tl.to(laptopColEl, {
+      backgroundColor: '#C8F135',
+      opacity: 0,
+      duration: 0.25,
+      ease: 'power2.in',
+    }, 0.55);
+
+    // Phase 4 — contact overlay fades in
+    tl.call(() => {
+      overlay.classList.add('active');
+      // Stagger form fields in
+      gsap.from('.co-left > *', {
+        opacity: 0, x: -30,
+        duration: 0.6, stagger: 0.1,
+        ease: 'power3.out', delay: 0.1,
+      });
+      gsap.from('.co-field', {
+        opacity: 0, y: 16,
+        duration: 0.5, stagger: 0.07,
+        ease: 'power3.out', delay: 0.2,
+      });
+      gsap.from('.co-submit', {
+        opacity: 0, y: 10,
+        duration: 0.5, ease: 'power2.out', delay: 0.7,
+      });
+    }, null, 0.75);
   }
 
-  function showStatsInterstitial(onDone) {
-    var overlay = document.getElementById('stats-interstitial');
-    overlay.setAttribute('aria-hidden', 'false');
-    overlay.classList.add('playing');
-    setTimeout(function() {
-      overlay.classList.remove('playing');
-      overlay.setAttribute('aria-hidden', 'true');
-      onDone();
-    }, STATS_INTER_DUR);
+  // ── CLOSE OVERLAY — back to site ──
+  function closeOverlay() {
+    gsap.to(overlay, {
+      opacity: 0, duration: 0.4, ease: 'power2.in',
+      onComplete: () => {
+        overlay.classList.remove('active');
+        gsap.set(overlay, { opacity: 1 });
+
+        // Restore page elements
+        gsap.set(laptopColEl, { clearProps: 'all' });
+        gsap.set(laptopSceneEl, { clearProps: 'all' });
+        document.body.style.overflow = '';
+
+        // Scroll to top smoothly, then fade content back in
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Wait for scroll to finish before fading content in
+        setTimeout(() => {
+          gsap.to(contentColEl, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+          gsap.to('nav', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+          // Allow re-trigger after returning to top
+          triggered = false;
+        }, 600);
+      }
+    });
   }
 
-  // ── MOBILE: free native scrolling + interstitial via IntersectionObserver ──
-  if (isMobile) {
-    var lastSeen  = sections[0];
-    var triggered = false;
+  // ── SCROLL TRIGGER ──
+  ScrollTrigger.create({
+    trigger: '#s-contact',
+    start: 'top 50%',
+    onEnter: () => setTimeout(zoomThrough, 100),
+  });
 
-    // Track which section the user most recently scrolled through
-    var tracker = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) { if (e.isIntersecting) lastSeen = e.target; });
-    }, { threshold: 0.4 });
-    sections.forEach(function(s) { tracker.observe(s); });
+  // ── BACK BUTTONS ──
+  document.getElementById('coBack').addEventListener('click', closeOverlay);
+  document.getElementById('coBackSuccess').addEventListener('click', closeOverlay);
 
-    // When contact enters view after why-section, fire CTA interstitial
-    var contactWatcher = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting && lastSeen === sections[whyIdx] && !triggered) {
-          triggered = true;
-          document.documentElement.style.overflow = 'hidden';
-          showInterstitial(function() {
-            document.documentElement.style.overflow = '';
-            sections[contactIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            setTimeout(function() { triggered = false; }, 3000);
-          });
+  // ESC
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && overlay.classList.contains('active')) closeOverlay();
+  });
+
+  // ── FORM SUBMIT ──
+  document.getElementById('coSubmit').addEventListener('click', function() {
+    const fname = document.getElementById('co-fname').value.trim();
+    const email = document.getElementById('co-email').value.trim();
+
+    if(!fname || !email) {
+      gsap.to(this, { x: -7, duration: .07, yoyo: true, repeat: 5 });
+      if(!fname) {
+        const f = document.getElementById('co-fname');
+        f.style.borderColor = 'rgba(255,80,80,.7)';
+        setTimeout(() => f.style.borderColor = '', 2000);
+      }
+      if(!email) {
+        const f = document.getElementById('co-email');
+        f.style.borderColor = 'rgba(255,80,80,.7)';
+        setTimeout(() => f.style.borderColor = '', 2000);
+      }
+      return;
+    }
+
+    const lname   = document.getElementById('co-lname').value.trim();
+    const phone   = document.getElementById('co-phone').value.trim();
+    const btype   = document.getElementById('co-btype').value.trim();
+    const budget  = document.getElementById('co-budget').value.trim();
+    const message = document.getElementById('co-msg').value.trim();
+
+    const btn = this;
+    btn.disabled = true;
+    btn.textContent = '// Sending...';
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONTACT_TEMPLATE, {
+      from_name:  fname + (lname ? ' ' + lname : ''),
+      from_email: email,
+      phone:      phone   || 'Not provided',
+      subject:    btype   || 'General Inquiry',
+      message:    message + (budget ? '\n\nBudget: ' + budget : ''),
+      to_email:   'info@bqwebsolutions.com',
+      reply_to:   email,
+    }).then(function() {
+      gsap.to('#coForm', {
+        opacity: 0, y: -12, duration: 0.35,
+        onComplete: () => {
+          document.getElementById('coForm').style.display = 'none';
+          document.getElementById('coSuccess').classList.add('visible');
         }
       });
-    }, { threshold: 0.15 });
-    contactWatcher.observe(sections[contactIdx]);
-    return; // skip desktop handlers below
-  }
-
-  // ── DESKTOP: full locked scroll, one section at a time ──
-
-  function goTo(idx) {
-    if (idx < 0 || idx >= sections.length || locked) return;
-
-    // Special transition: hero → services (stats zoom banner)
-    if (current === 0 && idx === 1) {
-      locked = true;
-      showStatsInterstitial(function() {
-        current = 1;
-        scrollTo(1);
-        setTimeout(function() { locked = false; }, DELAY);
-      });
-      return;
-    }
-
-    // Special transition: why-section → contact
-    if (current === whyIdx && idx === contactIdx) {
-      locked = true;
-      showInterstitial(function() {
-        current = contactIdx;
-        scrollTo(contactIdx);
-        setTimeout(function() { locked = false; }, DELAY);
-      });
-      return;
-    }
-
-    current = idx;
-    locked  = true;
-    scrollTo(idx);
-    setTimeout(function() { locked = false; }, DELAY);
-  }
-
-  // Sync current index after anchor-link nav clicks
-  window.addEventListener('scroll', function() {
-    if (locked) return;
-    sections.forEach(function(sec, i) {
-      var rect = sec.getBoundingClientRect();
-      if (rect.top <= 80 && rect.bottom > 80) current = i;
+    }).catch(function(error) {
+      console.error('EmailJS error:', error);
+      alert('Something went wrong. Please try again or email us directly.');
+      btn.disabled = false;
+      btn.textContent = 'Send Message →';
     });
+  });
+
+})(); // end IIFE
+
+// ── BACK TO TOP BUTTON ──
+(function() {
+  const btn = document.getElementById('back-to-top');
+  if(!btn) return;
+
+  // Show after scrolling past hero (~100vh)
+  window.addEventListener('scroll', () => {
+    const past = window.scrollY > window.innerHeight * 0.8;
+    btn.classList.toggle('visible', past);
   }, { passive: true });
 
-  // Mouse wheel / Mac trackpad — accumulate delta so momentum doesn't double-fire
-  var _wAccum = 0;
-  var _wTimer = null;
-  window.addEventListener('wheel', function(e) {
-    e.preventDefault();
-    if (locked) return;
-    _wAccum += e.deltaY;
-    clearTimeout(_wTimer);
-    _wTimer = setTimeout(function() { _wAccum = 0; }, 150);
-    if (Math.abs(_wAccum) >= 60) {
-      var dir = _wAccum > 0 ? 1 : -1;
-      _wAccum = 0;
-      clearTimeout(_wTimer);
-      goTo(current + dir);
+  // Click — smooth scroll to top
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Spring scale on hover via Motion if available
+  btn.addEventListener('mouseenter', () => {
+    if(typeof Motion !== 'undefined') {
+      Motion.animate(btn, { scale: 1.12 },
+        { type: Motion.spring, stiffness: 500, damping: 25 });
     }
-  }, { passive: false });
-
-  // Touch (desktop touch screens)
-  var touchStartY = 0;
-  window.addEventListener('touchstart', function(e) {
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
-  window.addEventListener('touchmove', function(e) {
-    e.preventDefault();
-  }, { passive: false });
-  window.addEventListener('touchend', function(e) {
-    if (locked) return;
-    var diff = touchStartY - e.changedTouches[0].clientY;
-    if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
-  }, { passive: true });
-
-  // Keyboard arrows / page keys
-  window.addEventListener('keydown', function(e) {
-    if (locked) return;
-    if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goTo(current + 1); }
-    if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goTo(current - 1); }
   });
-}
-
-// Process section — glowing dot orbiting each step then travelling the line
-function initProcessAnimation() {
-  if (window.matchMedia('(max-width: 768px)').matches) return;
-  var section = document.querySelector('.process-section');
-  if (!section) return;
-
-  function build() {
-    var circles = Array.from(section.querySelectorAll('.ps-circle'));
-    if (!circles.length) return;
-
-    var sr = section.getBoundingClientRect();
-    var R  = 39; // orbit radius = ps-circle radius (32px) + 7px clearance
-
-    var pts = circles.map(function(c) {
-      var cr = c.getBoundingClientRect();
-      return {
-        cx: Math.round(cr.left - sr.left + cr.width  / 2),
-        cy: Math.round(cr.top  - sr.top  + cr.height / 2)
-      };
-    });
-
-    // For each step: enter at 9-o'clock, do 1.5 CW orbits, exit at 3-o'clock
-    var d = '';
-    pts.forEach(function(p, i) {
-      var cx = p.cx, cy = p.cy;
-      if (i === 0) d += 'M ' + (cx - R) + ' ' + cy;
-      else         d += ' L ' + (cx - R) + ' ' + cy;
-      // 1.5 clockwise orbits: left → bottom → right → top → left → bottom → right
-      d += ' A ' + R + ' ' + R + ' 0 0 1 ' + cx       + ' ' + (cy + R);
-      d += ' A ' + R + ' ' + R + ' 0 0 1 ' + (cx + R) + ' ' + cy;
-      d += ' A ' + R + ' ' + R + ' 0 0 1 ' + cx       + ' ' + (cy - R);
-      d += ' A ' + R + ' ' + R + ' 0 0 1 ' + (cx - R) + ' ' + cy;
-      d += ' A ' + R + ' ' + R + ' 0 0 1 ' + cx       + ' ' + (cy + R);
-      d += ' A ' + R + ' ' + R + ' 0 0 1 ' + (cx + R) + ' ' + cy;
-    });
-
-    section.style.position = 'relative';
-    var runner = document.createElement('div');
-    runner.className = 'process-runner';
-    runner.style.offsetPath = 'path("' + d + '")';
-    section.appendChild(runner);
-  }
-
-  var obs = new IntersectionObserver(function(entries) {
-    if (entries[0].isIntersecting) { build(); obs.disconnect(); }
-  }, { threshold: 0.5 });
-  obs.observe(section);
-}
-
-// Section entrance animations (fires when section scrolls into view)
-function initSnapAnimations() {
-  var sections = document.querySelectorAll(
-    '.stats-bar, .services-section, .process-section, .pricing-section, .why-section, .cta-band, .contact-home, footer'
-  );
-
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-
-  sections.forEach(function(el) {
-    el.classList.add('section-enter');
-    observer.observe(el);
+  btn.addEventListener('mouseleave', () => {
+    if(typeof Motion !== 'undefined') {
+      Motion.animate(btn, { scale: 1 },
+        { type: Motion.spring, stiffness: 400, damping: 28 });
+    }
   });
-}
-
-// Scroll-triggered fade-up animations
-function initScrollAnimations() {
-  var els = document.querySelectorAll(
-    '.service-card, .why-card, .process-step, .price-card, .contact-item'
-  );
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  var BASE_DELAY = 0.08;
-  els.forEach(function(el, i) {
-    if (el.style.opacity === '1') return;
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(14px)';
-    var delay = BASE_DELAY + (i * 0.05);
-    el.style.transition = 'opacity 0.45s ease ' + delay + 's, transform 0.45s ease ' + delay + 's';
-    observer.observe(el);
-  });
-}
-
-// Animated counter for stats
-function animateCounters() {
-  document.querySelectorAll('.stat-num[data-target]').forEach(function(el) {
-    var target = parseInt(el.dataset.target);
-    var suffix = el.dataset.suffix || '';
-    var start  = 0;
-    var step   = Math.ceil(target / 40);
-    var timer  = setInterval(function() {
-      start += step;
-      if (start >= target) { start = target; clearInterval(timer); }
-      el.querySelector('.count').textContent = start + suffix;
-    }, 40);
-  });
-}
+})();
