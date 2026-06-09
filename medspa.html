@@ -814,7 +814,7 @@ footer{
         </div>
         <div class="mockup-body">
           <div class="m-biz-name">Elena's Med Spa</div>
-          <div class="m-biz-sub">Laser · Botox · Facials · Greenville, NC</div>
+          <div class="m-biz-sub">Laser · Botox · Facials · Luxury Med Spa</div>
 
           <div class="m-step-label">Step 1 — Pick a Date</div>
           <div class="cal">
@@ -1023,7 +1023,20 @@ footer{
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
+var EMAILJS_PUBLIC_KEY       = 'nP1zVzVIFALnWGFAD';
+var EMAILJS_SERVICE_ID       = 'service_igi9jtq';
+var EMAILJS_CONTACT_TEMPLATE = 'template_g6bcn2f';
+
+window.addEventListener('load', function() {
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  } else {
+    console.warn('// EmailJS failed to load');
+  }
+});
+
 function openModal(){
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1040,18 +1053,41 @@ document.addEventListener('keydown',e=>{
 });
 
 function submitModal(){
-  const n=document.getElementById('mn').value.trim();
-  const e=document.getElementById('me').value.trim();
-  if(!n||!e){
+  const name     = document.getElementById('mn').value.trim();
+  const email    = document.getElementById('me').value.trim();
+  const phone    = document.getElementById('mp').value.trim();
+  const practice = document.getElementById('mb').value.trim();
+
+  if(!name||!email){
     const btn=document.querySelector('.modal-btn');
     btn.style.transform='translateX(-6px)';
     setTimeout(()=>btn.style.transform='',300);
-    if(!n){document.getElementById('mn').style.borderBottomColor='rgba(241,53,160,.7)';setTimeout(()=>document.getElementById('mn').style.borderBottomColor='',2000);}
-    if(!e){document.getElementById('me').style.borderBottomColor='rgba(241,53,160,.7)';setTimeout(()=>document.getElementById('me').style.borderBottomColor='',2000);}
+    if(!name){document.getElementById('mn').style.borderBottomColor='rgba(241,53,160,.7)';setTimeout(()=>document.getElementById('mn').style.borderBottomColor='',2000);}
+    if(!email){document.getElementById('me').style.borderBottomColor='rgba(241,53,160,.7)';setTimeout(()=>document.getElementById('me').style.borderBottomColor='',2000);}
     return;
   }
-  document.getElementById('mForm').style.display='none';
-  document.getElementById('mOk').style.display='block';
+
+  const btn = document.querySelector('.modal-btn');
+  btn.disabled = true;
+  btn.textContent = '// Sending...';
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONTACT_TEMPLATE, {
+    from_name:  name,
+    from_email: email,
+    phone:      phone    || 'Not provided',
+    subject:    'Med Spa Demo Request' + (practice ? ' — ' + practice : ''),
+    message:    'Practice: ' + (practice || 'Not provided'),
+    to_email:   'info@bqwebsolutions.com',
+    reply_to:   email,
+  }).then(function() {
+    document.getElementById('mForm').style.display='none';
+    document.getElementById('mOk').style.display='block';
+  }).catch(function(error) {
+    console.error('EmailJS error:', error);
+    alert('Something went wrong. Please try again or email us directly.');
+    btn.disabled = false;
+    btn.textContent = 'Send Me the Demo →';
+  });
 }
 
 function pickDate(el){
