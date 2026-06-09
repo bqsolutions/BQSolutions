@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Automated booking system for med spas. Clients book online, it hits your Google Calendar instantly. Flat rate, no monthly fees.">
+<title>Stop Taking Booking Calls During Procedures | BQ Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0A0A0A;--white:#FAFAFA;
+  --lime:#C8F135;--lime-dk:#A8D420;
+  --pink:#F135A0;
+  --gray:#6B6B6B;
+  --ff-head:'Playfair Display',Georgia,serif;
+  --ff-body:'DM Sans',sans-serif;
+  --ff-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-body);background:var(--white);color:var(--black);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 3rem;
+  background:rgba(10,10,10,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.nav-logo{
+  font-family:var(--ff-mono);font-size:.75rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--white);text-decoration:none;
+  display:flex;align-items:center;gap:.5rem;
+}
+.nav-dot{
+  width:7px;height:7px;background:var(--lime);
+  border-radius:50%;
+  box-shadow:0 0 8px rgba(200,241,53,.6);
+  animation:pulse 2.5s ease infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 8px rgba(200,241,53,.6)}
+  50%{box-shadow:0 0 16px rgba(200,241,53,.9),0 0 30px rgba(200,241,53,.4)}
+}
+.nav-cta{
+  font-family:var(--ff-mono);font-size:.7rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--black);background:var(--lime);
+  padding:.5rem 1.25rem;border:none;cursor:pointer;
+  transition:background .2s;
+}
+.nav-cta:hover{background:var(--lime-dk)}
+
+/* HERO */
+.hero{
+  min-height:100vh;background:var(--black);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:8rem 2rem 5rem;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(200,241,53,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,241,53,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:grid 20s linear infinite;
+}
+@keyframes grid{from{transform:translateY(0)}to{transform:translateY(60px)}}
+
+/* Pattern interrupt — hooks attention before headline */
+.alert-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(241,53,160,.1);
+  border:1px solid rgba(241,53,160,.3);
+  border-radius:100px;padding:.4rem 1rem;
+  font-family:var(--ff-mono);font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:#F135A0;margin-bottom:1.5rem;
+  position:relative;z-index:1;
+}
+
+/* Headline — outcome focused, pain first */
+.hero h1{
+  font-family:var(--ff-head);
+  font-size:clamp(2.4rem,6vw,5.5rem);
+  font-weight:900;line-height:.9;
+  letter-spacing:-.03em;color:var(--white);
+  max-width:880px;margin-bottom:1.5rem;
+  position:relative;z-index:1;
+}
+.hero h1 em{
+  font-style:italic;font-weight:400;
+  color:var(--lime);display:block;
+}
+.hero-sub{
+  font-size:1.1rem;font-weight:300;
+  color:rgba(255,255,255,.6);
+  max-width:540px;line-height:1.75;
+  margin-bottom:2.5rem;
+  position:relative;z-index:1;
+}
+.hero-sub strong{color:var(--white);font-weight:500}
+
+/* CTA — specific, benefit-led button copy */
+.cta-stack{
+  display:flex;flex-direction:column;
+  align-items:center;gap:.75rem;
+  position:relative;z-index:1;
+  margin-bottom:3rem;
+}
+.btn-lime{
+  font-family:var(--ff-mono);font-size:.78rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--black);background:var(--lime);
+  padding:1.1rem 2.5rem;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-weight:600;transition:background .15s,transform .15s;
+  position:relative;text-decoration:none;
+}
+.btn-lime::after{
+  content:'';position:absolute;
+  bottom:-4px;right:-4px;
+  width:100%;height:100%;
+  border:1px solid rgba(200,241,53,.35);
+  transition:transform .2s;pointer-events:none;
+}
+.btn-lime:hover{background:var(--lime-dk);transform:translateY(-2px)}
+.btn-lime:hover::after{transform:translate(3px,3px)}
+.cta-sub{
+  font-family:var(--ff-mono);font-size:.6rem;
+  letter-spacing:.08em;color:rgba(255,255,255,.28);
+}
+
+/* Trust strip — social proof near CTA */
+.trust-strip{
+  display:flex;align-items:center;justify-content:center;
+  gap:2.5rem;flex-wrap:wrap;
+  padding:1.25rem 2rem;
+  background:rgba(200,241,53,.05);
+  border-top:1px solid rgba(200,241,53,.1);
+  border-bottom:1px solid rgba(200,241,53,.1);
+  width:100%;position:relative;z-index:1;
+}
+.trust-item{
+  font-family:var(--ff-mono);font-size:.6rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  display:flex;align-items:center;gap:.4rem;
+}
+.trust-item::before{content:'✓';color:var(--lime);font-weight:700}
+
+/* PAIN SECTION — agitate the problem */
+.pain{background:var(--white);padding:6rem 2rem;text-align:center}
+.section-eyebrow{
+  font-family:var(--ff-mono);font-size:.62rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gray);margin-bottom:1rem;
+  display:flex;align-items:center;justify-content:center;gap:.75rem;
+}
+.section-eyebrow::before,.section-eyebrow::after{
+  content:'';width:36px;height:1px;background:rgba(0,0,0,.12);
+}
+.pain h2{
+  font-family:var(--ff-head);
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:900;letter-spacing:-.03em;
+  line-height:.92;color:var(--black);margin-bottom:.875rem;
+}
+.pain h2 em{font-style:italic;font-weight:400;color:var(--pink)}
+.pain > p{
+  font-size:1rem;font-weight:300;color:var(--gray);
+  max-width:520px;margin:0 auto 3rem;line-height:1.8;
+}
+.pain-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;max-width:960px;margin:0 auto;
+}
+.pain-card{
+  border:1px solid rgba(0,0,0,.07);
+  padding:2rem 1.5rem;text-align:left;
+  position:relative;overflow:hidden;
+  transition:border-color .25s,transform .25s;
+}
+.pain-card:hover{
+  border-color:rgba(241,53,160,.35);
+  transform:translateY(-3px);
+}
+.pain-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:var(--pink);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s;
+}
+.pain-card:hover::before{transform:scaleX(1)}
+.pain-emoji{font-size:1.75rem;margin-bottom:.875rem;display:block}
+.pain-card h3{
+  font-family:var(--ff-head);font-size:1.05rem;
+  font-weight:700;color:var(--black);margin-bottom:.4rem;
+}
+.pain-card p{
+  font-size:.85rem;font-weight:300;
+  color:var(--gray);line-height:1.7;
+}
+
+/* SOLUTION SECTION */
+.solution{background:var(--black);padding:6rem 2rem}
+.sol-inner{
+  max-width:1080px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+}
+.sol-left .section-eyebrow{
+  justify-content:flex-start;color:var(--lime);
+}
+.sol-left .section-eyebrow::before{display:none}
+.sol-left .section-eyebrow::after{background:rgba(200,241,53,.25)}
+.sol-left h2{
+  font-family:var(--ff-head);
+  font-size:clamp(1.8rem,3.5vw,3rem);
+  font-weight:900;letter-spacing:-.03em;
+  line-height:.9;color:var(--white);margin-bottom:1.25rem;
+}
+.sol-left h2 em{
+  font-style:italic;font-weight:400;
+  color:var(--lime);display:block;
+}
+.sol-left > p{
+  font-size:.95rem;font-weight:300;
+  color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:2rem;
+}
+.features{display:flex;flex-direction:column;gap:.75rem}
+.feat{
+  display:flex;align-items:flex-start;gap:.875rem;
+  padding:.875rem 1rem;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  transition:background .2s,border-color .2s;
+}
+.feat:hover{
+  background:rgba(200,241,53,.04);
+  border-color:rgba(200,241,53,.15);
+}
+.feat-check{
+  color:var(--lime);font-weight:700;
+  flex-shrink:0;margin-top:.1rem;font-size:.95rem;
+}
+.feat h4{
+  font-family:var(--ff-head);font-size:.95rem;
+  font-weight:700;color:var(--white);margin-bottom:.2rem;
+}
+.feat p{
+  font-size:.8rem;font-weight:300;
+  color:rgba(255,255,255,.38);line-height:1.6;
+}
+
+/* Interactive booking mockup */
+.mockup{
+  background:#141414;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:6px;overflow:hidden;
+  box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 60px rgba(200,241,53,.04);
+}
+.mockup-chrome{
+  background:#0f0f0f;height:34px;
+  display:flex;align-items:center;
+  padding:0 1rem;gap:.4rem;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.m-dot{width:9px;height:9px;border-radius:50%}
+.m-title{
+  flex:1;text-align:center;
+  font-family:var(--ff-mono);font-size:.6rem;
+  letter-spacing:.06em;color:rgba(255,255,255,.2);
+}
+.mockup-body{padding:1.25rem}
+.m-biz-name{
+  font-family:var(--ff-head);font-size:1.05rem;
+  font-weight:700;color:var(--white);margin-bottom:.2rem;
+}
+.m-biz-sub{
+  font-size:.7rem;color:rgba(255,255,255,.3);
+  font-family:var(--ff-mono);letter-spacing:.05em;
+  margin-bottom:1.1rem;
+}
+.m-step-label{
+  font-family:var(--ff-mono);font-size:.58rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--lime);margin-bottom:.6rem;
+  display:flex;align-items:center;gap:.4rem;
+}
+.m-step-label::before{
+  content:'';width:3px;height:10px;
+  background:var(--lime);border-radius:2px;
+}
+.cal{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:3px;margin-bottom:.875rem;
+}
+.cd{
+  aspect-ratio:1;display:flex;align-items:center;
+  justify-content:center;font-size:.6rem;
+  font-family:var(--ff-mono);color:rgba(255,255,255,.25);
+  border-radius:2px;cursor:pointer;
+  transition:all .12s;
+}
+.cd.avail{color:rgba(255,255,255,.7);background:rgba(255,255,255,.04)}
+.cd.avail:hover{background:rgba(200,241,53,.15);color:var(--lime)}
+.cd.sel{background:var(--lime);color:var(--black);font-weight:700}
+.cd.hd{color:rgba(255,255,255,.18);font-size:.52rem;cursor:default}
+.times{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:3px;margin-bottom:.875rem;
+}
+.ts{
+  padding:.35rem;text-align:center;
+  font-family:var(--ff-mono);font-size:.58rem;
+  color:rgba(255,255,255,.45);
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:2px;cursor:pointer;
+  transition:all .12s;
+}
+.ts:hover{border-color:var(--lime);color:var(--lime)}
+.ts.sel{background:var(--lime);color:var(--black);border-color:var(--lime);font-weight:700}
+.m-confirm-btn{
+  width:100%;background:var(--lime);color:var(--black);
+  border:none;padding:.65rem;
+  font-family:var(--ff-mono);font-size:.65rem;
+  letter-spacing:.08em;text-transform:uppercase;
+  border-radius:2px;font-weight:700;cursor:pointer;
+  transition:background .15s;
+}
+.m-confirm-btn:hover{background:var(--lime-dk)}
+.m-notif{
+  display:none;margin-top:.875rem;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:4px;padding:.75rem;
+  display:none;align-items:center;gap:.65rem;
+}
+.m-notif.show{display:flex;animation:fadein .4s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.m-notif-icon{font-size:1.2rem}
+.m-notif-title{
+  font-family:var(--ff-mono);font-size:.58rem;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:var(--lime);margin-bottom:.15rem;
+}
+.m-notif-text{
+  font-size:.72rem;color:rgba(255,255,255,.55);
+}
+.m-notif-text strong{color:var(--white)}
+
+/* HOW IT WORKS */
+.how{background:var(--white);padding:6rem 2rem;text-align:center}
+.how h2{
+  font-family:var(--ff-head);
+  font-size:clamp(1.8rem,3.5vw,3rem);
+  font-weight:900;letter-spacing:-.03em;
+  line-height:.9;color:var(--black);margin-bottom:.75rem;
+}
+.how h2 em{font-style:italic;font-weight:400;color:var(--lime)}
+.how > p{
+  font-size:.95rem;font-weight:300;color:var(--gray);
+  max-width:460px;margin:0 auto 3.5rem;line-height:1.8;
+}
+.steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1rem;max-width:960px;margin:0 auto;
+  position:relative;
+}
+.steps::after{
+  content:'';position:absolute;
+  top:28px;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(200,241,53,.3),transparent);
+}
+.step{padding:0 1.25rem;position:relative;z-index:1}
+.step-num{
+  width:56px;height:56px;background:var(--lime);
+  color:var(--black);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-head);font-size:1.3rem;font-weight:900;
+  margin:0 auto 1.1rem;
+}
+.step h3{
+  font-family:var(--ff-head);font-size:.95rem;
+  font-weight:700;color:var(--black);margin-bottom:.35rem;
+}
+.step p{
+  font-size:.8rem;font-weight:300;
+  color:var(--gray);line-height:1.6;
+}
+
+/* WHAT YOU GET */
+.get{background:var(--black);padding:6rem 2rem;text-align:center}
+.get h2{
+  font-family:var(--ff-head);
+  font-size:clamp(1.8rem,3.5vw,3rem);
+  font-weight:900;letter-spacing:-.03em;
+  line-height:.9;color:var(--white);margin-bottom:.75rem;
+}
+.get h2 em{font-style:italic;font-weight:400;color:var(--lime)}
+.get > p{
+  font-size:.95rem;font-weight:300;
+  color:rgba(255,255,255,.45);max-width:460px;
+  margin:0 auto 3rem;line-height:1.8;
+}
+.get-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,.05);
+  max-width:960px;margin:0 auto 2.5rem;
+}
+.get-item{
+  background:var(--black);padding:2rem 1.5rem;
+  text-align:left;transition:background .2s;
+}
+.get-item:hover{background:rgba(200,241,53,.03)}
+.get-icon{font-size:1.5rem;margin-bottom:.75rem;display:block}
+.get-item h3{
+  font-family:var(--ff-head);font-size:.95rem;
+  font-weight:700;color:var(--white);margin-bottom:.35rem;
+}
+.get-item p{
+  font-size:.8rem;font-weight:300;
+  color:rgba(255,255,255,.35);line-height:1.65;
+}
+
+/* OBJECTIONS — handle hesitation */
+.faq{background:var(--white);padding:6rem 2rem}
+.faq-inner{max-width:760px;margin:0 auto}
+.faq-inner h2{
+  font-family:var(--ff-head);
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:900;letter-spacing:-.03em;
+  color:var(--black);margin-bottom:2.5rem;text-align:center;
+}
+.faq-inner h2 em{font-style:italic;font-weight:400}
+.faq-item{
+  border-bottom:1px solid rgba(0,0,0,.07);padding:1.5rem 0;
+}
+.faq-item:first-of-type{border-top:1px solid rgba(0,0,0,.07)}
+.faq-q{
+  font-family:var(--ff-head);font-size:1rem;
+  font-weight:700;color:var(--black);
+  margin-bottom:.5rem;
+  display:flex;align-items:flex-start;gap:.75rem;
+}
+.faq-q::before{
+  content:'Q';font-family:var(--ff-mono);font-size:.58rem;
+  letter-spacing:.1em;color:var(--lime);
+  background:rgba(200,241,53,.1);
+  padding:.2rem .4rem;margin-top:.18rem;flex-shrink:0;
+}
+.faq-a{
+  font-size:.9rem;font-weight:300;
+  color:var(--gray);line-height:1.75;padding-left:2rem;
+}
+
+/* PRICING */
+.pricing{background:var(--black);padding:6rem 2rem;text-align:center}
+.pricing h2{
+  font-family:var(--ff-head);
+  font-size:clamp(1.8rem,3.5vw,3rem);
+  font-weight:900;letter-spacing:-.03em;
+  color:var(--white);margin-bottom:.75rem;
+}
+.pricing h2 em{font-style:italic;font-weight:400;color:var(--lime)}
+.pricing > p{
+  font-size:.95rem;font-weight:300;
+  color:rgba(255,255,255,.45);max-width:460px;
+  margin:0 auto 2.5rem;line-height:1.8;
+}
+.price-card{
+  max-width:520px;margin:0 auto;
+  background:rgba(200,241,53,.05);
+  border:1px solid rgba(200,241,53,.18);
+  padding:2.5rem;text-align:left;
+}
+.price-card::before{
+  content:'Complete System for Med Spas';
+  display:block;
+  font-family:var(--ff-mono);font-size:.58rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--lime);margin-bottom:1.25rem;
+}
+.price-big{
+  font-family:var(--ff-head);font-size:3.8rem;
+  font-weight:900;color:var(--white);
+  line-height:1;margin-bottom:.25rem;
+}
+.price-big em{font-style:normal;font-size:1.4rem;color:rgba(255,255,255,.35)}
+.price-detail{
+  font-family:var(--ff-mono);font-size:.62rem;
+  letter-spacing:.07em;color:var(--lime);
+  margin-bottom:1.5rem;
+}
+.price-divider{
+  width:100%;height:1px;
+  background:rgba(255,255,255,.07);margin-bottom:1.5rem;
+}
+.price-list{
+  list-style:none;display:flex;
+  flex-direction:column;gap:.7rem;margin-bottom:2rem;
+}
+.price-list li{
+  display:flex;align-items:flex-start;gap:.7rem;
+  font-size:.88rem;font-weight:300;
+  color:rgba(255,255,255,.6);
+}
+.price-list li::before{
+  content:'✓';color:var(--lime);
+  font-weight:700;flex-shrink:0;
+}
+.price-btn{
+  width:100%;background:var(--lime);color:var(--black);
+  border:none;padding:1.1rem;cursor:pointer;
+  font-family:var(--ff-mono);font-size:.72rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;transition:background .15s;
+  position:relative;
+}
+.price-btn::after{
+  content:'';position:absolute;
+  bottom:-4px;right:-4px;
+  width:100%;height:100%;
+  border:1px solid rgba(200,241,53,.25);
+  pointer-events:none;
+}
+.price-btn:hover{background:var(--lime-dk)}
+.price-note{
+  font-family:var(--ff-mono);font-size:.58rem;
+  letter-spacing:.06em;color:rgba(255,255,255,.18);
+  text-align:center;margin-top:.875rem;
+}
+
+/* FINAL CTA */
+.final{
+  background:var(--lime);padding:5rem 2rem;
+  text-align:center;position:relative;overflow:hidden;
+}
+.final::before{
+  content:'BQ';font-family:var(--ff-head);
+  font-size:18rem;font-weight:900;
+  color:rgba(0,0,0,.05);
+  position:absolute;top:50%;right:-2rem;
+  transform:translateY(-50%);line-height:1;
+  pointer-events:none;
+}
+.final h2{
+  font-family:var(--ff-head);
+  font-size:clamp(2rem,5vw,4rem);
+  font-weight:900;letter-spacing:-.03em;
+  color:var(--black);margin-bottom:1rem;
+  position:relative;z-index:1;
+}
+.final h2 em{font-style:italic;font-weight:400}
+.final p{
+  font-size:1rem;font-weight:300;
+  color:rgba(0,0,0,.6);max-width:460px;
+  margin:0 auto 2rem;line-height:1.8;
+  position:relative;z-index:1;
+}
+.btn-dark{
+  font-family:var(--ff-mono);font-size:.75rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--white);background:var(--black);
+  padding:1.1rem 2.5rem;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-weight:600;transition:background .15s;
+  position:relative;z-index:1;text-decoration:none;
+}
+.btn-dark:hover{background:#222}
+.final-note{
+  display:block;margin-top:1rem;
+  font-family:var(--ff-mono);font-size:.6rem;
+  letter-spacing:.08em;color:rgba(0,0,0,.38);
+  position:relative;z-index:1;
+}
+
+/* FOOTER */
+footer{
+  background:var(--black);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.75rem 3rem;
+  border-top:1px solid rgba(255,255,255,.05);
+}
+.footer-logo{
+  font-family:var(--ff-mono);font-size:.72rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);text-decoration:none;
+  display:flex;align-items:center;gap:.4rem;
+}
+.footer-back{
+  font-family:var(--ff-mono);font-size:.62rem;
+  letter-spacing:.08em;color:rgba(255,255,255,.2);
+  text-decoration:none;transition:color .2s;
+}
+.footer-back:hover{color:var(--lime)}
+
+/* MODAL */
+.overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(10,10,10,.93);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:2rem;
+  opacity:0;visibility:hidden;
+  transition:opacity .3s,visibility .3s;
+}
+.overlay.open{opacity:1;visibility:visible}
+.modal{
+  background:var(--white);
+  max-width:480px;width:100%;
+  padding:2.5rem;position:relative;
+}
+.modal-x{
+  position:absolute;top:1rem;right:1rem;
+  background:none;border:none;font-size:1.1rem;
+  color:var(--gray);cursor:pointer;
+  font-family:var(--ff-mono);
+}
+.modal h3{
+  font-family:var(--ff-head);font-size:1.7rem;
+  font-weight:900;color:var(--black);
+  margin-bottom:.4rem;letter-spacing:-.02em;
+}
+.modal h3 em{font-style:italic;font-weight:400;color:var(--lime)}
+.modal-sub{
+  font-size:.88rem;font-weight:300;color:var(--gray);
+  margin-bottom:1.5rem;line-height:1.7;
+}
+.mf{margin-bottom:1rem}
+.ml{
+  display:block;font-family:var(--ff-mono);
+  font-size:.58rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gray);
+  margin-bottom:.35rem;
+}
+.mi{
+  width:100%;border:none;
+  border-bottom:1px solid rgba(0,0,0,.12);
+  background:transparent;padding:.55rem 0;
+  font-family:var(--ff-body);font-size:.95rem;
+  color:var(--black);outline:none;
+  transition:border-color .2s;
+  border-radius:0;appearance:none;
+}
+.mi:focus{border-bottom-color:var(--black)}
+.mi option{background:var(--white)}
+.modal-btn{
+  width:100%;background:var(--black);color:var(--white);
+  border:none;padding:1rem;margin-top:.5rem;
+  font-family:var(--ff-mono);font-size:.7rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;transition:background .15s;
+  position:relative;
+}
+.modal-btn::after{
+  content:'';position:absolute;
+  bottom:-4px;right:-4px;
+  width:100%;height:100%;
+  border:1px solid rgba(200,241,53,.4);
+  pointer-events:none;
+}
+.modal-btn:hover{background:#222}
+.modal-fine{
+  font-family:var(--ff-mono);font-size:.56rem;
+  letter-spacing:.06em;color:rgba(0,0,0,.25);
+  text-align:center;margin-top:.75rem;
+}
+.modal-ok{
+  display:none;text-align:center;padding:2rem 0;
+}
+.modal-ok-icon{font-size:3rem;margin-bottom:.875rem}
+.modal-ok h4{
+  font-family:var(--ff-head);font-size:1.5rem;
+  font-weight:900;color:var(--black);margin-bottom:.4rem;
+}
+.modal-ok p{
+  font-size:.88rem;color:var(--gray);
+  font-weight:300;line-height:1.7;
+}
+
+/* RESPONSIVE */
+@media(max-width:880px){
+  .pain-cards,.get-grid{grid-template-columns:1fr}
+  .sol-inner{grid-template-columns:1fr;gap:3rem}
+  .steps{grid-template-columns:1fr 1fr;gap:2rem}
+  .steps::after{display:none}
+  nav{padding:1.25rem 1.5rem}
+  .trust-strip{gap:1.25rem}
+  .final::before{display:none}
+  footer{flex-direction:column;gap:1rem;text-align:center;padding:1.75rem}
+}
+@media(max-width:560px){
+  .steps{grid-template-columns:1fr}
+  .hero h1{font-size:2.2rem}
+  .cta-stack{width:100%}
+  .btn-lime{width:100%;justify-content:center}
+  .trust-strip{flex-direction:column;gap:.875rem;align-items:flex-start;padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://bqwebsolutions.com" class="nav-logo">
+    <span class="nav-dot"></span>BQ Solutions
+  </a>
+  <button class="nav-cta" onclick="openModal()">See Live Demo</button>
+</nav>
+
+<!-- HERO: Pain-first headline. Specific outcome. One CTA. -->
+<section class="hero">
+  <div class="alert-badge">⚠ Common med spa problem</div>
+  <h1>You Shouldn't Be Taking<br>Booking Calls<br><em>During Procedures.</em></h1>
+  <p class="hero-sub">
+    Clients book themselves online. It hits your <strong>Google Calendar instantly.</strong>
+    You get their name, email, phone, and service — before they walk in.
+    <strong>No phone tag. No missed leads. No monthly fees.</strong>
+  </p>
+  <div class="cta-stack">
+    <button class="btn-lime" onclick="openModal()">
+      See the Demo — Takes 60 Seconds
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <span class="cta-sub">No commitment · No credit card · Just the demo</span>
+  </div>
+  <div class="trust-strip">
+    <span class="trust-item">Google Calendar Sync</span>
+    <span class="trust-item">Confirmation Emails</span>
+    <span class="trust-item">24-Hour Reminders</span>
+    <span class="trust-item">Flat Rate — You Own It</span>
+    <span class="trust-item">Live in Days</span>
+  </div>
+</section>
+
+<!-- PAIN: Agitate the real cost of the problem -->
+<section class="pain">
+  <div class="section-eyebrow">The Problem</div>
+  <h2>Every Missed Call Is<br>a <em>Missed Appointment.</em></h2>
+  <p>You built a successful practice. You shouldn't be managing a phone book. Here's what's happening right now while you're focused on your clients.</p>
+  <div class="pain-cards">
+    <div class="pain-card">
+      <span class="pain-emoji">📵</span>
+      <h3>Phone Tag Costs You Bookings</h3>
+      <p>A potential client calls during a procedure. It goes to voicemail. They call the next med spa down the street. You never know they existed.</p>
+    </div>
+    <div class="pain-card">
+      <span class="pain-emoji">📅</span>
+      <h3>Manual Scheduling Wastes Hours</h3>
+      <p>Back-and-forth texts. Finding a time that works. Manually adding it to your calendar. Sending confirmation yourself. 15 minutes per booking — every single day.</p>
+    </div>
+    <div class="pain-card">
+      <span class="pain-emoji">👻</span>
+      <h3>No-Shows With Zero Warning</h3>
+      <p>Client forgets. You blocked the slot. No reminder went out. That's $400–$800 of empty table time you can't get back.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION: Present the fix with interactive demo -->
+<section class="solution">
+  <div class="sol-inner">
+    <div class="sol-left">
+      <div class="section-eyebrow">The Solution</div>
+      <h2>Your Practice Books<br>Itself<br><em>While You Work.</em></h2>
+      <p>A custom booking system built for your practice. Branded to match your business. Connected directly to your Google Calendar. Live on your site in days.</p>
+      <div class="features">
+        <div class="feat">
+          <span class="feat-check">✓</span>
+          <div>
+            <h4>Online Booking — 24/7</h4>
+            <p>Clients book at midnight from their phone. You never miss a lead because your line was busy.</p>
+          </div>
+        </div>
+        <div class="feat">
+          <span class="feat-check">✓</span>
+          <div>
+            <h4>Instant Google Calendar Sync</h4>
+            <p>Every booking appears automatically. Client name, email, phone, service, and notes — all there before they arrive.</p>
+          </div>
+        </div>
+        <div class="feat">
+          <span class="feat-check">✓</span>
+          <div>
+            <h4>Confirmations + 24-Hour Reminders</h4>
+            <p>Client gets a confirmation immediately and a reminder the day before. No-show rate drops. Schedule stays full.</p>
+          </div>
+        </div>
+        <div class="feat">
+          <span class="feat-check">✓</span>
+          <div>
+            <h4>Flat Rate — You Own Everything</h4>
+            <p>No subscription fees per booking. Pay once, own the system. We maintain it for $150/month.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sol-right">
+      <div class="mockup">
+        <div class="mockup-chrome">
+          <div class="m-dot" style="background:#ff5f57"></div>
+          <div class="m-dot" style="background:#ffbd2e"></div>
+          <div class="m-dot" style="background:#28c840"></div>
+          <div class="m-title">Book an Appointment</div>
+        </div>
+        <div class="mockup-body">
+          <div class="m-biz-name">Elena's Med Spa</div>
+          <div class="m-biz-sub">Laser · Botox · Facials · Greenville, NC</div>
+
+          <div class="m-step-label">Step 1 — Pick a Date</div>
+          <div class="cal">
+            <div class="cd hd">S</div><div class="cd hd">M</div><div class="cd hd">T</div><div class="cd hd">W</div><div class="cd hd">T</div><div class="cd hd">F</div><div class="cd hd">S</div>
+            <div class="cd">1</div><div class="cd avail" onclick="pickDate(this)">2</div><div class="cd avail" onclick="pickDate(this)">3</div><div class="cd avail" onclick="pickDate(this)">4</div><div class="cd avail" onclick="pickDate(this)">5</div><div class="cd avail" onclick="pickDate(this)">6</div><div class="cd">7</div>
+            <div class="cd">8</div><div class="cd avail" onclick="pickDate(this)">9</div><div class="cd sel" onclick="pickDate(this)">10</div><div class="cd avail" onclick="pickDate(this)">11</div><div class="cd avail" onclick="pickDate(this)">12</div><div class="cd avail" onclick="pickDate(this)">13</div><div class="cd">14</div>
+          </div>
+
+          <div class="m-step-label">Step 2 — Pick a Time</div>
+          <div class="times">
+            <div class="ts">9:00 AM</div>
+            <div class="ts sel">10:00 AM</div>
+            <div class="ts">11:00 AM</div>
+            <div class="ts">1:00 PM</div>
+            <div class="ts">2:30 PM</div>
+            <div class="ts">4:00 PM</div>
+          </div>
+
+          <button class="m-confirm-btn" onclick="confirmBooking()">Confirm Appointment →</button>
+
+          <div class="m-notif" id="notif">
+            <span class="m-notif-icon">📅</span>
+            <div>
+              <div class="m-notif-title">New Booking — Google Calendar</div>
+              <div class="m-notif-text"><strong>Sarah M.</strong> · Laser Hair Removal · Tue Jun 10 · 10:00 AM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS: Reduce friction, show simplicity -->
+<section class="how">
+  <div class="section-eyebrow">How It Works</div>
+  <h2>Live in Days,<br><em>Not Months.</em></h2>
+  <p>We handle everything. You show up for your appointments.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>We Build It</h3>
+      <p>Custom system built and branded for your practice. Your services, hours, and colors.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Connect Your Calendar</h3>
+      <p>We link it directly to your Google Calendar. Every booking appears automatically.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Go Live</h3>
+      <p>Added to your website. Clients start booking immediately. You start getting appointments.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>We Maintain It</h3>
+      <p>We keep it running every month. One text and any update is handled same day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET: Complete feature set -->
+<section class="get">
+  <div class="section-eyebrow" style="color:rgba(255,255,255,.25);justify-content:center">What's Included</div>
+  <h2>Everything You Need.<br><em>Nothing You Don't.</em></h2>
+  <p>No bloated software. No features you'll never use. A clean, fast system that works.</p>
+  <div class="get-grid">
+    <div class="get-item">
+      <span class="get-icon">🌐</span>
+      <h3>Custom Booking Page</h3>
+      <p>Branded to your practice. Your logo, colors, services. Not a generic Calendly link.</p>
+    </div>
+    <div class="get-item">
+      <span class="get-icon">📅</span>
+      <h3>Google Calendar Sync</h3>
+      <p>Every booking hits your calendar instantly with full client details.</p>
+    </div>
+    <div class="get-item">
+      <span class="get-icon">✉️</span>
+      <h3>Confirmation Emails</h3>
+      <p>Client gets a confirmation the moment they book. Automatic. Professional.</p>
+    </div>
+    <div class="get-item">
+      <span class="get-icon">⏰</span>
+      <h3>24-Hour Reminders</h3>
+      <p>Automatic reminder the day before. No-show rate drops significantly.</p>
+    </div>
+    <div class="get-item">
+      <span class="get-icon">📱</span>
+      <h3>Mobile Ready</h3>
+      <p>Works perfectly on every phone. Most clients book from their phone.</p>
+    </div>
+    <div class="get-item">
+      <span class="get-icon">🔧</span>
+      <h3>Monthly Maintenance</h3>
+      <p>We keep it updated and running. One email — handled same day.</p>
+    </div>
+  </div>
+  <button class="btn-lime" style="margin:0 auto;display:inline-flex" onclick="openModal()">
+    Get the Full System
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </button>
+</section>
+
+<!-- OBJECTIONS: Kill hesitation before they leave -->
+<section class="faq">
+  <div class="faq-inner">
+    <h2>Questions You're<br><em>Probably Thinking</em></h2>
+    <div class="faq-item">
+      <div class="faq-q">Can't I just use Calendly for free?</div>
+      <div class="faq-a">You could. Calendly is generic — it looks identical for every business, shows "Powered by Calendly" on your booking page, and charges monthly fees for anything useful. What we build is yours. Branded to your practice, no third-party logo, no monthly software subscription. You pay once and own it.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What if I need to change my services or hours?</div>
+      <div class="faq-a">That's what the $150/month maintenance covers. Email or text us, we update it the same day. You never touch the code or log into a dashboard.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How long does setup take?</div>
+      <div class="faq-a">2–5 business days from the day you sign. We build it, connect your Google Calendar, test it, and hand it over. Most clients are live within a week of first contact.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do clients need to create an account to book?</div>
+      <div class="faq-a">No. Pick a date, pick a time, enter name and email — done. No login, no password, no friction. The simpler the booking process, the more bookings you get.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">I already have a website. Can you add it to that?</div>
+      <div class="faq-a">Yes. We add it as a page on your existing site. Takes about a day. No need to rebuild anything.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING: Anchor value, justify the number -->
+<section class="pricing">
+  <h2>Simple Pricing.<br><em>No Surprises.</em></h2>
+  <p>One flat rate. No monthly software fees. No per-booking charges. You own everything forever.</p>
+  <div class="price-card">
+    <div class="price-big">$2,500<em> flat</em></div>
+    <div class="price-detail">+ $150/month maintenance · $500 deposit to start</div>
+    <div class="price-divider"></div>
+    <ul class="price-list">
+      <li>Custom branded booking page for your practice</li>
+      <li>Google Calendar integration — every booking, instant sync</li>
+      <li>Confirmation emails — automatic on every booking</li>
+      <li>24-hour appointment reminders — reduce no-shows</li>
+      <li>Mobile optimized — works on every device</li>
+      <li>Added to your existing website or new site</li>
+      <li>You own the code — no lock-in, ever</li>
+      <li>Monthly maintenance — updates, fixes, same-day support</li>
+      <li>Live in 2–5 business days</li>
+    </ul>
+    <button class="price-btn" onclick="openModal()">Get Started — See the Demo First</button>
+    <div class="price-note">No commitment to view the demo · Same-day response Mon–Fri</div>
+  </div>
+</section>
+
+<!-- FINAL CTA: Last chance, urgency without hype -->
+<section class="final">
+  <h2>Your Next Client Is<br>Searching <em>Right Now.</em></h2>
+  <p>Will they find a practice they can book instantly — or will they move to the next one?</p>
+  <button class="btn-dark" onclick="openModal()">
+    See the Demo — 60 Seconds
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </button>
+  <span class="final-note">No commitment · No credit card · Flat rate · You own everything</span>
+</section>
+
+<footer>
+  <a href="https://bqwebsolutions.com" class="footer-logo">
+    <span class="nav-dot" style="width:6px;height:6px"></span>BQ Solutions
+  </a>
+  <a href="https://bqwebsolutions.com" class="footer-back">← Back to main site</a>
+</footer>
+
+<!-- LEAD CAPTURE MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div id="mForm">
+      <h3>See the<br><em>Live Demo.</em></h3>
+      <p class="modal-sub">Tell us about your practice and we'll show you a live demo built specifically for med spas. Same-day response.</p>
+      <div class="mf">
+        <label class="ml" for="mn">Your Name</label>
+        <input class="mi" type="text" id="mn" placeholder="Elena Davis">
+      </div>
+      <div class="mf">
+        <label class="ml" for="me">Email Address</label>
+        <input class="mi" type="email" id="me" placeholder="elena@yourmedspa.com">
+      </div>
+      <div class="mf">
+        <label class="ml" for="mp">Phone / Text</label>
+        <input class="mi" type="tel" id="mp" placeholder="(252) 000-0000">
+      </div>
+      <div class="mf">
+        <label class="ml" for="mb">Practice Name</label>
+        <input class="mi" type="text" id="mb" placeholder="Elena's Med Spa">
+      </div>
+      <button class="modal-btn" onclick="submitModal()">Send Me the Demo →</button>
+      <div class="modal-fine">Same-day response · No spam · No commitment</div>
+    </div>
+    <div class="modal-ok" id="mOk">
+      <div class="modal-ok-icon">✓</div>
+      <h4>You're in.</h4>
+      <p>We'll be in touch today with your personalized demo. Check your email — and your phone.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(){
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('overlay').addEventListener('click',function(e){
+  if(e.target===this)closeModal();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+});
+
+function submitModal(){
+  const n=document.getElementById('mn').value.trim();
+  const e=document.getElementById('me').value.trim();
+  if(!n||!e){
+    const btn=document.querySelector('.modal-btn');
+    btn.style.transform='translateX(-6px)';
+    setTimeout(()=>btn.style.transform='',300);
+    if(!n){document.getElementById('mn').style.borderBottomColor='rgba(241,53,160,.7)';setTimeout(()=>document.getElementById('mn').style.borderBottomColor='',2000);}
+    if(!e){document.getElementById('me').style.borderBottomColor='rgba(241,53,160,.7)';setTimeout(()=>document.getElementById('me').style.borderBottomColor='',2000);}
+    return;
+  }
+  document.getElementById('mForm').style.display='none';
+  document.getElementById('mOk').style.display='block';
+}
+
+function pickDate(el){
+  document.querySelectorAll('.cd.sel').forEach(d=>{d.classList.remove('sel');d.classList.add('avail');});
+  el.classList.remove('avail');el.classList.add('sel');
+}
+
+function confirmBooking(){
+  document.getElementById('notif').classList.add('show');
+}
+</script>
+</body>
+</html>
