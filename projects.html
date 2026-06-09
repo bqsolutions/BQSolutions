@@ -266,6 +266,10 @@
   .projects-grid { grid-template-columns: 1fr; }
   .project-card.featured { grid-column: span 1; }
   .projects-hero-meta { gap: 1.5rem; flex-wrap: wrap; }
+  .projects-hero { padding: 6rem 1.25rem 2.5rem; }
+  .filter-bar { padding: 1rem 1.25rem; gap: .6rem; }
+  .projects-cta { padding: 3rem 1.25rem; }
+  .projects-hero h1 { font-size: clamp(2.25rem, 9vw, 4rem); }
 }
 </style>
 </head>
@@ -286,6 +290,9 @@
     <a href="projects.html" style="color:var(--lime)">Work</a>
     <a href="index.html#s-contact" class="nav-cta">Start a Project</a>
   </div>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -598,6 +605,23 @@ document.querySelectorAll('.projects-hero-stat strong').forEach(el => {
 document.querySelectorAll('.nav-dot, .footer-logo-dot').forEach(el => {
   el.classList.add('glow-pulse');
 });
+
+// Hamburger menu
+(function(){
+  var btn=document.getElementById('navHamburger');
+  var nav=document.querySelector('nav');
+  if(!btn)return;
+  btn.addEventListener('click',function(){
+    var open=nav.classList.toggle('nav-open');
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click',function(){
+      nav.classList.remove('nav-open');
+      btn.setAttribute('aria-expanded','false');
+    });
+  });
+})();
 </script>
 </body>
 </html>

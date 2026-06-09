@@ -27,6 +27,9 @@
     <a href="projects.html">Work</a>
     <a href="#s-contact" class="nav-cta">Start a Project</a>
   </div>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <div class="page-layout">
@@ -399,6 +402,23 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <!-- Local Scripts -->
 <script src="bqsolution-scripts.js"></script>
+<script>
+(function(){
+  var btn=document.getElementById('navHamburger');
+  var nav=document.querySelector('nav');
+  if(!btn)return;
+  btn.addEventListener('click',function(){
+    var open=nav.classList.toggle('nav-open');
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click',function(){
+      nav.classList.remove('nav-open');
+      btn.setAttribute('aria-expanded','false');
+    });
+  });
+})();
+</script>
 
 </body>
 </html>

@@ -620,6 +620,26 @@ h2 em{font-style:italic;font-weight:400;color:var(--lime);display:block}
 .footer-links a:hover{color:var(--lime)}
 .footer-bottom{display:flex;justify-content:space-between;font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.06em;color:rgba(255,255,255,.18)}
 
+/* ── HAMBURGER MENU ── */
+.nav-hamburger{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  background:none;
+  border:none;
+  padding:.4rem;
+  flex-shrink:0;
+}
+.nav-hamburger span{
+  display:block;width:22px;height:2px;
+  background:var(--white);border-radius:1px;
+  transition:transform .25s,opacity .25s;
+}
+nav.nav-open .nav-hamburger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+nav.nav-open .nav-hamburger span:nth-child(2){opacity:0;transform:scaleX(0)}
+nav.nav-open .nav-hamburger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
   .page-layout{grid-template-columns:1fr}
@@ -631,6 +651,26 @@ h2 em{font-style:italic;font-weight:400;color:var(--lime);display:block}
   nav{padding:1.25rem 1.5rem}
   .footer-inner{grid-template-columns:1fr}
   .footer-bottom{flex-direction:column;gap:.5rem}
+  /* h2 — prevent overflow on 375–430px phones */
+  h2{font-size:clamp(1.6rem,7vw,2.2rem)}
+  /* stat-row — wrap instead of overflow */
+  .stat-row{flex-wrap:wrap;gap:1.5rem}
+  /* section — tighter horizontal padding on phones */
+  .section{padding:4rem 1.5rem}
+  /* hamburger — show button, collapse links into dropdown */
+  .nav-hamburger{display:flex}
+  .nav-links{
+    display:none;
+    position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;
+    background:rgba(10,10,10,.97);
+    backdrop-filter:blur(16px);
+    padding:1.25rem 1.5rem;
+    gap:.75rem;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  nav.nav-open .nav-links{display:flex}
+  .nav-cta{align-self:flex-start}
 }
 @media(prefers-reduced-motion:reduce){
   #cursor{display:none}
@@ -880,6 +920,12 @@ h2 em{font-style:italic;font-weight:400;color:var(--lime);display:block}
   .co-headline { font-size: 2.5rem; }
   .co-form-row { grid-template-columns: 1fr; }
   .co-details { display: none; }
+}
+@media (max-width: 640px) {
+  .co-inner { padding: 5rem 1.25rem 2rem; gap: 1.5rem; }
+  .co-headline { font-size: 1.75rem; }
+  .co-sub { font-size: .88rem; }
+  .co-input { font-size: .88rem; }
 }
 
 /* ── BACK TO TOP BUTTON ── */
