@@ -694,7 +694,7 @@ window.addEventListener('load', () => {
         <div class="co-details">
           <div class="co-detail-item">
             <span class="co-detail-label">Phone / Text</span>
-            <span class="co-detail-value">(252) 493-6342</span>
+            <span class="co-detail-value">(252) 698-9543</span>
           </div>
           <div class="co-detail-item">
             <span class="co-detail-label">Email</span>
