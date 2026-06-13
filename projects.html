@@ -154,6 +154,48 @@
   text-transform: uppercase; color: rgba(255,255,255,.3); margin-top: .2rem;
 }
 
+/* Cleaning website preview */
+.preview-clean {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #090f1a 0%, #0d1525 100%);
+  padding: 1.5rem; display: flex; flex-direction: column;
+}
+.preview-clean-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem; padding-bottom: .75rem;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.preview-clean-logo {
+  font-family: var(--ff-head); font-size: .68rem; font-weight: 700;
+  color: rgba(255,255,255,.65); letter-spacing: .05em;
+}
+.preview-clean-badge {
+  font-family: var(--ff-mono); font-size: .52rem; letter-spacing: .1em;
+  text-transform: uppercase; color: #0a0a0a;
+  background: #3b82f6; padding: .2rem .55rem;
+}
+.preview-clean-headline {
+  font-family: var(--ff-head); font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+  font-weight: 900; color: #fff; line-height: .92;
+  letter-spacing: -.02em; flex: 1; display: flex;
+  flex-direction: column; justify-content: center; margin-bottom: .75rem;
+}
+.preview-clean-headline em { font-style: italic; font-weight: 400; color: #3b82f6; }
+.preview-clean-services {
+  display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .75rem;
+}
+.preview-clean-pill {
+  font-family: var(--ff-mono); font-size: .52rem; letter-spacing: .08em;
+  text-transform: uppercase; color: rgba(255,255,255,.5);
+  border: 1px solid rgba(74,222,128,.25); padding: .2rem .55rem;
+}
+.preview-clean-cta {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--ff-mono); font-size: .58rem; letter-spacing: .1em;
+  text-transform: uppercase; background: #3b82f6; color: #0a0a0a;
+  padding: .35rem .9rem; width: fit-content;
+}
+
 /* Generic coming soon preview */
 .preview-coming {
   width: 100%; height: 100%;
@@ -307,7 +349,7 @@
     <h1 class="projects-hero-title">Selected<br><em>Work.</em></h1>
     <div class="projects-hero-meta">
       <div class="projects-hero-stat">
-        <strong>1</strong>
+        <strong>2</strong>
         <span>Projects Delivered</span>
       </div>
       <div class="projects-hero-div" aria-hidden="true"></div>
@@ -337,6 +379,7 @@
   <button class="filter-btn" data-filter="medical">Medical</button>
   <button class="filter-btn" data-filter="restaurant">Restaurant</button>
   <button class="filter-btn" data-filter="business">Business</button>
+  <button class="filter-btn" data-filter="cleaning">Cleaning</button>
 </div>
 
 <!-- PROJECTS GRID -->
@@ -370,6 +413,7 @@
       <div class="project-card-name">Harrington & Associates</div>
       <div class="project-card-tech">HTML · CSS · GSAP · Three.js · 3D Newsletter · Mobile</div>
       <div class="project-card-tags">
+        <span class="project-tag" style="color:var(--lime);border-color:rgba(200,241,53,.35)">Demo</span>
         <span class="project-tag">Scroll Animations</span>
         <span class="project-tag">3D Effects</span>
         <span class="project-tag">Editorial Design</span>
@@ -379,23 +423,42 @@
     </div>
   </article>
 
-  <!-- Placeholder 2 -->
-  <article class="project-card" data-category="restaurant">
+  <!-- Elizabeth City Cleaning -->
+  <article class="project-card" data-category="cleaning">
     <div class="project-card-img">
-      <div class="preview-coming">
-        <div class="preview-coming-num">02</div>
-        <div class="preview-coming-label">Your Project Here</div>
+      <div class="preview-clean">
+        <div class="preview-clean-nav">
+          <span class="preview-clean-logo">Elizabeth City Cleaning</span>
+          <span class="preview-clean-badge">Locally Owned</span>
+        </div>
+        <div class="preview-clean-headline">
+          Spotless<br>Every <em>Time.</em>
+        </div>
+        <div class="preview-clean-services">
+          <span class="preview-clean-pill">Residential</span>
+          <span class="preview-clean-pill">Commercial</span>
+          <span class="preview-clean-pill">Deep Clean</span>
+          <span class="preview-clean-pill">Move-In/Out</span>
+        </div>
+        <div class="preview-clean-cta">
+          Book Now
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
       </div>
       <div class="project-card-overlay">
-        <a href="index.html#s-contact" class="overlay-link">Start Your Project →</a>
+        <a href="https://elizabethcitycleaning.com" class="overlay-link" target="_blank" rel="noopener">View Live Site →</a>
       </div>
     </div>
     <div class="project-card-info">
-      <div class="project-card-cat">Restaurant / Food</div>
-      <div class="project-card-name">Coming Soon</div>
-      <div class="project-card-tech">Custom built to your brief</div>
+      <div class="project-card-cat">Cleaning Services</div>
+      <div class="project-card-name">Elizabeth City Cleaning</div>
+      <div class="project-card-tech">HTML · CSS · JS · Online Booking · Mobile</div>
       <div class="project-card-tags">
-        <span class="project-tag">Available</span>
+        <span class="project-tag">Booking Form</span>
+        <span class="project-tag">Service Listings</span>
+        <span class="project-tag">Photo Gallery</span>
+        <span class="project-tag">Mobile First</span>
+        <span class="project-tag">Custom Design</span>
       </div>
     </div>
   </article>
