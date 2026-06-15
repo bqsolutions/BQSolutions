@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Terms of Service — BQ Solutions. Plain English, no jargon.">
+<title>Terms of Service — BQ Solutions</title>
+<link rel="icon" href="images/BQ_Solution_Icon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="bqsolution-styles.css">
+<style>
+/* ── LEGAL PAGES ── */
+.legal-hero {
+  min-height: 35vh;
+  background: var(--black);
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 8rem 3rem 4rem;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  position: relative; overflow: hidden;
+}
+.legal-hero-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,241,53,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,241,53,.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridDrift 20s linear infinite;
+}
+@keyframes gridDrift { from{transform:translateY(0)} to{transform:translateY(60px)} }
+.legal-hero-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; width: 100%; }
+.legal-hero-label {
+  font-family: var(--ff-mono);
+  font-size: .65rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+.legal-hero-label::before { content: ''; width: 24px; height: 1px; background: var(--lime); }
+.legal-hero h1 {
+  font-family: var(--ff-head);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900; line-height: .9;
+  letter-spacing: -.03em; color: var(--white); margin-bottom: 1rem;
+}
+.legal-hero h1 em { font-style: italic; font-weight: 400; color: var(--lime); display: block; }
+.legal-date {
+  font-family: var(--ff-mono); font-size: .6rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.25); margin-top: .75rem;
+}
+.back-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--ff-mono); font-size: .68rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.4); text-decoration: none;
+  transition: color .2s; margin-bottom: 2rem;
+}
+.back-btn:hover { color: var(--lime); }
+.back-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.legal-content {
+  max-width: 860px; margin: 0 auto;
+  padding: 4rem 3rem;
+}
+.legal-section {
+  margin-bottom: 3rem; padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  opacity: 0; transform: translateY(20px);
+}
+.legal-section:last-child { border-bottom: none; }
+.legal-section-num {
+  font-family: var(--ff-mono); font-size: .6rem;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: .6rem;
+}
+.legal-section h2 {
+  font-family: var(--ff-head); font-size: 1.5rem;
+  font-weight: 700; color: var(--white);
+  letter-spacing: -.01em; margin-bottom: 1rem; line-height: 1.1;
+}
+.legal-section p {
+  font-family: var(--ff-body); font-size: .95rem;
+  font-weight: 300; color: rgba(255,255,255,.55);
+  line-height: 1.85; margin-bottom: .8rem;
+}
+.legal-section p:last-child { margin-bottom: 0; }
+.legal-section ul {
+  list-style: none; margin: .5rem 0 .8rem;
+  display: flex; flex-direction: column; gap: .5rem;
+}
+.legal-section ul li {
+  font-family: var(--ff-body); font-size: .95rem;
+  font-weight: 300; color: rgba(255,255,255,.55);
+  line-height: 1.75; padding-left: 1.4rem; position: relative;
+}
+.legal-section ul li::before {
+  content: '—'; position: absolute; left: 0;
+  color: var(--lime); font-size: .8rem;
+}
+.legal-section a { color: var(--lime); text-decoration: none; }
+.legal-section a:hover { text-decoration: underline; }
+.legal-also {
+  display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 4rem;
+  padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.05);
+}
+.legal-also-link {
+  font-family: var(--ff-mono); font-size: .65rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.3); text-decoration: none;
+  border: 1px solid rgba(255,255,255,.1); padding: .5rem 1.1rem;
+  transition: color .2s, border-color .2s;
+}
+.legal-also-link:hover { color: var(--lime); border-color: rgba(200,241,53,.4); }
+@media(max-width:640px) {
+  .legal-hero { padding: 6rem 1.25rem 2.5rem; }
+  .legal-content { padding: 2.5rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="cursor" aria-hidden="true"></div>
+
+<nav aria-label="Main navigation">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-dot" aria-hidden="true"></span>
+    <img src="images/BQ_Solution_Icon.png" alt="" style="height:18px;vertical-align:middle;margin-right:.3rem;opacity:.9">BQ Solutions
+  </a>
+  <div class="nav-links">
+    <a href="index.html#s-services">Services</a>
+    <a href="index.html#s-process">Process</a>
+    <a href="index.html#s-pricing">Pricing</a>
+    <a href="projects.html">Work</a>
+    <a href="index.html#s-contact" class="nav-cta">Start a Project</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<div class="legal-hero">
+  <div class="legal-hero-bg" aria-hidden="true"></div>
+  <div class="legal-hero-inner">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to Home
+    </a>
+    <div class="legal-hero-label">Legal</div>
+    <h1>Terms of<br><em>Service.</em></h1>
+    <div class="legal-date">Last updated: June 2026</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="legal-content">
+
+  <div class="legal-section">
+    <div class="legal-section-num">01</div>
+    <h2>What This Website Is For</h2>
+    <p>bqwebsolutions.com is an informational website for BQ Solutions, a web development business based in Greenville, NC. It exists to give you an overview of our services and let you get in touch about a project.</p>
+    <p>Nothing on this site is legal, financial, or business advice. It's a portfolio and inquiry page — nothing more.</p>
+  </div>
+
+  <div class="legal-section">
+    <div class="legal-section-num">02</div>
+    <h2>Pricing</h2>
+    <p>The prices listed on this site are starting rates. They represent the minimum cost for a given tier — your actual project cost depends on your specific scope and requirements.</p>
+    <p>Before any work begins, we send you a written proposal with the exact price. Nothing is owed until you've agreed to that proposal in writing.</p>
+  </div>
+
+  <div class="legal-section">
+    <div class="legal-section-num">03</div>
+    <h2>No Warranties</h2>
+    <p>This website is provided as-is. We don't guarantee it will be error-free, available 24/7, or that the information on it is always perfectly up to date. We're a small business and we do our best, but we're not making any formal uptime guarantees for this marketing site.</p>
+  </div>
+
+  <div class="legal-section">
+    <div class="legal-section-num">04</div>
+    <h2>Limitation of Liability</h2>
+    <p>BQ Solutions is not liable for any damages that arise from your use of this website or from reliance on the information found here. If something on this site is wrong or outdated and that causes a problem for you, our liability is limited to the maximum extent permitted by North Carolina law.</p>
+  </div>
+
+  <div class="legal-section">
+    <div class="legal-section-num">05</div>
+    <h2>Intellectual Property</h2>
+    <p>The content on this site — including the copy, design, graphics, and code — belongs to BQ Solutions. You're welcome to reference our work, but please don't copy or reproduce it without permission.</p>
+    <p>If you're a client, your own website and its assets belong to you upon final payment. We retain the right to display it in our portfolio — see the <a href="client-agreement.html">Client Agreement</a> for details.</p>
+  </div>
+
+  <div class="legal-section">
+    <div class="legal-section-num">06</div>
+    <h2>Governing Law</h2>
+    <p>These terms are governed by the laws of the State of North Carolina. Any disputes arising from the use of this site or our services will be handled under North Carolina law.</p>
+  </div>
+
+  <div class="legal-also">
+    <a href="privacy-policy.html" class="legal-also-link">Privacy Policy →</a>
+    <a href="client-agreement.html" class="legal-also-link">Client Agreement →</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-full" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">
+        <span class="footer-logo-dot"></span>
+        <img src="images/BQ_Solution_Icon.png" alt="BQ Solutions" style="height:20px;vertical-align:middle;margin-right:.4rem">
+        BQ Solutions
+      </div>
+      <p class="footer-desc">Custom web development for businesses that want to stand out. No templates. No lock-in. Built in Greenville, NC.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Pages</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="index.html#s-services">Services</a></li>
+        <li><a href="index.html#s-contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="tel:2526989543">(252) 698-9543</a></li>
+        <li><a href="mailto:info@bqwebsolutions.com">info@bqwebsolutions.com</a></li>
+        <li><a href="#">Greenville, NC 27858</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms.html" style="color:var(--lime)">Terms of Service</a></li>
+        <li><a href="client-agreement.html">Client Agreement</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 BQ Solutions. All rights reserved.</span>
+    <span>bqwebsolutions.com</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  gsap.to(cursor, { left: e.clientX, top: e.clientY, duration: .12, ease: 'power2.out' });
+});
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+});
+
+gsap.from('.legal-hero h1', { opacity: 0, y: 40, duration: 1, ease: 'power3.out', delay: .3 });
+gsap.from('.legal-hero-label', { opacity: 0, y: 20, duration: .7, delay: .2 });
+gsap.from('.legal-date', { opacity: 0, duration: .7, delay: .7 });
+gsap.from('.back-btn', { opacity: 0, x: -20, duration: .6, delay: .1 });
+
+gsap.to('.legal-section', {
+  opacity: 1, y: 0, duration: .7, stagger: .1, ease: 'power3.out',
+  scrollTrigger: { trigger: '.legal-content', start: 'top 80%' }
+});
+
+document.querySelectorAll('.nav-dot, .footer-logo-dot').forEach(el => el.classList.add('glow-pulse'));
+
+(function(){
+  var btn = document.getElementById('navHamburger');
+  var nav = document.querySelector('nav');
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    var open = nav.classList.toggle('nav-open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click', function(){
+      nav.classList.remove('nav-open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+</script>
+</body>
+</html>

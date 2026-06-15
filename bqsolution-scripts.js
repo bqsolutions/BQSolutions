@@ -127,8 +127,7 @@ function stopKeyPresses() {
 
 // ── MOUSE PARALLAX on laptop ──
 document.addEventListener('mousemove', e => {
-  if(document.body.classList.contains('laptop-takeover')) return; // disabled during zoom
-  const mx = (e.clientX / window.innerWidth - .5) * 2;
+    const mx = (e.clientX / window.innerWidth - .5) * 2;
   const my = (e.clientY / window.innerHeight - .5) * 2;
   gsap.to(scene, {
     rotationY: mx * 5,
@@ -235,6 +234,8 @@ masterTL
     });
     // Hands lift slightly — done!
     gsap.to([handLeft, handRight], { y: -15, opacity: .6, duration: .8, ease: 'power2.out' });
+    // Hint fades in — cue for user to click
+    gsap.to('#laptopHint', { opacity: 1, duration: .8, delay: .4 });
   }, null, 6.8);
 
 // ── SCRUB MASTER TIMELINE TO SCROLL ──
@@ -663,11 +664,7 @@ window.addEventListener('load', () => {
 
 // ══════════════════════════════════════════
 // LAPTOP TAKEOVER — Cinematic zoom-through
-// Laptop scales past full screen, flashes,
-// then a full-page contact form fades in.
-// No zoom-out needed — clean one-way transition.
 // ══════════════════════════════════════════
-
 (function() {
 
   const laptopColEl   = document.querySelector('.laptop-col');
@@ -675,10 +672,8 @@ window.addEventListener('load', () => {
   const contentColEl  = document.querySelector('.content-col');
   const contactSection = document.getElementById('s-contact');
 
-  if(!laptopColEl || !contactSection) {
-    console.warn('Laptop takeover: elements missing');
-    return;
-  }
+  if(!laptopColEl || !contactSection) return;
+  if(window.innerWidth <= 1024) return;
 
   let triggered = false;
 
@@ -773,28 +768,27 @@ window.addEventListener('load', () => {
   function zoomThrough() {
     if(triggered) return;
     triggered = true;
+    gsap.set('#laptopHint', { opacity: 0 });
 
-    // Lock scroll
     document.body.style.overflow = 'hidden';
 
-    // Snapshot laptop position and go fixed
     const r = laptopColEl.getBoundingClientRect();
     gsap.set(laptopColEl, {
       position: 'fixed',
       top: r.top, left: r.left,
       width: r.width, height: r.height,
       zIndex: 300,
+      overflow: 'hidden',
     });
 
     const tl = gsap.timeline();
 
-    // Phase 1 — content fades out fast
     tl.to(contentColEl, { opacity: 0, duration: 0.3, ease: 'power2.in' }, 0);
     tl.to('nav', { opacity: 0, duration: 0.25 }, 0);
 
-    // Phase 2 — laptop zooms toward camera (scale up fast)
     tl.to(laptopColEl, {
-      top: 0, left: 0, width: '100vw', height: '100vh',
+      top: 0, left: 0, width: '100vw', height: window.innerHeight + 'px',
+      overflow: 'hidden',
       duration: 0.55, ease: 'power3.in',
     }, 0.1);
     tl.to(laptopSceneEl, {
@@ -802,13 +796,11 @@ window.addEventListener('load', () => {
       duration: 0.6, ease: 'power3.in',
     }, 0.1);
 
-    // Screen glow explodes bright
     tl.to('#screenGlow', {
       boxShadow: 'inset 0 0 200px rgba(200,241,53,1), 0 0 400px rgba(200,241,53,1)',
       duration: 0.3,
     }, 0.35);
 
-    // Phase 3 — white flash
     tl.to(laptopColEl, {
       backgroundColor: '#C8F135',
       opacity: 0,
@@ -816,66 +808,74 @@ window.addEventListener('load', () => {
       ease: 'power2.in',
     }, 0.55);
 
-    // Phase 4 — contact overlay fades in
     tl.call(() => {
       overlay.classList.add('active');
-      // Stagger form fields in
-      gsap.from('.co-left > *', {
-        opacity: 0, x: -30,
-        duration: 0.6, stagger: 0.1,
-        ease: 'power3.out', delay: 0.1,
-      });
-      gsap.from('.co-field', {
-        opacity: 0, y: 16,
-        duration: 0.5, stagger: 0.07,
-        ease: 'power3.out', delay: 0.2,
-      });
-      gsap.from('.co-submit', {
-        opacity: 0, y: 10,
-        duration: 0.5, ease: 'power2.out', delay: 0.7,
-      });
+      gsap.from('.co-left > *', { opacity: 0, x: -30, duration: 0.6, stagger: 0.1, ease: 'power3.out', delay: 0.1 });
+      gsap.from('.co-field',    { opacity: 0, y: 16,  duration: 0.5, stagger: 0.07, ease: 'power3.out', delay: 0.2 });
+      gsap.from('.co-submit',   { opacity: 0, y: 10,  duration: 0.5, ease: 'power2.out', delay: 0.7 });
     }, null, 0.75);
   }
 
-  // ── CLOSE OVERLAY — back to site ──
+  // ── CLOSE OVERLAY ──
   function closeOverlay() {
     gsap.to(overlay, {
       opacity: 0, duration: 0.4, ease: 'power2.in',
       onComplete: () => {
         overlay.classList.remove('active');
         gsap.set(overlay, { opacity: 1 });
-
-        // Restore page elements
         gsap.set(laptopColEl, { clearProps: 'all' });
         gsap.set(laptopSceneEl, { clearProps: 'all' });
         document.body.style.overflow = '';
-
-        // Scroll to top smoothly, then fade content back in
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        // Wait for scroll to finish before fading content in
-        setTimeout(() => {
-          gsap.to(contentColEl, { opacity: 1, duration: 0.6, ease: 'power2.out' });
-          gsap.to('nav', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
-          // Allow re-trigger after returning to top
-          triggered = false;
-        }, 600);
+        gsap.to(contentColEl, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+        gsap.to('nav', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+        // Restore hint so user can click again
+        gsap.to('#laptopHint', { opacity: 1, duration: 0.5, delay: 0.4 });
       }
     });
   }
 
   // ── SCROLL TRIGGER ──
+  // Fires zoom when user scrolls to the contact section.
+  // On refresh: only fires if the section top is still inside the viewport
+  // (blocks auto-zoom when the browser restores a scroll position past the section).
+  let scrolledByUser = false;
+  window.addEventListener('scroll', () => { scrolledByUser = true; }, { once: true, passive: true });
+
   ScrollTrigger.create({
     trigger: '#s-contact',
     start: 'top 50%',
-    onEnter: () => setTimeout(zoomThrough, 100),
+    onEnter: () => {
+      if (!scrolledByUser) {
+        // Page just loaded — only zoom if section top is still in the viewport
+        if (contactSection.getBoundingClientRect().top < 0) return;
+      }
+      setTimeout(zoomThrough, 100);
+    },
   });
 
-  // ── BACK BUTTONS ──
+  // ── CLICK LAPTOP TO OPEN CONTACT ──
+  laptopColEl.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if(overlay.classList.contains('active')) return;
+    if(!triggered) {
+      // Zoom hasn't played yet — run the full cinematic zoom
+      zoomThrough();
+    } else {
+      // Scroll already triggered the zoom; open overlay directly
+      gsap.set('#laptopHint', { opacity: 0 });
+      document.body.style.overflow = 'hidden';
+      overlay.classList.add('active');
+      gsap.from('.co-left > *', { opacity: 0, x: -30, duration: 0.6, stagger: 0.1, ease: 'power3.out', delay: 0.1 });
+      gsap.from('.co-field',    { opacity: 0, y: 16,  duration: 0.5, stagger: 0.07, ease: 'power3.out', delay: 0.2 });
+      gsap.from('.co-submit',   { opacity: 0, y: 10,  duration: 0.5, ease: 'power2.out', delay: 0.7 });
+    }
+  });
+  laptopColEl.addEventListener('mouseenter', () => cursor.classList.add('big'));
+  laptopColEl.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+
+  // ── BACK BUTTONS & ESC ──
   document.getElementById('coBack').addEventListener('click', closeOverlay);
   document.getElementById('coBackSuccess').addEventListener('click', closeOverlay);
-
-  // ESC
   document.addEventListener('keydown', e => {
     if(e.key === 'Escape' && overlay.classList.contains('active')) closeOverlay();
   });
@@ -887,16 +887,8 @@ window.addEventListener('load', () => {
 
     if(!fname || !email) {
       gsap.to(this, { x: -7, duration: .07, yoyo: true, repeat: 5 });
-      if(!fname) {
-        const f = document.getElementById('co-fname');
-        f.style.borderColor = 'rgba(255,80,80,.7)';
-        setTimeout(() => f.style.borderColor = '', 2000);
-      }
-      if(!email) {
-        const f = document.getElementById('co-email');
-        f.style.borderColor = 'rgba(255,80,80,.7)';
-        setTimeout(() => f.style.borderColor = '', 2000);
-      }
+      if(!fname) { const f = document.getElementById('co-fname'); f.style.borderColor='rgba(255,80,80,.7)'; setTimeout(()=>f.style.borderColor='',2000); }
+      if(!email) { const f = document.getElementById('co-email'); f.style.borderColor='rgba(255,80,80,.7)'; setTimeout(()=>f.style.borderColor='',2000); }
       return;
     }
 
@@ -926,15 +918,96 @@ window.addEventListener('load', () => {
           document.getElementById('coSuccess').classList.add('visible');
         }
       });
-    }).catch(function(error) {
-      console.error('EmailJS error:', error);
+    }).catch(function(err) {
+      console.error('EmailJS error:', err);
       alert('Something went wrong. Please try again or email us directly.');
       btn.disabled = false;
       btn.textContent = 'Send Message →';
     });
   });
 
-})(); // end IIFE
+})();
+
+// ── MOBILE CONTACT FORM ──
+(function() {
+  const btn = document.getElementById('cmSubmit');
+  if(!btn) return;
+  btn.addEventListener('click', function() {
+    const fname = document.getElementById('cm-fname').value.trim();
+    const email = document.getElementById('cm-email').value.trim();
+    if(!fname || !email) {
+      gsap.to(btn, { x: -7, duration: .07, yoyo: true, repeat: 5 });
+      if(!fname) { const f = document.getElementById('cm-fname'); f.style.borderColor='rgba(255,80,80,.7)'; setTimeout(()=>f.style.borderColor='',2000); }
+      if(!email) { const f = document.getElementById('cm-email'); f.style.borderColor='rgba(255,80,80,.7)'; setTimeout(()=>f.style.borderColor='',2000); }
+      return;
+    }
+    const lname   = document.getElementById('cm-lname').value.trim();
+    const phone   = document.getElementById('cm-phone').value.trim();
+    const btype   = document.getElementById('cm-btype').value.trim();
+    const budget  = document.getElementById('cm-budget').value.trim();
+    const message = document.getElementById('cm-msg').value.trim();
+    const self = this;
+    self.disabled = true;
+    self.textContent = '// Sending...';
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONTACT_TEMPLATE, {
+      from_name:  fname + (lname ? ' ' + lname : ''),
+      from_email: email,
+      phone:      phone   || 'Not provided',
+      subject:    btype   || 'General Inquiry',
+      message:    message + (budget ? '\n\nBudget: ' + budget : ''),
+      to_email:   'info@bqwebsolutions.com',
+      reply_to:   email,
+    }).then(function() {
+      gsap.to('#coFormMobile', {
+        opacity: 0, y: -12, duration: 0.35,
+        onComplete: () => {
+          document.getElementById('coFormMobile').style.display = 'none';
+          document.getElementById('cmSuccess').classList.add('visible');
+        }
+      });
+    }).catch(function(err) {
+      console.error('EmailJS error:', err);
+      alert('Something went wrong. Please try again or email us directly.');
+      self.disabled = false;
+      self.textContent = 'Send Message →';
+    });
+  });
+})();
+
+// ── MOBILE TOUCH GLITCH CURSOR ──
+(function() {
+  if(!('ontouchstart' in window)) return;
+  const dot = document.getElementById('cursor');
+  if(!dot) return;
+
+  let tl = null;
+
+  document.addEventListener('touchstart', function(e) {
+    const t = e.touches[0];
+    if(tl) tl.kill();
+
+    // Snap to touch point, reset any prior glitch state
+    gsap.set(dot, {
+      left: t.clientX, top: t.clientY,
+      x: 0, y: 0, scale: 1,
+      opacity: 1, boxShadow: 'none',
+    });
+
+    tl = gsap.timeline()
+      // Burst outward
+      .to(dot, { scale: 4.5, duration: .07, ease: 'power3.out' })
+      // Chromatic glitch frames
+      .to(dot, { scale: .7, x: 9,  y: -5, duration: .05 })
+      .to(dot, { scale: 2.8, x: -7, y:  4, boxShadow: '6px 0 0 #ff0044,-6px 0 0 #00ffff', duration: .06 })
+      .to(dot, { scale: .9, x:  6,  y: -3, boxShadow: '-4px 0 0 #ff0044, 4px 0 0 #00ffff', duration: .05 })
+      .to(dot, { scale: 2,  x:  0,  y:  0, boxShadow: 'none', duration: .07 })
+      .to(dot, { scale: 1.1, x: -4, y:  3, duration: .06, delay: .06 })
+      .to(dot, { scale: 1.4, x:  3, y: -1, duration: .05 })
+      .to(dot, { scale: 1,  x:  0,  y:  0, duration: .1  })
+      // Fade out — total ~1.5s
+      .to(dot, { opacity: 0, scale: .2, duration: .35, delay: .65, ease: 'power2.in' });
+  }, { passive: true });
+})();
 
 // ── BACK TO TOP BUTTON ──
 (function() {

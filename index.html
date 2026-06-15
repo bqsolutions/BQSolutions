@@ -25,7 +25,7 @@
     <a href="#s-process">Process</a>
     <a href="#s-pricing">Pricing</a>
     <a href="projects.html">Work</a>
-    <a href="medspa.html">Booking system</a>
+    <a href="medspa.html" style="display:none" aria-hidden="true">Booking system</a>
     <a href="#s-contact" class="nav-cta">Start a Project</a>
   </div>
   <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
@@ -76,7 +76,7 @@
       <h2>Every Line.<br><em>From Scratch.</em></h2>
       <div class="svc-list">
         <div class="svc-item"><div class="svc-num">01</div><div class="svc-body"><h3>Custom Website Design</h3><p>Hand-coded, zero templates, built to convert</p></div><div class="svc-price">From $497<span>Flat rate</span></div></div>
-        <div class="svc-item"><div class="svc-num">02</div><div class="svc-body"><h3>Premium Animated Builds</h3><p>GSAP, Three.js, 3D — like this page</p></div><div class="svc-price">From $2,500<span>Custom quote</span></div></div>
+        <div class="svc-item"><div class="svc-num">02</div><div class="svc-body"><h3>Premium Animated Builds</h3><p>GSAP, Three.js, 3D — like this page</p></div><div class="svc-price">From $1,500<span>Custom quote</span></div></div>
         <div class="svc-item"><div class="svc-num">03</div><div class="svc-body"><h3>Mobile-First Development</h3><p>Every project — no exceptions</p></div><div class="svc-price">Included<span>Always</span></div></div>
         <div class="svc-item"><div class="svc-num">04</div><div class="svc-body"><h3>Hosting & SSL Setup</h3><p>We handle everything — you just go live</p></div><div class="svc-price">Included<span>Always</span></div></div>
         <div class="svc-item"><div class="svc-num">05</div><div class="svc-body"><h3>Monthly Maintenance</h3><p>Updates, fixes, reporting — hands-off</p></div><div class="svc-price">$150/mo<span>Optional</span></div></div>
@@ -117,11 +117,71 @@
       <div id="contact-intro">
         <div class="s-label">Let's Work Together</div>
         <h2>Ready to<br>Build<br><em>Something Real?</em></h2>
-        <p class="s-body">Scroll here and the laptop takes over — fill out the form right inside it.</p>
+        <p class="s-body contact-desktop-hint">Scroll down and the laptop zooms in — fill out the form right inside it.</p>
+        <p class="s-body contact-mobile-hint">Fill out the form below — we respond the same day with a flat-rate proposal.</p>
         <div class="stat-row" style="margin-top:2rem">
           <div class="stat-item"><span class="stat-n" style="font-size:1.6rem">Same<em>Day</em></span><span class="stat-l">Response</span></div>
           <div class="stat-item"><span class="stat-n" style="font-size:1.6rem">Flat<em>Rate</em></span><span class="stat-l">No surprises</span></div>
           <div class="stat-item"><span class="stat-n">∞</span><span class="stat-l">You own it</span></div>
+        </div>
+      </div>
+
+      <!-- Mobile contact form — visible only on ≤1024px -->
+      <div id="contact-mobile">
+        <div class="co-form" id="coFormMobile">
+          <div class="co-form-row">
+            <div class="co-field">
+              <label class="co-label" for="cm-fname">First Name</label>
+              <input class="co-input" type="text" id="cm-fname" placeholder="John" autocomplete="given-name">
+            </div>
+            <div class="co-field">
+              <label class="co-label" for="cm-lname">Last Name</label>
+              <input class="co-input" type="text" id="cm-lname" placeholder="Smith" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="co-form-row">
+            <div class="co-field">
+              <label class="co-label" for="cm-phone">Phone</label>
+              <input class="co-input" type="tel" id="cm-phone" placeholder="(252) 000-0000" autocomplete="tel">
+            </div>
+            <div class="co-field">
+              <label class="co-label" for="cm-email">Email</label>
+              <input class="co-input" type="email" id="cm-email" placeholder="john@email.com" autocomplete="email">
+            </div>
+          </div>
+          <div class="co-field">
+            <label class="co-label" for="cm-btype">Business Type</label>
+            <select class="co-input" id="cm-btype">
+              <option value="">Select your industry...</option>
+              <option>Law Firm / Attorney</option>
+              <option>Medical / Healthcare</option>
+              <option>Restaurant / Food</option>
+              <option>Real Estate</option>
+              <option>Contractor / Trades</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="co-field">
+            <label class="co-label" for="cm-budget">Budget Range</label>
+            <select class="co-input" id="cm-budget">
+              <option value="">Select a range...</option>
+              <option>$497 — Starter (1 page)</option>
+              <option>$797 — Standard (4 pages)</option>
+              <option>Premium — Custom quote</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="co-field">
+            <label class="co-label" for="cm-msg">Tell Us About Your Project</label>
+            <textarea class="co-input co-textarea" id="cm-msg" placeholder="What does your business do and what do you need?"></textarea>
+          </div>
+          <button type="button" class="co-submit" id="cmSubmit">Send Message →</button>
+          <p class="co-disclaimer">We respond same day · Mon–Fri · No spam, ever</p>
+        </div>
+        <div class="co-success" id="cmSuccess">
+          <div class="co-success-icon">✓</div>
+          <div class="co-success-title">Message Received.</div>
+          <div class="co-success-sub">We will be in touch today.</div>
         </div>
       </div>
     </section>
@@ -367,6 +427,14 @@
       <span id="screenLabelText">Laptop closed</span>
     </div>
 
+    <!-- Click hint — fades in after animation completes -->
+    <div class="laptop-hint" id="laptopHint">
+      <div class="laptop-hint-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><polyline points="5 12 12 5 19 12"/></svg>
+      </div>
+      <span class="laptop-hint-text">Click to start your project</span>
+    </div>
+
   </div><!-- end laptop-col -->
 
 </div><!-- end page-layout -->
@@ -389,8 +457,9 @@
     <div><div class="footer-logo"><span class="footer-logo-dot"></span>BQ Solutions</div><p class="footer-desc">Custom web development for businesses that want to stand out. No templates. No lock-in. Built in Greenville, NC.</p></div>
     <div><div class="footer-col-title">Services</div><ul class="footer-links"><li><a href="#s-services">Custom Website Design</a></li><li><a href="#s-services">Animated Builds</a></li><li><a href="#s-services">Mobile Development</a></li><li><a href="#s-services">Monthly Maintenance</a></li></ul></div>
     <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a href="tel:2526989543">(252) 698-9543</a></li><li><a href="mailto:info@bqwebsolutions.com">info@bqwebsolutions.com</a></li><li><a href="#">Greenville, NC 27858</a></li></ul></div>
+    <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li><li><a href="client-agreement.html">Client Agreement</a></li></ul></div>
   </div>
-  <div class="footer-bottom"><span>© 2025 BQ Solutions. All rights reserved.</span><span>bqwebsolutions.com</span></div>
+  <div class="footer-bottom"><span>© 2026 BQ Solutions. All rights reserved.</span><span>bqwebsolutions.com</span></div>
 </footer>
 
 <!-- Back to top button -->
