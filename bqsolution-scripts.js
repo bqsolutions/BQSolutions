@@ -41,10 +41,31 @@ let typingActive = false;
 
 function showState(name) {
   if(activeState === name) return;
+  const prevEl = states[activeState];
+  const nextEl = states[name];
   activeState = name;
-  Object.entries(states).forEach(([k, el]) => {
-    el.classList.toggle('active', k === name);
-  });
+
+  // Flip out current state (rotateY 0→90, fade out)
+  if(prevEl && prevEl.classList.contains('active')) {
+    gsap.to(prevEl, {
+      rotationY: 80, opacity: 0, duration: 0.2, ease: 'power2.in',
+      transformPerspective: 700,
+      onComplete: () => {
+        prevEl.classList.remove('active');
+        gsap.set(prevEl, { rotationY: 0 });
+      }
+    });
+  }
+
+  // Flip in next state (rotateY -90→0, fade in)
+  if(nextEl) {
+    nextEl.classList.add('active');
+    gsap.fromTo(nextEl,
+      { rotationY: -80, opacity: 0, transformPerspective: 700 },
+      { rotationY: 0, opacity: 1, duration: 0.28, ease: 'power2.out', delay: 0.16 }
+    );
+  }
+
   labelText.textContent = {
     boot: 'Laptop closed',
     code: 'Writing code...',
@@ -125,16 +146,37 @@ function stopKeyPresses() {
   keys.forEach(k => k.classList.remove('pressed'));
 }
 
-// ── MOUSE PARALLAX on laptop ──
+// ── MOUSE PARALLAX on laptop — enhanced depth + spring feel ──
 document.addEventListener('mousemove', e => {
-    const mx = (e.clientX / window.innerWidth - .5) * 2;
+  const mx = (e.clientX / window.innerWidth - .5) * 2;
   const my = (e.clientY / window.innerHeight - .5) * 2;
+
+  // Scene rotation — wider range, longer tail for spring-like settle
   gsap.to(scene, {
-    rotationY: mx * 5,
-    rotationX: 4 + my * -2,
-    duration: .8,
-    ease: 'power2.out',
-    transformPerspective: 1200,
+    rotationY: mx * 14,
+    rotationX: 4 + my * -5,
+    duration: 1.3,
+    ease: 'power3.out',
+    transformPerspective: 900,
+    overwrite: false,
+  });
+
+  // Lid/screen shifts slightly MORE than scene (closer to camera = more parallax)
+  gsap.to(lidInner, {
+    x: mx * 10,
+    y: my * 5,
+    duration: 1.6,
+    ease: 'power3.out',
+    overwrite: 'auto',
+  });
+
+  // Screen glow drifts with mouse — looks like an internal light source
+  gsap.to(screenGlow, {
+    xPercent: mx * 10,
+    yPercent: my * 6,
+    duration: 1.8,
+    ease: 'power3.out',
+    overwrite: 'auto',
   });
 });
 
@@ -217,6 +259,51 @@ masterTL
   // Right hand moves to trackpad area
   .to(handRight, { x: -20, y: 20, duration: .5, ease: 'power2.out' }, 5.5);
 
+// ── PARTICLE BURST — fires at go-live moment ──
+function spawnParticles() {
+  const rect = screenGlow.getBoundingClientRect();
+  const cx = rect.left + rect.width  * 0.5;
+  const cy = rect.top  + rect.height * 0.45;
+  const container = document.createElement('div');
+  container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:350;overflow:hidden';
+  document.body.appendChild(container);
+
+  const count = 32;
+  for(let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    const size    = Math.random() * 7 + 3;
+    const isLime  = Math.random() > 0.35;
+    const color   = isLime ? '#C8F135' : '#FAFAFA';
+    const glowClr = isLime ? 'rgba(200,241,53,0.9)' : 'rgba(255,255,255,0.8)';
+    p.style.cssText = [
+      'position:absolute',
+      `width:${size}px`,
+      `height:${size}px`,
+      `background:${color}`,
+      'border-radius:50%',
+      `left:${cx}px`,
+      `top:${cy}px`,
+      'transform:translate(-50%,-50%)',
+      `box-shadow:0 0 ${size * 2}px ${glowClr}`,
+    ].join(';');
+    container.appendChild(p);
+
+    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.6;
+    const dist  = Math.random() * 220 + 80;
+    gsap.to(p, {
+      x: Math.cos(angle) * dist,
+      y: Math.sin(angle) * dist,
+      opacity: 0,
+      scale: Math.random() * 0.4 + 0.1,
+      duration: Math.random() * 0.7 + 0.5,
+      ease: 'power2.out',
+      delay: Math.random() * 0.18,
+      onComplete: () => p.remove(),
+    });
+  }
+  setTimeout(() => { try { container.remove(); } catch(e) {} }, 2200);
+}
+
 // ── ACT 6 (85–100%): GO LIVE ──
 masterTL
   .call(() => {
@@ -234,6 +321,8 @@ masterTL
     });
     // Hands lift slightly — done!
     gsap.to([handLeft, handRight], { y: -15, opacity: .6, duration: .8, ease: 'power2.out' });
+    // Particle burst at the go-live moment
+    spawnParticles();
     // Hint fades in — cue for user to click
     gsap.to('#laptopHint', { opacity: 1, duration: .8, delay: .4 });
   }, null, 6.8);
@@ -248,6 +337,20 @@ ScrollTrigger.create({
     masterTL.progress(self.progress);
   }
 });
+
+// ── AMBIENT FLOAT — laptop breathes while idle ──
+let floatTween = null;
+function startFloat() {
+  floatTween = gsap.to(scene, {
+    y: -10,
+    duration: 3.8,
+    ease: 'sine.inOut',
+    yoyo: true,
+    repeat: -1,
+    overwrite: false,
+  });
+}
+startFloat();
 
 // ── CONTENT SECTION ANIMATIONS ──
 function animSection(id) {
@@ -768,6 +871,8 @@ window.addEventListener('load', () => {
   function zoomThrough() {
     if(triggered) return;
     triggered = true;
+    // Stop float so it doesn't wobble during the cinematic zoom
+    if(typeof floatTween !== 'undefined' && floatTween) floatTween.kill();
     gsap.set('#laptopHint', { opacity: 0 });
 
     document.body.style.overflow = 'hidden';
@@ -830,6 +935,8 @@ window.addEventListener('load', () => {
         gsap.to('nav', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
         // Restore hint so user can click again
         gsap.to('#laptopHint', { opacity: 1, duration: 0.5, delay: 0.4 });
+        // Restart ambient float (killed by zoom's clearProps)
+        if(typeof startFloat === 'function') startFloat();
       }
     });
   }
@@ -986,6 +1093,40 @@ window.addEventListener('load', () => {
     const t = e.touches[0];
     if(tl) tl.kill();
 
+    // ── Green particle burst at tap point ──
+    const cx = t.clientX, cy = t.clientY;
+    const count = 14;
+    for(let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      const size = Math.random() * 6 + 3;
+      p.style.cssText = [
+        'position:fixed',
+        `width:${size}px`,
+        `height:${size}px`,
+        'background:#C8F135',
+        'border-radius:50%',
+        `left:${cx}px`,
+        `top:${cy}px`,
+        'transform:translate(-50%,-50%)',
+        'pointer-events:none',
+        `box-shadow:0 0 ${size * 2}px rgba(200,241,53,0.9)`,
+        'z-index:9999',
+      ].join(';');
+      document.body.appendChild(p);
+      const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+      const dist  = Math.random() * 55 + 20;
+      gsap.to(p, {
+        x: Math.cos(angle) * dist,
+        y: Math.sin(angle) * dist,
+        opacity: 0,
+        scale: Math.random() * 0.3 + 0.1,
+        duration: Math.random() * 0.35 + 0.3,
+        ease: 'power2.out',
+        delay: Math.random() * 0.06,
+        onComplete: () => p.remove(),
+      });
+    }
+
     // Snap to touch point, reset any prior glitch state
     gsap.set(dot, {
       left: t.clientX, top: t.clientY,
@@ -1007,6 +1148,45 @@ window.addEventListener('load', () => {
       // Fade out — total ~1.5s
       .to(dot, { opacity: 0, scale: .2, duration: .35, delay: .65, ease: 'power2.in' });
   }, { passive: true });
+})();
+
+// ── DESKTOP CLICK PARTICLES ──
+(function() {
+  if('ontouchstart' in window) return; // mobile handled separately
+  document.addEventListener('click', function(e) {
+    const cx = e.clientX, cy = e.clientY;
+    const count = 14;
+    for(let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      const size = Math.random() * 6 + 3;
+      p.style.cssText = [
+        'position:fixed',
+        `width:${size}px`,
+        `height:${size}px`,
+        'background:#C8F135',
+        'border-radius:50%',
+        `left:${cx}px`,
+        `top:${cy}px`,
+        'transform:translate(-50%,-50%)',
+        'pointer-events:none',
+        `box-shadow:0 0 ${size * 2}px rgba(200,241,53,0.9)`,
+        'z-index:9999',
+      ].join(';');
+      document.body.appendChild(p);
+      const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+      const dist  = Math.random() * 55 + 20;
+      gsap.to(p, {
+        x: Math.cos(angle) * dist,
+        y: Math.sin(angle) * dist,
+        opacity: 0,
+        scale: Math.random() * 0.3 + 0.1,
+        duration: Math.random() * 0.35 + 0.3,
+        ease: 'power2.out',
+        delay: Math.random() * 0.06,
+        onComplete: () => p.remove(),
+      });
+    }
+  });
 })();
 
 // ── BACK TO TOP BUTTON ──

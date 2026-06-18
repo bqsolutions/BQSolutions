@@ -30,10 +30,7 @@ html{scroll-behavior:smooth}
   min-width: 3ch;
 }
 
-/* Smooth screen state transitions */
-.screen-state {
-  transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* Screen state transitions handled by GSAP (flip animation) */
 
 /* Smooth key press feel */
 .key {
@@ -53,6 +50,7 @@ nav {
 /* Laptop scene subtle drop shadow */
 .laptop-scene {
   filter: drop-shadow(0 40px 80px rgba(0,0,0,0.6));
+  transform-style: preserve-3d;
 }
 
 /* Screen glow transition */
@@ -444,11 +442,14 @@ h2 em{font-style:italic;font-weight:400;color:var(--lime);display:block}
 /* ── SCREEN STATES ── */
 .screen-state{
   position:absolute;inset:0;
-  opacity:0;transition:opacity .5s;
+  opacity:0;
   display:flex;flex-direction:column;
   padding:12px;font-family:var(--ff-mono);
   pointer-events:none;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
 }
+/* opacity:1 here handles the initial boot state before GSAP runs */
 .screen-state.active{opacity:1;pointer-events:auto}
 
 /* Boot screen */
@@ -608,6 +609,7 @@ h2 em{font-style:italic;font-weight:400;color:var(--lime);display:block}
 }
 .marquee-inner{
   display:inline-flex;animation:mq 22s linear infinite;
+  will-change:transform;
 }
 .marquee-inner span{
   font-family:var(--ff-mono);font-size:.68rem;
@@ -709,7 +711,7 @@ nav.nav-open .nav-hamburger span:nth-child(3){transform:translateY(-7px) rotate(
     border-bottom:1px solid rgba(255,255,255,.06);
   }
   nav.nav-open .nav-links{display:flex}
-  .nav-cta{align-self:flex-start}
+  .nav-cta{align-self:center}
 }
 @media(prefers-reduced-motion:reduce){
   #cursor{display:none}
