@@ -503,5 +503,34 @@
 })();
 </script>
 
+<!-- LeadConnector Chat Widget -->
+<script src="https://widgets.leadconnectorhq.com/loader.js"
+  data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
+  data-widget-id="6a43ce3b4245a5c8f3e40125"
+  data-source="WEB_USER"></script>
+<script>
+(function(){
+  var LIME  = '#C8F135';
+  var BLACK = '#0A0A0A';
+  function paint(el){
+    el.style.setProperty('background-color', LIME,  'important');
+    el.style.setProperty('background',       LIME,  'important');
+    el.style.setProperty('border-color',     LIME,  'important');
+    el.style.setProperty('color',            BLACK, 'important');
+    el.style.setProperty('box-shadow', '0 4px 24px rgba(200,241,53,.35)', 'important');
+  }
+  function scan(){
+    document.querySelectorAll(
+      '[class*="chat-launcher"],[class*="chat-bubble"],[class*="chat-toggle"],' +
+      '[id*="chat-launcher"],[id*="chat-bubble"],[id*="lc-chat"],' +
+      '[data-widget-id] button,[class*="lc-launcher"]'
+    ).forEach(paint);
+  }
+  var obs = new MutationObserver(scan);
+  obs.observe(document.body, { childList: true, subtree: true });
+  setTimeout(function(){ obs.disconnect(); }, 15000);
+})();
+</script>
+
 </body>
 </html>

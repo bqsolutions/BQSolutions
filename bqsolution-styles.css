@@ -975,7 +975,7 @@ nav.nav-open .nav-hamburger span:nth-child(3){transform:translateY(-7px) rotate(
 /* ── BACK TO TOP BUTTON ── */
 #back-to-top {
   position: fixed;
-  bottom: 2rem;
+  bottom: 5.5rem;
   right: 2rem;
   z-index: 300;
   width: 44px;
