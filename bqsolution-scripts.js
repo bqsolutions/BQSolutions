@@ -817,15 +817,9 @@ window.addEventListener('load', () => {
               <input class="co-input" type="text" id="co-lname" placeholder="Smith" autocomplete="family-name">
             </div>
           </div>
-          <div class="co-form-row">
-            <div class="co-field">
-              <label class="co-label" for="co-phone">Phone</label>
-              <input class="co-input" type="tel" id="co-phone" placeholder="(252) 000-0000" autocomplete="tel">
-            </div>
-            <div class="co-field">
-              <label class="co-label" for="co-email">Email</label>
-              <input class="co-input" type="email" id="co-email" placeholder="john@email.com" autocomplete="email">
-            </div>
+          <div class="co-field">
+            <label class="co-label" for="co-email">Email</label>
+            <input class="co-input" type="email" id="co-email" placeholder="john@email.com" autocomplete="email">
           </div>
           <div class="co-field">
             <label class="co-label" for="co-btype">Business Type</label>
@@ -1000,7 +994,6 @@ window.addEventListener('load', () => {
     }
 
     const lname   = document.getElementById('co-lname').value.trim();
-    const phone   = document.getElementById('co-phone').value.trim();
     const btype   = document.getElementById('co-btype').value.trim();
     const budget  = document.getElementById('co-budget').value.trim();
     const message = document.getElementById('co-msg').value.trim();
@@ -1012,7 +1005,6 @@ window.addEventListener('load', () => {
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONTACT_TEMPLATE, {
       from_name:  fname + (lname ? ' ' + lname : ''),
       from_email: email,
-      phone:      phone   || 'Not provided',
       subject:    btype   || 'General Inquiry',
       message:    message + (budget ? '\n\nBudget: ' + budget : ''),
       to_email:   'info@bqwebsolutions.com',
@@ -1049,7 +1041,6 @@ window.addEventListener('load', () => {
       return;
     }
     const lname   = document.getElementById('cm-lname').value.trim();
-    const phone   = document.getElementById('cm-phone').value.trim();
     const btype   = document.getElementById('cm-btype').value.trim();
     const budget  = document.getElementById('cm-budget').value.trim();
     const message = document.getElementById('cm-msg').value.trim();
@@ -1059,7 +1050,6 @@ window.addEventListener('load', () => {
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONTACT_TEMPLATE, {
       from_name:  fname + (lname ? ' ' + lname : ''),
       from_email: email,
-      phone:      phone   || 'Not provided',
       subject:    btype   || 'General Inquiry',
       message:    message + (budget ? '\n\nBudget: ' + budget : ''),
       to_email:   'info@bqwebsolutions.com',
